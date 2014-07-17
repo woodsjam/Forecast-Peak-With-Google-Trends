@@ -67,7 +67,49 @@ Date is actually ISO.  Hope that does not cause a problem.
 
 Merging the three sets.  Just to be clear I need the acutal, forecast from day before and search result from two days before.  That is what I am testing, if I can improve the next day forecast with previous day searches.  Lots of fun date matching ahead.
 
+```{r}
+summary(KeyForecasts)
+summary(KeyLoads)
+library(sqldf)
 
+#Join the two parts form the RTO
+KeyForecasts$Day<-KeyForecasts$Date
+KeyLoads$Day<-KeyLoads$Date
 
+RTO<-sqldf("select KeyForecasts.Day, Forecast, Hour19 from KeyForecasts, KeyLoads where KeyForecasts.Day=KeyLoads.Day;")
+
+GoogleSearch$NextDay<-as.POSIXct(GoogleSearch$Day)+24*60*60
+
+Joint<-sqldf("select RTO.*, GoogleSearch.* from RTO, GoogleSearch where NextDay=Date;")
+#fix the forecast again
+Joint$Hour19<-as.numeric(as.character(Joint$Hour19))
+
+```
+Yes, not a lot of overlap.  Can only do last 30 days with trends for daily.
+
+```{r}
+summary(Joint)
+summary(lm(Hour19~Forecast+Past_30_days,data=Joint))
+```
+Looks like it is significant!
+
+```{r}
+WO<-lm(Hour19~Forecast,data=Joint)
+With<-lm(Hour19~Forecast+Past_30_days,data=Joint)
+
+anova(WO,With)
+```
+
+check the change in SE
+
+```{r}
+summary(WO)$sigma
+summary(With)$sigma
+
+#percent decrease in SE is
+(summary(WO)$sigma-summary(With)$sigma)/summary(WO)$sigma
+```
+
+Nice! 14% reduction in se.  Proof of concept.
 
 

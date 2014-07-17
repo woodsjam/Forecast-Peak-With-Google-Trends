@@ -135,6 +135,43 @@ hr {
 
 </style>
 
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
 
 
 
@@ -145,6 +182,318 @@ hr {
 <h1>Research Notes</h1>
 
 <p>Just a frame right now.</p>
+
+<p>Load data is from <a href="http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-data.aspx">http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-data.aspx</a>
+Forecasts are from 
+<a href="http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-forecasts.aspx">http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-forecasts.aspx</a></p>
+
+<pre><code class="r">GoogleSearch&lt;-read.csv(&quot;report.csv&quot;)
+Loads&lt;-read.csv(&quot;Loads.csv&quot;)
+Forecasts&lt;-read.csv(&quot;Forecasts.csv&quot;)
+</code></pre>
+
+<p>Format the Loads data.</p>
+
+<pre><code class="r">summary(Loads)
+</code></pre>
+
+<pre><code>##          X         X.1              X.2              X.3     
+##  1/1/2014 :  1   COMP:  1   100731.569:  1   101003.776:  1  
+##  1/10/2014:  1   RTO :191   101497.598:  1   103710.026:  1  
+##  1/11/2014:  1              102016.778:  1   105626.491:  1  
+##  1/12/2014:  1              102124.209:  1   106902.44 :  1  
+##  1/13/2014:  1              102282.28 :  1   106929.393:  1  
+##  1/14/2014:  1              102337.673:  1   108012.33 :  1  
+##  (Other)  :186              (Other)   :186   (Other)   :186  
+##          X.4              X.5              X.6              X.7     
+##            :  1   101465.008:  1   100031.781:  1   100233.058:  1  
+##  100713.426:  1   104468.812:  1   100222.166:  1   101453.846:  1  
+##  103679.765:  1   105685.901:  1   100515.776:  1   101637.028:  1  
+##  105826.647:  1   105718.473:  1   100756.991:  1   102062.048:  1  
+##  105832.561:  1   107462.743:  1   101588.998:  1   102667.021:  1  
+##  106556.337:  1   107867.471:  1   103889.126:  1   103098.209:  1  
+##  (Other)   :186   (Other)   :186   (Other)   :186   (Other)   :186  
+##          X.8              X.9              X.10             X.11    
+##  100096.801:  1   100061.544:  1   100106.233:  1   100024.123:  1  
+##  100469.993:  1   100292.363:  1   100186.974:  1   100039.919:  1  
+##  100774.65 :  1   100908.835:  1   100239.842:  1   100232.689:  1  
+##  101141.645:  1   101499.377:  1   101246.715:  1   100325.502:  1  
+##  101856.708:  1   101952.973:  1   101294.851:  1   100949.516:  1  
+##  101998.766:  1   102564.147:  1   101888.347:  1   101225.032:  1  
+##  (Other)   :186   (Other)   :186   (Other)   :186   (Other)   :186  
+##          X.12             X.13             X.14             X.15    
+##  100162.451:  1   101173.754:  1   100019.085:  1   100149.71 :  1  
+##  100400.991:  1   101230.478:  1   100151.154:  1   100365.92 :  1  
+##  100426.11 :  1   101830.579:  1   100480.253:  1   100538.783:  1  
+##  100440.96 :  1   101890.926:  1   100642.002:  1   100992.762:  1  
+##  100453.489:  1   101896.849:  1   100650.817:  1   101383.751:  1  
+##  101911.122:  1   101949.002:  1   100852.151:  1   101600.874:  1  
+##  (Other)   :186   (Other)   :186   (Other)   :186   (Other)   :186  
+##          X.16             X.17             X.18             X.19    
+##  100065.373:  1   100086.193:  1   100019.566:  1   100137.446:  1  
+##  100528.029:  1   100437.449:  1   100191.358:  1   100525.233:  1  
+##  100908.458:  1   100454.112:  1   100607.286:  1   101518.942:  1  
+##  101185.836:  1   100457.467:  1   100936.83 :  1   101646.075:  1  
+##  101503.563:  1   100481.7  :  1   101398.532:  1   101811.258:  1  
+##  101647.181:  1   100511.674:  1   101446.031:  1   101924.345:  1  
+##  (Other)   :186   (Other)   :186   (Other)   :186   (Other)   :186  
+##          X.20             X.21             X.22             X.23    
+##  100621.846:  1   100104.614:  1   100304.087:  1   100085.831:  1  
+##  100770.688:  1   100135.634:  1   100339.151:  1   100576.049:  1  
+##  101467.243:  1   100337.869:  1   100522.838:  1   100611.27 :  1  
+##  101642.49 :  1   100707.689:  1   100727.123:  1   100704.351:  1  
+##  102138.611:  1   100729.844:  1   100913.445:  1   100739.971:  1  
+##  102303.815:  1   101151.768:  1   100978.766:  1   101098.184:  1  
+##  (Other)   :186   (Other)   :186   (Other)   :186   (Other)   :186  
+##          X.24             X.25    
+##  100150.471:  1   100283.985:  1  
+##  100629.663:  1   100417.236:  1  
+##  100675.979:  1   102132.153:  1  
+##  100733.221:  1   102589.851:  1  
+##  100780.992:  1   103148.563:  1  
+##  101131.192:  1   103194.057:  1  
+##  (Other)   :186   (Other)   :186
+</code></pre>
+
+<p>Those just look like column numbers.  I want hour 19, X.20 and the date.</p>
+
+<pre><code class="r">KeyLoads&lt;-Loads[,c(1, 20)]
+names(KeyLoads)&lt;-c(&quot;Date&quot;,&quot;Hour19&quot;)
+#convert to numeric
+KeyLoads$Hour19&lt;-as.numeric(as.character(KeyLoads$Hour19))
+</code></pre>
+
+<pre><code>## Warning: NAs introduced by coercion
+</code></pre>
+
+<pre><code class="r">#convert to ct Date
+KeyLoads$Date&lt;-as.POSIXct(KeyLoads$Date,format=&#39;%m/%d/%Y&#39;)
+summary(KeyLoads)
+</code></pre>
+
+<pre><code>##       Date                         Hour19      
+##  Min.   :2014-01-01 00:00:00   Min.   : 67754  
+##  1st Qu.:2014-02-17 12:00:00   1st Qu.: 86110  
+##  Median :2014-04-06 00:00:00   Median : 98762  
+##  Mean   :2014-04-06 00:00:00   Mean   :100574  
+##  3rd Qu.:2014-05-23 12:00:00   3rd Qu.:110414  
+##  Max.   :2014-07-10 00:00:00   Max.   :141332  
+##  NA&#39;s   :1                     NA&#39;s   :1
+</code></pre>
+
+<pre><code class="r">#clean up loads
+rm(Loads)
+</code></pre>
+
+<p>Clean up forecasts</p>
+
+<pre><code class="r">KeyForecasts&lt;-Forecasts[,c(1,2,21)]
+names(KeyForecasts)&lt;-c(&quot;EvalTime&quot;,&quot;Date&quot;,&quot;Forecast&quot;)
+
+#Fixing time
+KeyForecasts$Date&lt;-as.POSIXct(KeyForecasts$Date,format=&#39;%m/%d/%Y&#39;)
+KeyForecasts$EvalTime&lt;-as.POSIXlt(KeyForecasts$EvalTime,format=&quot;%m/%d/%Y %H:%M:%S&quot;)
+summary(KeyForecasts)
+</code></pre>
+
+<pre><code>##     EvalTime                        Date                    
+##  Min.   :2013-12-31 05:45:00   Min.   :2014-01-01 00:00:00  
+##  1st Qu.:2014-02-15 01:15:00   1st Qu.:2014-02-15 00:00:00  
+##  Median :2014-04-01 11:45:00   Median :2014-04-01 00:00:00  
+##  Mean   :2014-04-01 11:44:01   Mean   :2014-04-01 09:01:43  
+##  3rd Qu.:2014-05-16 22:15:00   3rd Qu.:2014-05-17 00:00:00  
+##  Max.   :2014-07-01 05:45:00   Max.   :2014-07-02 00:00:00  
+##     Forecast     
+##  Min.   : 68645  
+##  1st Qu.: 88099  
+##  Median :100833  
+##  Mean   :102031  
+##  3rd Qu.:114014  
+##  Max.   :143442
+</code></pre>
+
+<pre><code class="r">#why are there two of each date?  Because they do day ahead and two day ahead.
+</code></pre>
+
+<p>Edit the forecasts so that we have only the earliest day ahead forecast.</p>
+
+<pre><code class="r">#Keep only the 5am forecasts
+KeyForecasts&lt;-KeyForecasts[as.POSIXlt(KeyForecasts$EvalTime,format=&quot;%m/%d/%Y %H:%M:%S&quot;)$hour==5,]
+
+#Keep only day ahead
+KeyForecasts&lt;-KeyForecasts[(as.POSIXct(KeyForecasts$EvalTime,format=&quot;%m/%d/%Y %H:%M:%S&quot;) -as.POSIXct(KeyForecasts$Date,format=&#39;%m/%d/%Y&#39;))&lt;0,]
+summary(KeyForecasts)
+</code></pre>
+
+<pre><code>##     EvalTime                        Date                    
+##  Min.   :2013-12-31 05:45:00   Min.   :2014-01-01 00:00:00  
+##  1st Qu.:2014-02-14 17:45:00   1st Qu.:2014-02-15 12:00:00  
+##  Median :2014-04-01 05:45:00   Median :2014-04-02 00:00:00  
+##  Mean   :2014-04-01 05:45:01   Mean   :2014-04-02 00:00:00  
+##  3rd Qu.:2014-05-16 17:45:00   3rd Qu.:2014-05-17 12:00:00  
+##  Max.   :2014-07-01 05:45:00   Max.   :2014-07-02 00:00:00  
+##     Forecast     
+##  Min.   : 73270  
+##  1st Qu.: 87703  
+##  Median :101426  
+##  Mean   :101653  
+##  3rd Qu.:112649  
+##  Max.   :141787
+</code></pre>
+
+<p>Now work on the GoogleSearch terms.  This is only for Pennsylvania.</p>
+
+<pre><code class="r">summary(GoogleSearch)
+</code></pre>
+
+<pre><code>##          Day      Past.30.days  
+##  2014-06-16: 1   Min.   : 35.0  
+##  2014-06-17: 1   1st Qu.: 44.5  
+##  2014-06-18: 1   Median : 48.0  
+##  2014-06-19: 1   Mean   : 54.9  
+##  2014-06-20: 1   3rd Qu.: 63.2  
+##  2014-06-21: 1   Max.   :100.0  
+##  (Other)   :24   NA&#39;s   :2
+</code></pre>
+
+<p>Date is actually ISO.  Hope that does not cause a problem.</p>
+
+<p>Merging the three sets.  Just to be clear I need the acutal, forecast from day before and search result from two days before.  That is what I am testing, if I can improve the next day forecast with previous day searches.  Lots of fun date matching ahead.</p>
+
+<pre><code class="r">summary(KeyForecasts)
+</code></pre>
+
+<pre><code>##     EvalTime                        Date                    
+##  Min.   :2013-12-31 05:45:00   Min.   :2014-01-01 00:00:00  
+##  1st Qu.:2014-02-14 17:45:00   1st Qu.:2014-02-15 12:00:00  
+##  Median :2014-04-01 05:45:00   Median :2014-04-02 00:00:00  
+##  Mean   :2014-04-01 05:45:01   Mean   :2014-04-02 00:00:00  
+##  3rd Qu.:2014-05-16 17:45:00   3rd Qu.:2014-05-17 12:00:00  
+##  Max.   :2014-07-01 05:45:00   Max.   :2014-07-02 00:00:00  
+##     Forecast     
+##  Min.   : 73270  
+##  1st Qu.: 87703  
+##  Median :101426  
+##  Mean   :101653  
+##  3rd Qu.:112649  
+##  Max.   :141787
+</code></pre>
+
+<pre><code class="r">summary(KeyLoads)
+</code></pre>
+
+<pre><code>##       Date                         Hour19      
+##  Min.   :2014-01-01 00:00:00   Min.   : 67754  
+##  1st Qu.:2014-02-17 12:00:00   1st Qu.: 86110  
+##  Median :2014-04-06 00:00:00   Median : 98762  
+##  Mean   :2014-04-06 00:00:00   Mean   :100574  
+##  3rd Qu.:2014-05-23 12:00:00   3rd Qu.:110414  
+##  Max.   :2014-07-10 00:00:00   Max.   :141332  
+##  NA&#39;s   :1                     NA&#39;s   :1
+</code></pre>
+
+<pre><code class="r">library(sqldf)
+</code></pre>
+
+<pre><code>## Loading required package: gsubfn
+## Loading required package: proto
+## Loading required namespace: tcltk
+</code></pre>
+
+<pre><code>## Warning: couldn&#39;t connect to display &quot;:0&quot;
+</code></pre>
+
+<pre><code>## Loading required package: RSQLite
+## Loading required package: DBI
+## Loading required package: RSQLite.extfuns
+</code></pre>
+
+<pre><code class="r">#Join the two parts form the RTO
+
+RTO&lt;-sqldf(&quot;select KeyForecasts.*, KeyLoads.* from KeyForecasts, KeyLoads where KeyForecasts.Date=KeyLoads.Date;&quot;)
+</code></pre>
+
+<pre><code>## Loading required package: tcltk
+</code></pre>
+
+<pre><code>## Warning: RAW() can only be applied to a &#39;raw&#39;, not a &#39;double&#39;
+</code></pre>
+
+<pre><code>## Error: RS-DBI driver: (error in statement: no such table: KeyForecasts)
+</code></pre>
+
+<pre><code class="r">GoogleSearch$NextDay&lt;-as.POSIXct(GoogleSearch$Day)+24*60*60
+
+Joint&lt;-sqldf(&quot;select RTO.*, GoogleSearch.* from RTO, GoogleSearch where NextDay=Date;&quot;)
+</code></pre>
+
+<pre><code>## Error: RS-DBI driver: (error in statement: no such table: RTO)
+</code></pre>
+
+<pre><code class="r">#fix the forecast again
+Joint$Hour19&lt;-as.numeric(as.character(Joint$Hour19))
+</code></pre>
+
+<pre><code>## Error: object &#39;Joint&#39; not found
+</code></pre>
+
+<p>Yes, not a lot of overlap.  Can only do last 30 days with trends for daily.</p>
+
+<pre><code class="r">summary(Joint)
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;object&#39; in selecting a method for function &#39;summary&#39;: Error: object &#39;Joint&#39; not found
+</code></pre>
+
+<pre><code class="r">summary(lm(Hour19~Forecast+Past_30_days,data=Joint))
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;object&#39; in selecting a method for function &#39;summary&#39;: Error in is.data.frame(data) : object &#39;Joint&#39; not found
+## Calls: lm ... model.frame -&gt; model.frame.default -&gt; is.data.frame
+</code></pre>
+
+<p>Looks like it is significant!</p>
+
+<pre><code class="r">WO&lt;-lm(Hour19~Forecast,data=Joint)
+</code></pre>
+
+<pre><code>## Error: object &#39;Joint&#39; not found
+</code></pre>
+
+<pre><code class="r">With&lt;-lm(Hour19~Forecast+Past_30_days,data=Joint)
+</code></pre>
+
+<pre><code>## Error: object &#39;Joint&#39; not found
+</code></pre>
+
+<pre><code class="r">anova(WO,With)
+</code></pre>
+
+<pre><code>## Error: object &#39;WO&#39; not found
+</code></pre>
+
+<p>check the change in SE</p>
+
+<pre><code class="r">summary(WO)$sigma
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;object&#39; in selecting a method for function &#39;summary&#39;: Error: object &#39;WO&#39; not found
+</code></pre>
+
+<pre><code class="r">summary(With)$sigma
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;object&#39; in selecting a method for function &#39;summary&#39;: Error: object &#39;With&#39; not found
+</code></pre>
+
+<pre><code class="r">#percent decrease in SE is
+(summary(WO)$sigma-summary(With)$sigma)/summary(WO)$sigma
+</code></pre>
+
+<pre><code>## Error: error in evaluating the argument &#39;object&#39; in selecting a method for function &#39;summary&#39;: Error: object &#39;WO&#39; not found
+</code></pre>
+
+<p>Nice! 14% reduction in se.  Proof of concept.</p>
 
 </body>
 
