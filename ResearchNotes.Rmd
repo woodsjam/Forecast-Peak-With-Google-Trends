@@ -2,4 +2,13 @@ Research Notes
 ========================================================
 Just a frame right now.
 
+Load data is from http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-data.aspx
+Forecasts are from 
+http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-forecasts.aspx
+
+```{r}
+GoogleSearch<-read.csv("report.csv")
+Loads<-read.csv("Loads.csv")
+Forecasts<-read.csv("Forecasts.csv")
+```
 
