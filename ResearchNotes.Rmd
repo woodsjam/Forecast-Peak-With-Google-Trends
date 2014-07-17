@@ -48,7 +48,26 @@ summary(KeyForecasts)
 Edit the forecasts so that we have only the earliest day ahead forecast.
 
 ```{r}
+#Keep only the 5am forecasts
+KeyForecasts<-KeyForecasts[as.POSIXlt(KeyForecasts$EvalTime,format="%m/%d/%Y %H:%M:%S")$hour==5,]
+
+#Keep only day ahead
+KeyForecasts<-KeyForecasts[(as.POSIXct(KeyForecasts$EvalTime,format="%m/%d/%Y %H:%M:%S") -as.POSIXct(KeyForecasts$Date,format='%m/%d/%Y'))<0,]
+summary(KeyForecasts)
 
 ```
+
+Now work on the GoogleSearch terms.  This is only for Pennsylvania.
+
+```{r}
+summary(GoogleSearch)
+
+```
+Date is actually ISO.  Hope that does not cause a problem.
+
+Merging the three sets.  Just to be clear I need the acutal, forecast from day before and search result from two days before.  That is what I am testing, if I can improve the next day forecast with previous day searches.  Lots of fun date matching ahead.
+
+
+
 
 
