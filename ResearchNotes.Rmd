@@ -12,3 +12,43 @@ Loads<-read.csv("Loads.csv")
 Forecasts<-read.csv("Forecasts.csv")
 ```
 
+Format the Loads data.
+
+```{r}
+summary(Loads)
+```
+Those just look like column numbers.  I want hour 19, X.20 and the date.
+
+```{r}
+KeyLoads<-Loads[,c(1, 20)]
+names(KeyLoads)<-c("Date","Hour19")
+#convert to numeric
+KeyLoads$Hour19<-as.numeric(as.character(KeyLoads$Hour19))
+
+#convert to ct Date
+KeyLoads$Date<-as.POSIXct(KeyLoads$Date,format='%m/%d/%Y')
+summary(KeyLoads)
+#clean up loads
+rm(Loads)
+```
+
+Clean up forecasts
+
+```{r}
+KeyForecasts<-Forecasts[,c(1,2,21)]
+names(KeyForecasts)<-c("EvalTime","Date","Forecast")
+
+#Fixing time
+KeyForecasts$Date<-as.POSIXct(KeyForecasts$Date,format='%m/%d/%Y')
+KeyForecasts$EvalTime<-as.POSIXlt(KeyForecasts$EvalTime,format="%m/%d/%Y %H:%M:%S")
+summary(KeyForecasts)
+#why are there two of each date?  Because they do day ahead and two day ahead.
+```
+
+Edit the forecasts so that we have only the earliest day ahead forecast.
+
+```{r}
+
+```
+
+
