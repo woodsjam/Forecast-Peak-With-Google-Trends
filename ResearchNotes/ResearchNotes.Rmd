@@ -73,8 +73,10 @@ summary(KeyLoads)
 library(sqldf)
 
 #Join the two parts form the RTO
-KeyForecasts$Day<-KeyForecasts$Date
-KeyLoads$Day<-KeyLoads$Date
+KeyForecasts$Day<-as.POSIXct(KeyForecasts$Date)
+KeyLoads$Day<-as.POSIXct(KeyLoads$Date)
+KeyForecasts$Date<-NULL
+KeyLoads$Date<-NULL
 
 RTO<-sqldf("select KeyForecasts.Day, Forecast, Hour19 from KeyForecasts, KeyLoads where KeyForecasts.Day=KeyLoads.Day;")
 
