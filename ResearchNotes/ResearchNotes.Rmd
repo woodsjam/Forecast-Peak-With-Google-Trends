@@ -1,117 +1,56 @@
-Research Notes
-========================================================
-Just a frame right now.
-
-Load data is from http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-data.aspx
-Forecasts are from 
-http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-forecasts.aspx
-
-```{r}
-GoogleSearch<-read.csv("report.csv")
-Loads<-read.csv("Loads.csv")
-Forecasts<-read.csv("Forecasts.csv")
-```
-
-Format the Loads data.
+---
+title: "ResearchNotes"
+author: "James Woods"
+date: "07/24/2014"
+output: html_document
+---
+Read in the data file created by the data manipulation
 
 ```{r}
-summary(Loads)
+load("~/Research/Forecast-Peak-With-Google-Trends/DataManipulation/WTrends")
 ```
-Those just look like column numbers.  I want hour 19, X.20 and the date.
+
+Replicate the hour 19 experiment from the proof of concept.  First how well do the forecasts work.
+```{r}
+summary(lm(HE19~F19,data=WTrends))
+
+```
+Looks like they are a little high most of the times by 3,400 MW but they comove the right way.
+
+Now to add just PA
+```{r}
+summary(lm(HE19~F19+PATrends,data=WTrends))
+
+```
+Try with something else
 
 ```{r}
-KeyLoads<-Loads[,c(1, 20)]
-names(KeyLoads)<-c("Date","Hour19")
-#convert to numeric
-KeyLoads$Hour19<-as.numeric(as.character(KeyLoads$Hour19))
+summary(lm(HE19~F19+NewsTrends,data=WTrends))
 
-#convert to ct Date
-KeyLoads$Date<-as.POSIXct(KeyLoads$Date,format='%m/%d/%Y')
-summary(KeyLoads)
-#clean up loads
-rm(Loads)
 ```
-
-Clean up forecasts
+Oh, that works too
 
 ```{r}
-KeyForecasts<-Forecasts[,c(1,2,21)]
-names(KeyForecasts)<-c("EvalTime","Date","Forecast")
+summary(lm(HE19~F19+GasTrends,data=WTrends))
 
-#Fixing time
-KeyForecasts$Date<-as.POSIXct(KeyForecasts$Date,format='%m/%d/%Y')
-KeyForecasts$EvalTime<-as.POSIXlt(KeyForecasts$EvalTime,format="%m/%d/%Y %H:%M:%S")
-summary(KeyForecasts)
-#why are there two of each date?  Because they do day ahead and two day ahead.
 ```
-
-Edit the forecasts so that we have only the earliest day ahead forecast.
+Gas does not
 
 ```{r}
-#Keep only the 5am forecasts
-KeyForecasts<-KeyForecasts[as.POSIXlt(KeyForecasts$EvalTime,format="%m/%d/%Y %H:%M:%S")$hour==5,]
-
-#Keep only day ahead
-KeyForecasts<-KeyForecasts[(as.POSIXct(KeyForecasts$EvalTime,format="%m/%d/%Y %H:%M:%S") -as.POSIXct(KeyForecasts$Date,format='%m/%d/%Y'))<0,]
-summary(KeyForecasts)
+summary(lm(HE19~F19+TrafficTrends,data=WTrends))
 
 ```
-
-Now work on the GoogleSearch terms.  This is only for Pennsylvania.
-
+Traffic does not
 ```{r}
-summary(GoogleSearch)
+summary(lm(HE19~F19+RestaurantTrends,data=WTrends))
 
 ```
-Date is actually ISO.  Hope that does not cause a problem.
-
-Merging the three sets.  Just to be clear I need the acutal, forecast from day before and search result from two days before.  That is what I am testing, if I can improve the next day forecast with previous day searches.  Lots of fun date matching ahead.
-
+Restaurant does not
 ```{r}
-summary(KeyForecasts)
-summary(KeyLoads)
-library(sqldf)
-
-#Join the two parts form the RTO
-KeyForecasts$Day<-as.POSIXct(KeyForecasts$Date)
-KeyLoads$Day<-as.POSIXct(KeyLoads$Date)
-KeyForecasts$Date<-NULL
-KeyLoads$Date<-NULL
-
-RTO<-sqldf("select KeyForecasts.Day, Forecast, Hour19 from KeyForecasts, KeyLoads where KeyForecasts.Day=KeyLoads.Day;")
-
-GoogleSearch$NextDay<-as.POSIXct(GoogleSearch$Day)+24*60*60
-
-Joint<-sqldf("select RTO.*, GoogleSearch.* from RTO, GoogleSearch where NextDay=Date;")
-#fix the forecast again
-Joint$Hour19<-as.numeric(as.character(Joint$Hour19))
+summary(lm(HE19~F19+MovieTrends,data=WTrends))
 
 ```
-Yes, not a lot of overlap.  Can only do last 30 days with trends for daily.
-
-```{r}
-summary(Joint)
-summary(lm(Hour19~Forecast+Past_30_days,data=Joint))
-```
-Looks like it is significant!
-
-```{r}
-WO<-lm(Hour19~Forecast,data=Joint)
-With<-lm(Hour19~Forecast+Past_30_days,data=Joint)
-
-anova(WO,With)
-```
-
-check the change in SE
-
-```{r}
-summary(WO)$sigma
-summary(With)$sigma
-
-#percent decrease in SE is
-(summary(WO)$sigma-summary(With)$sigma)/summary(WO)$sigma
-```
-
-Nice! 14% reduction in se.  Proof of concept.
+Snort...Movie does.  Cool place to be.
 
 
+]
