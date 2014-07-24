@@ -1,0 +1,77 @@
+---
+title: "DataCleaning"
+author: "James Woods"
+date: "07/24/2014"
+output: html_document
+---
+Load in the Trends data.
+```{r}
+
+library(stringr)
+ReadTrends<-function(fileName){
+  path<-paste("~/Research/Forecast-Peak-With-Google-Trends/TrendsData/",fileName,sep='')
+  file<-read.csv(path)
+  names(file)<-c("Date",str_sub(fileName,1, str_length(fileName)-4))
+  as.POSIXct(file$Date)
+  file
+}
+
+#Get the names of the trend files
+TrendsFiles<-list.files("~/Research/Forecast-Peak-With-Google-Trends/TrendsData")
+
+#all the trends in one data frame
+AllTrends<-as.data.frame(lapply(TrendsFiles,FUN=ReadTrends))
+
+#Kill the "Date.*" columnns that are duplicates of Date.  Assuming here that the dates all line up
+JustTrends<-AllTrends[,c(1,2,seq(from=4,to=length(names(AllTrends)),by=2))]
+
+#Cleanup
+rm(AllTrends,TrendsFiles)
+
+#Just in case we want this alone
+save(JustTrends,file="JustTrends")
+```
+
+On to the forecast data.
+```{r}
+
+Loads<- read.csv("~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-hourly-loads.csv")
+
+Forecasts <- read.csv("~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-rto-forecasts.csv")
+```
+
+
+There are a few columns we don't need so trim and we need some dates in ISO format
+```{r}
+Loads<-Loads[,1:26]
+
+# Date manipulation
+
+Loads$Date<-as.POSIXct(Loads$DATE, format="%m/%d/%Y")
+Forecasts$ForecastDate<-as.POSIXct(Forecasts$Effective., format="%m/%d/%Y")  
+
+#There are several forecasts in a day.  Use only the early one  5am
+Forecasts<-Forecasts[as.POSIXlt(Forecasts$Evaluated.at.,format="%m/%d/%Y %H:%M:%S" )$hour==5,]
+
+#Fix the date forecast was made on
+Forecasts$Forecasted<-as.POSIXct(Forecasts$Evaluated.at.,format="%m/%d/%Y")
+
+
+#Make sure we only have day ahead forecasts
+table(Forecasts$Forecasted-Forecasts$ForecastDate)
+Forecasts<-Forecasts[Forecasts$Forecasted-Forecasts$ForecastDate<0,]
+
+
+```
+
+Time to join the two tables.  The key will be to link them by the trends data from the day before the forecast.  
+
+```{r}
+#Link forecasts to actual.
+
+library(sqldf)
+
+
+
+```
+
