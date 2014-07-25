@@ -189,5 +189,37 @@ Time, to look at this from a drop forward point of view.
 
 # Compare with drop forward crossvalidation
 
-This will be a fairer comparison.  I will boot up each model with 15 observations that then look at how they predict the next day, updating the model each day.
+This will be a fairer comparison.  I will boot up each model with 20 observations that then look at how they predict the next day, updating the model each day.
+
+```{r}
+
+OneForwardError<-function(formula, nData){
+  model<-lm(formula, data=WTrendsLimited[1:nData,], y=TRUE)
+  modelPlus1<-lm(formula, data=WTrendsLimited[1:(nData+1),], y=TRUE)
+  predict(model,WTrendsLimited[1+nData,])-tail(modelPlus1$y,1)
+}
+
+CVDropForward<-function(model){sd(unlist(lapply(20:(length(WTrendsLimited)-1), FUN= function(x) OneForwardError(model,x))))}
+
+# CVDropForward(HourModel(1))
+
+```
+
+Lets look at the percent change in drop forward cross validation from the google trends with statistically adjusted model
+
+```{r}
+
+CompareSigmaCV<-function(x){
+SA<-CVDropForward(HourModelForecastCheck(x))  
+Google<-CVDropForward(HourModel(x))  
+
+(SA-Google)/(SA)
+}
+
+CVImprove<-lapply(1:24, FUN = CompareSigmaCV)
+CVImprove
+mean(unlist(CVImprove))
+```
+I think the case for 5% is made. The case against their forecasts is very strong anyway.
+
 
