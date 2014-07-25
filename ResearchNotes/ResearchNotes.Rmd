@@ -53,4 +53,85 @@ summary(lm(HE19~F19+MovieTrends,data=WTrends))
 Snort...Movie does.  Cool place to be.
 
 
-]
+Lets just check a few other hours
+
+```{r}
+summary(lm(HE11~F11+PATrends,data=WTrends))
+
+```
+
+
+```{r}
+summary(lm(HE05~F05+PATrends,data=WTrends))
+
+```
+Small in absolute terms
+
+# Weighting the search terms
+
+I need to weight the state weather search terms by population. These population estimates are from  "Annual Estimates of the Resident Population for the United States, Regions, States, and Puerto Rico: April 1, 2010 to July 1, 2013" (CSV). 2013 Population Estimates. United States Census Bureau, Population Division. December 30, 2013. Retrieved December 30, 2013.
+
+
+Here is where it gets strange.  I can't get count, just an index normalized by state.  This then is a population weighted value of indexes and not a population weighted index.
+
+```{r}
+# DE 925,749
+# Maryland  5,928,814	
+# New Jersey  8,899,339	
+# Ohio  11,570,808
+# Pennsylvania  12,773,801
+# Virginia  8,260,405
+# West Virginia  1,854,304
+# Kentucky  4,395,295	
+
+
+WTrends$Weather<-((925749*WTrends$DETrends)+(4395295*WTrends$KYTrends)+(5928814*WTrends$MDTrends)+(8899339*WTrends$NJTrends)+(11570808*WTrends$OHTrends)+(12773801*WTrends$PATrends)+(8260405*WTrends$VATrends)+(1854304*WTrends$WVTrends))/(925749+4395295+5928814+8899339+11570808+12773801+8260405+1854304)        
+      
+summary(WTrends$Weather)
+
+```
+Note that the index is now attenuated.
+
+
+# Model all hours
+```{r}
+
+HourModel<-function(hour){
+  Hour<-formatC(hour, width=2, flag="0")
+  as.formula(paste("HE",Hour,"~ F",Hour,"+Weather",sep='' ))}
+
+
+lapply(1:24, FUN = function(x)  summary(lm(HourModel(x), data=WTrends)))
+
+```
+
+Quick summary is that google trends is helpful in all hours of the day. It also looks like the forecasts are usually off by a large amount.  I should look at those individually.
+
+```{r}
+
+HourModelForecastCheck<-function(hour){
+  Hour<-formatC(hour, width=2, flag="0")
+  as.formula(paste("HE",Hour,"~ F",Hour,sep='' ))}
+
+
+lapply(1:24, FUN = function(x)  summary(lm(HourModelForecastCheck(x), data=WTrends)))
+
+```
+The intercept terms are almost all negative and almost all significant.  That means that they are forecasting high consistently.
+
+Checking if the forecasts comove well, i.e., confidence interval contains 1.
+
+```{r}
+
+HourModelForecastCheck<-function(hour){
+  Hour<-formatC(hour, width=2, flag="0")
+  as.formula(paste("HE",Hour,"~ F",Hour,sep='' ))}
+
+
+lapply(1:24, FUN = function(x)  confint(lm(HourModelForecastCheck(x), data=WTrends)))
+
+```
+
+Looks like it comoves well during peak hours but over corrects, greater than 1 in the other hours.
+
+
