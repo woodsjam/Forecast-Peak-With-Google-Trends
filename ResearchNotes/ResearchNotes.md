@@ -868,7 +868,7 @@ lapply(1:24, FUN = function(x)  summary(lm(HourModel(x), data=WTrends)))
 ## F-statistic:  708 on 2 and 65 DF,  p-value: <2e-16
 ```
 
-Quick summary is that google trends is helpful in all hours of the day. It also looks like the forecasts are usually off by a large amount.  I should look at those individually.
+Quick summary is that Google trends is helpful in all hours of the day. It also looks like the forecasts are usually off by a large amount.  I should look at those individually.
 
 
 ```r
@@ -1522,5 +1522,222 @@ lapply(1:24, FUN = function(x)  confint(lm(HourModelForecastCheck(x), data=WTren
 ```
 
 Looks like it comoves well during peak hours but over corrects, greater than 1 in the other hours.
+
+Given this I need to compare not just the difference between actual and forecast but the difference between with trends data and statistically adjusted forecast.  It is just not fair.
+
+I will compare with the full model and via drop forward cross validation.
+
+#Compare sigma on three models
+
+For these comparisons I have to make sure I am using equal sized datasets.  So only those with trend data.
+
+
+```r
+WTrendsLimited<-WTrends[!is.na(WTrends$Weather),]
+```
+
+
+Now create a function that compares the sigma of the two models.  I will call the one without Google trends data the statistically adjusted forecasts.
+
+
+```r
+# Gives percent reduction in sigma
+CompareSigma<-function(x){
+SA<-summary(lm(HourModelForecastCheck(x), data=WTrendsLimited))$sigma  
+Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
+
+(SA-Google)/(SA)
+}
+
+lapply(1:24, FUN = CompareSigma)
+```
+
+```
+## [[1]]
+## [1] 0.04091
+## 
+## [[2]]
+## [1] 0.03615
+## 
+## [[3]]
+## [1] 0.03628
+## 
+## [[4]]
+## [1] 0.03138
+## 
+## [[5]]
+## [1] 0.03049
+## 
+## [[6]]
+## [1] 0.02382
+## 
+## [[7]]
+## [1] 0.02627
+## 
+## [[8]]
+## [1] 0.0525
+## 
+## [[9]]
+## [1] 0.09197
+## 
+## [[10]]
+## [1] 0.09969
+## 
+## [[11]]
+## [1] 0.0963
+## 
+## [[12]]
+## [1] 0.09133
+## 
+## [[13]]
+## [1] 0.08662
+## 
+## [[14]]
+## [1] 0.08362
+## 
+## [[15]]
+## [1] 0.08199
+## 
+## [[16]]
+## [1] 0.07934
+## 
+## [[17]]
+## [1] 0.07292
+## 
+## [[18]]
+## [1] 0.06504
+## 
+## [[19]]
+## [1] 0.06252
+## 
+## [[20]]
+## [1] 0.05638
+## 
+## [[21]]
+## [1] 0.04634
+## 
+## [[22]]
+## [1] 0.05712
+## 
+## [[23]]
+## [1] 0.05727
+## 
+## [[24]]
+## [1] 0.0548
+```
+
+```r
+mean(unlist(lapply(1:24, FUN = CompareSigma)))
+```
+
+```
+## [1] 0.06088
+```
+
+Nice percent savings vs the statistically adjusted model -- about 6% reduction average by hour.
+
+Now make a comparison to raw
+
+
+
+```r
+# Gives percent reduction in sigma
+CompareRaw<-function(x){
+SA<-sd(WTrendsLimited[,x]-WTrendsLimited[,30])  
+Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
+
+(SA-Google)/(SA)
+}
+
+lapply(1:24, FUN = CompareRaw)
+```
+
+```
+## [[1]]
+## [1] 0.03914
+## 
+## [[2]]
+## [1] 0.3047
+## 
+## [[3]]
+## [1] 0.5057
+## 
+## [[4]]
+## [1] 0.604
+## 
+## [[5]]
+## [1] 0.6638
+## 
+## [[6]]
+## [1] 0.7331
+## 
+## [[7]]
+## [1] 0.7905
+## 
+## [[8]]
+## [1] 0.8211
+## 
+## [[9]]
+## [1] 0.7832
+## 
+## [[10]]
+## [1] 0.7217
+## 
+## [[11]]
+## [1] 0.6788
+## 
+## [[12]]
+## [1] 0.6758
+## 
+## [[13]]
+## [1] 0.6833
+## 
+## [[14]]
+## [1] 0.7029
+## 
+## [[15]]
+## [1] 0.7151
+## 
+## [[16]]
+## [1] 0.7115
+## 
+## [[17]]
+## [1] 0.7031
+## 
+## [[18]]
+## [1] 0.6839
+## 
+## [[19]]
+## [1] 0.6623
+## 
+## [[20]]
+## [1] 0.6303
+## 
+## [[21]]
+## [1] 0.6159
+## 
+## [[22]]
+## [1] 0.6138
+## 
+## [[23]]
+## [1] 0.5583
+## 
+## [[24]]
+## [1] 0.5053
+```
+
+```r
+mean(unlist(lapply(1:24, FUN = CompareRaw)))
+```
+
+```
+## [1] 0.6295
+```
+Man that is huge.  Damn huge.  I must be misunderstanding what they mean by forecast.
+
+Time, to look at this from a drop forward point of view.
+
+#Compare with drop forward crossvalidation
+
 
 

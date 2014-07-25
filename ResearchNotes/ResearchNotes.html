@@ -1018,7 +1018,7 @@ lapply(1:24, FUN = function(x)  summary(lm(HourModel(x), data=WTrends)))
 ## F-statistic:  708 on 2 and 65 DF,  p-value: &lt;2e-16
 </code></pre>
 
-<p>Quick summary is that google trends is helpful in all hours of the day. It also looks like the forecasts are usually off by a large amount.  I should look at those individually.</p>
+<p>Quick summary is that Google trends is helpful in all hours of the day. It also looks like the forecasts are usually off by a large amount.  I should look at those individually.</p>
 
 <pre><code class="r">HourModelForecastCheck&lt;-function(hour){
   Hour&lt;-formatC(hour, width=2, flag=&quot;0&quot;)
@@ -1667,6 +1667,209 @@ lapply(1:24, FUN = function(x)  confint(lm(HourModelForecastCheck(x), data=WTren
 </code></pre>
 
 <p>Looks like it comoves well during peak hours but over corrects, greater than 1 in the other hours.</p>
+
+<p>Given this I need to compare not just the difference between actual and forecast but the difference between with trends data and statistically adjusted forecast.  It is just not fair.</p>
+
+<p>I will compare with the full model and via drop forward cross validation.</p>
+
+<p>#Compare sigma on three models</p>
+
+<p>For these comparisons I have to make sure I am using equal sized datasets.  So only those with trend data.</p>
+
+<pre><code class="r">WTrendsLimited&lt;-WTrends[!is.na(WTrends$Weather),]
+</code></pre>
+
+<p>Now create a function that compares the sigma of the two models.  I will call the one without Google trends data the statistically adjusted forecasts.</p>
+
+<pre><code class="r"># Gives percent reduction in sigma
+CompareSigma&lt;-function(x){
+SA&lt;-summary(lm(HourModelForecastCheck(x), data=WTrendsLimited))$sigma  
+Google&lt;-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
+
+(SA-Google)/(SA)
+}
+
+lapply(1:24, FUN = CompareSigma)
+</code></pre>
+
+<pre><code>## [[1]]
+## [1] 0.04091
+## 
+## [[2]]
+## [1] 0.03615
+## 
+## [[3]]
+## [1] 0.03628
+## 
+## [[4]]
+## [1] 0.03138
+## 
+## [[5]]
+## [1] 0.03049
+## 
+## [[6]]
+## [1] 0.02382
+## 
+## [[7]]
+## [1] 0.02627
+## 
+## [[8]]
+## [1] 0.0525
+## 
+## [[9]]
+## [1] 0.09197
+## 
+## [[10]]
+## [1] 0.09969
+## 
+## [[11]]
+## [1] 0.0963
+## 
+## [[12]]
+## [1] 0.09133
+## 
+## [[13]]
+## [1] 0.08662
+## 
+## [[14]]
+## [1] 0.08362
+## 
+## [[15]]
+## [1] 0.08199
+## 
+## [[16]]
+## [1] 0.07934
+## 
+## [[17]]
+## [1] 0.07292
+## 
+## [[18]]
+## [1] 0.06504
+## 
+## [[19]]
+## [1] 0.06252
+## 
+## [[20]]
+## [1] 0.05638
+## 
+## [[21]]
+## [1] 0.04634
+## 
+## [[22]]
+## [1] 0.05712
+## 
+## [[23]]
+## [1] 0.05727
+## 
+## [[24]]
+## [1] 0.0548
+</code></pre>
+
+<pre><code class="r">mean(unlist(lapply(1:24, FUN = CompareSigma)))
+</code></pre>
+
+<pre><code>## [1] 0.06088
+</code></pre>
+
+<p>Nice percent savings vs the statistically adjusted model &ndash; about 6% reduction average by hour.</p>
+
+<p>Now make a comparison to raw</p>
+
+<pre><code class="r"># Gives percent reduction in sigma
+CompareRaw&lt;-function(x){
+SA&lt;-sd(WTrendsLimited[,x]-WTrendsLimited[,30])  
+Google&lt;-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
+
+(SA-Google)/(SA)
+}
+
+lapply(1:24, FUN = CompareRaw)
+</code></pre>
+
+<pre><code>## [[1]]
+## [1] 0.03914
+## 
+## [[2]]
+## [1] 0.3047
+## 
+## [[3]]
+## [1] 0.5057
+## 
+## [[4]]
+## [1] 0.604
+## 
+## [[5]]
+## [1] 0.6638
+## 
+## [[6]]
+## [1] 0.7331
+## 
+## [[7]]
+## [1] 0.7905
+## 
+## [[8]]
+## [1] 0.8211
+## 
+## [[9]]
+## [1] 0.7832
+## 
+## [[10]]
+## [1] 0.7217
+## 
+## [[11]]
+## [1] 0.6788
+## 
+## [[12]]
+## [1] 0.6758
+## 
+## [[13]]
+## [1] 0.6833
+## 
+## [[14]]
+## [1] 0.7029
+## 
+## [[15]]
+## [1] 0.7151
+## 
+## [[16]]
+## [1] 0.7115
+## 
+## [[17]]
+## [1] 0.7031
+## 
+## [[18]]
+## [1] 0.6839
+## 
+## [[19]]
+## [1] 0.6623
+## 
+## [[20]]
+## [1] 0.6303
+## 
+## [[21]]
+## [1] 0.6159
+## 
+## [[22]]
+## [1] 0.6138
+## 
+## [[23]]
+## [1] 0.5583
+## 
+## [[24]]
+## [1] 0.5053
+</code></pre>
+
+<pre><code class="r">mean(unlist(lapply(1:24, FUN = CompareRaw)))
+</code></pre>
+
+<pre><code>## [1] 0.6295
+</code></pre>
+
+<p>Man that is huge.  Damn huge.  I must be misunderstanding what they mean by forecast.</p>
+
+<p>Time, to look at this from a drop forward point of view.</p>
+
+<p>#Compare with drop forward crossvalidation</p>
 
 </body>
 

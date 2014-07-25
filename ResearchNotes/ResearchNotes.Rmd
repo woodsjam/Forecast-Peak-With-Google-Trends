@@ -105,7 +105,7 @@ lapply(1:24, FUN = function(x)  summary(lm(HourModel(x), data=WTrends)))
 
 ```
 
-Quick summary is that google trends is helpful in all hours of the day. It also looks like the forecasts are usually off by a large amount.  I should look at those individually.
+Quick summary is that Google trends is helpful in all hours of the day. It also looks like the forecasts are usually off by a large amount.  I should look at those individually.
 
 ```{r}
 
@@ -134,4 +134,60 @@ lapply(1:24, FUN = function(x)  confint(lm(HourModelForecastCheck(x), data=WTren
 
 Looks like it comoves well during peak hours but over corrects, greater than 1 in the other hours.
 
+Given this I need to compare not just the difference between actual and forecast but the difference between with trends data and statistically adjusted forecast.  It is just not fair.
+
+I will compare with the full model and via drop forward cross validation.
+
+#Compare sigma on three models
+
+For these comparisons I have to make sure I am using equal sized datasets.  So only those with trend data.
+
+```{r}
+WTrendsLimited<-WTrends[!is.na(WTrends$Weather),]
+```
+
+
+Now create a function that compares the sigma of the two models.  I will call the one without Google trends data the statistically adjusted forecasts.
+
+```{r}
+
+# Gives percent reduction in sigma
+CompareSigma<-function(x){
+SA<-summary(lm(HourModelForecastCheck(x), data=WTrendsLimited))$sigma  
+Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
+
+(SA-Google)/(SA)
+}
+
+lapply(1:24, FUN = CompareSigma)
+mean(unlist(lapply(1:24, FUN = CompareSigma)))
+
+```
+
+Nice percent savings vs the statistically adjusted model -- about 6% reduction average by hour.
+
+Now make a comparison to raw
+
+
+```{r}
+
+# Gives percent reduction in sigma
+CompareRaw<-function(x){
+SA<-sd(WTrendsLimited[,x]-WTrendsLimited[,30])  
+Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
+
+(SA-Google)/(SA)
+}
+
+lapply(1:24, FUN = CompareRaw)
+mean(unlist(lapply(1:24, FUN = CompareRaw)))
+
+```
+Man that is huge.  Damn huge.  I must be misunderstanding what they mean by forecast.
+
+Time, to look at this from a drop forward point of view.
+
+# Compare with drop forward crossvalidation
+
+This will be a fairer comparison.  I will boot up each model with 15 observations that then look at how they predict the next day, updating the model each day.
 
