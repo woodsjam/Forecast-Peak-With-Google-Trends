@@ -28,6 +28,8 @@ Modern short term load forecasting has grown in analytically complexity and soph
 
 <<echo=FALSE,results=hide>>=
 load("~/Research/Forecast-Peak-With-Google-Trends/DataManipulation/WTrends")
+
+WTrends$Weather<-((925749*WTrends$DETrends)+(4395295*WTrends$KYTrends)+(5928814*WTrends$MDTrends)+(8899339*WTrends$NJTrends)+(11570808*WTrends$OHTrends)+(12773801*WTrends$PATrends)+(8260405*WTrends$VATrends)+(1854304*WTrends$WVTrends))/(925749+4395295+5928814+8899339+11570808+12773801+8260405+1854304)  
 @
 
 \begin{enumerate}
@@ -41,6 +43,23 @@ load("~/Research/Forecast-Peak-With-Google-Trends/DataManipulation/WTrends")
 \section{Data Sources}
 
   \subsection{PJM Load Forecasts and Actuals}
+<<>>=
+HourModelForecastCheck<-function(hour){
+  Hour<-formatC(hour, width=2, flag="0")
+  as.formula(paste("HE",Hour,"~ F",Hour,sep='' ))}
+
+
+SAResults<-lapply(1:24, FUN = function(x)  lm(HourModelForecastCheck(x), data=WTrends))
+
+@
+
+
+
+
+
+
+
+
 
     \begin{enumerate}
       \item Data sources.
@@ -67,7 +86,83 @@ load("~/Research/Forecast-Peak-With-Google-Trends/DataManipulation/WTrends")
     \item Why this is insufficient.
   \end{enumerate}
 
+<<echo=false,results=hide>>=
+WTrendsLimited<-WTrends[!is.na(WTrends$Weather),]
+
+
+HourModel<-function(hour){
+  Hour<-formatC(hour, width=2, flag="0")
+  as.formula(paste("HE",Hour,"~ F",Hour,"+Weather",sep='' ))}
+
+
+# Gives percent reduction in sigma
+CompareRaw<-function(x){
+SA<-sd(WTrendsLimited[,x]-WTrendsLimited[,30])  
+Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
+
+(SA-Google)/(SA)
+}
+
+lapply(1:24, FUN = CompareRaw)
+mean(unlist(lapply(1:24, FUN = CompareRaw)))
+
+@
+
+
+
+<<echo=false,results=hide>>=
+HourModel<-function(hour){
+  Hour<-formatC(hour, width=2, flag="0")
+  as.formula(paste("HE",Hour,"~ F",Hour,"+Weather",sep='' ))}
+
+
+GrossTrends<-lapply(1:24, FUN = function(x)  lm(HourModel(x), data=WTrends))
+@
+
+
+  
+<<echo=false,results=hide>>=
+
+# Gives percent reduction in sigma
+CompareSigma<-function(x){
+SA<-summary(lm(HourModelForecastCheck(x), data=WTrendsLimited))$sigma  
+Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
+
+(SA-Google)/(SA)
+}
+
+lapply(1:24, FUN = CompareSigma)
+mean(unlist(lapply(1:24, FUN = CompareSigma)))
+
+@
+
+
+
   \subsection{Drop Forward Cross-validation}
+
+<<echo=false,results=hide>>=
+
+OneForwardError<-function(formula, nData){
+  model<-lm(formula, data=WTrendsLimited[1:nData,], y=TRUE)
+  modelPlus1<-lm(formula, data=WTrendsLimited[1:(nData+1),], y=TRUE)
+  predict(model,WTrendsLimited[1+nData,])-tail(modelPlus1$y,1)
+}
+
+CVDropForward<-function(model){sd(unlist(lapply(20:(length(WTrendsLimited)-1), FUN= function(x) OneForwardError(model,x))))}
+
+CompareSigmaCV<-function(x){
+SA<-CVDropForward(HourModelForecastCheck(x))  
+Google<-CVDropForward(HourModel(x))  
+
+(SA-Google)/(SA)
+}
+
+CVImprove<-lapply(1:24, FUN = CompareSigmaCV)
+CVImprove
+mean(unlist(CVImprove))
+@
+
+  
   
     \begin{enumerate}
       \item Cross validation concepts.
@@ -77,10 +172,26 @@ load("~/Research/Forecast-Peak-With-Google-Trends/DataManipulation/WTrends")
     \end{enumerate}
     
   \subsection{Counter-factual Test with Other Common Google Searches}
+  
+  
+  
     \begin{enumerate}
       \item Comparison with: news, recipe, traffic, gas.
       \item Note that some of them kinda work.
     \end{enumerate}
+    
+<<echo=false,results=hide>>=
+summary(lm(HE19~F19+NewsTrends,data=WTrends))
+# Oh, that works too
+summary(lm(HE19~F19+GasTrends,data=WTrends))
+# Gas does not
+summary(lm(HE19~F19+TrafficTrends,data=WTrends))
+# Traffic does not
+summary(lm(HE19~F19+RestaurantTrends,data=WTrends))
+# Restaurant does not
+summary(lm(HE19~F19+MovieTrends,data=WTrends))
+# Snort...Movie does.  Cool place to be.
+@
 
 \section{Summary and Conclusions}
 

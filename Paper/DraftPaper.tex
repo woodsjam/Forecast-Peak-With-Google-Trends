@@ -39,6 +39,23 @@ Modern short term load forecasting has grown in analytically complexity and soph
 \section{Data Sources}
 
   \subsection{PJM Load Forecasts and Actuals}
+\begin{Schunk}
+\begin{Sinput}
+> HourModelForecastCheck<-function(hour){
++   Hour<-formatC(hour, width=2, flag="0")
++   as.formula(paste("HE",Hour,"~ F",Hour,sep='' ))}
+> SAResults<-lapply(1:24, FUN = function(x)  lm(HourModelForecastCheck(x), data=WTrends))
+> 
+\end{Sinput}
+\end{Schunk}
+
+
+
+
+
+
+
+
 
     \begin{enumerate}
       \item Data sources.
@@ -65,7 +82,19 @@ Modern short term load forecasting has grown in analytically complexity and soph
     \item Why this is insufficient.
   \end{enumerate}
 
+
+
+
+
+
+  
+
+
+
   \subsection{Drop Forward Cross-validation}
+
+
+  
   
     \begin{enumerate}
       \item Cross validation concepts.
@@ -75,10 +104,14 @@ Modern short term load forecasting has grown in analytically complexity and soph
     \end{enumerate}
     
   \subsection{Counter-factual Test with Other Common Google Searches}
+  
+  
+  
     \begin{enumerate}
       \item Comparison with: news, recipe, traffic, gas.
       \item Note that some of them kinda work.
     \end{enumerate}
+    
 
 \section{Summary and Conclusions}
 
