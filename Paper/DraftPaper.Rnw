@@ -197,6 +197,25 @@ GrossTrends<-lapply(1:24, FUN = function(x)  lm(HourModel(x), data=WTrends))
 @
 
 
+
+\begin{figure}
+\begin{center}
+\caption{Confidence Intervals for ``Weather'' in Trends Models (95\%)}
+<<echo=false,fig=TRUE>>=
+library(ggplot2)
+
+LowInter<-unlist(lapply(GrossTrends, FUN= function(x) confint(x) [3,1]))
+HighInter<-unlist(lapply(GrossTrends, FUN= function(x) confint(x) [3,2]))
+InterceptResults<-data.frame(1:24,LowInter,HighInter)
+names(InterceptResults)[1]<-"Hour"
+
+ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=LowInter, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 1,slope=0)+ylab("Confidence Interval")
+@
+\end{center}
+\end{figure}
+
+
+
   
 <<echo=false,results=hide>>=
 
@@ -301,7 +320,6 @@ for(x in 1:12){
 \clearpage
 
 <<echo=false, results=tex>>=
-
 for(x in 13:24){
   stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
 }
