@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.22)  28 JUL 2014 20:32
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.7.3)  29 JUL 2014 11:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **DraftPaper.tex
 (./DraftPaper.tex
 LaTeX2e <2011/06/27>
-Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+Babel <3.9h> and hyphenation patterns for 2 languages loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
@@ -125,11 +125,7 @@ Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix
 \c@FancyVerbLine=\count97
 \FV@StepNumber=\count98
 \FV@OutFile=\write3
-) (/usr/share/R/share/texmf/tex/latex/upquote.sty
-Package: upquote 2003/08/11 v1.1 Covington's upright-quote modification to verb
-atim and verb
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -209,7 +205,7 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 337.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
-))
+)
 (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
@@ -353,49 +349,62 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 17.
 
 (./DraftPaper-concordance.tex)
-LaTeX Font Info:    Try loading font information for T1+aett on input line 43.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 45.
 
 (/usr/share/texlive/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )
-LaTeX Font Info:    Try loading font information for TS1+aett on input line 46.
+LaTeX Font Info:    Try loading font information for TS1+aett on input line 48.
 
 
 (/usr/share/R/share/texmf/tex/latex/ts1aett.fd
 File: ts1aett.fd 
 )
-LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 46.
+LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 48.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `TS1/aett/m/sl' in size <10> not available
-(Font)              Font shape `TS1/cmtt/m/sl' tried instead on input line 46.
- [1
+(Font)              Font shape `TS1/cmtt/m/sl' tried instead on input line 48.
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./DraftPaper.aux) ) 
+<DraftPaper-003.pdf, id=2, 433.62pt x 433.62pt>
+File: DraftPaper-003.pdf Graphic file (type pdf)
+ <use DraftPaper-003.pdf>
+Package pdftex.def Info: DraftPaper-003.pdf used on input line 58.
+(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
+
+<DraftPaper-004.pdf, id=3, 433.62pt x 433.62pt>
+File: DraftPaper-004.pdf Graphic file (type pdf)
+ <use DraftPaper-004.pdf>
+Package pdftex.def Info: DraftPaper-004.pdf used on input line 67.
+(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2 <./DraftPaper-003.pdf>]
+ [3 <./DraftPaper-004.pdf>] [4] (./DraftPaper.aux) ) 
 Here is how much of TeX's memory you used:
- 3419 strings out of 493307
- 48839 string characters out of 6139905
- 108135 words of memory out of 5000000
- 6775 multiletter control sequences out of 15000+600000
+ 3425 strings out of 495028
+ 48970 string characters out of 6181498
+ 105002 words of memory out of 5000000
+ 6535 multiletter control sequences out of 15000+600000
  30271 words of font info for 67 fonts, out of 8000000 for 9000
- 957 hyphenation exceptions out of 8191
+ 14 hyphenation exceptions out of 8191
  37i,6n,32p,678b,283s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/
-usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-msltt10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfst1000.pfb>
-Output written on DraftPaper.pdf (2 pages, 100421 bytes).
+ </home/woodsj/.texmf-var/f
+onts/pk/ljfour/jknappen/ec/tcst1000.600pk></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb>
+Output written on DraftPaper.pdf (4 pages, 113196 bytes).
 PDF statistics:
- 45 PDF objects out of 1000 (max. 8388607)
- 31 compressed objects within 1 object stream
+ 63 PDF objects out of 1000 (max. 8388607)
+ 43 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 5 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 15 words of extra memory for PDF output out of 10000 (max. 10000000)
 

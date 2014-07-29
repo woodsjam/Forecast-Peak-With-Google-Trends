@@ -43,6 +43,8 @@ WTrends$Weather<-((925749*WTrends$DETrends)+(4395295*WTrends$KYTrends)+(5928814*
 \section{Data Sources}
 
   \subsection{PJM Load Forecasts and Actuals}
+  
+  
 <<>>=
 HourModelForecastCheck<-function(hour){
   Hour<-formatC(hour, width=2, flag="0")
@@ -54,6 +56,47 @@ SAResults<-lapply(1:24, FUN = function(x)  lm(HourModelForecastCheck(x), data=WT
 @
 
 
+\begin{figure}
+\begin{center}
+\caption{Confidence Intervals for Intercept (95\%)}
+<<echo=false,fig=TRUE>>=
+library(ggplot2)
+LowInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [1,1]))
+HighInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [1,2]))
+InterceptResults<-data.frame(1:24,LowInter,HighInter)
+names(InterceptResults)[1]<-"Hour"
+
+ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=LowInter, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 0)+ylab("Intercept Confidence Interval")
+@
+\end{center}
+\end{figure}
+
+
+
+\begin{figure}
+\begin{center}
+\caption{Confidence Intervals for Co-Movement (95\%)}
+<<echo=false,fig=TRUE>>=
+library(ggplot2)
+LowInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [2,1]))
+HighInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [2,2]))
+InterceptResults<-data.frame(1:24,LowInter,HighInter)
+names(InterceptResults)[1]<-"Hour"
+
+ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=LowInter, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 1,slope=0)+ylab("Intercept Confidence Interval")
+@
+\end{center}
+\end{figure}
+
+
+<<>>=
+library(ggplot2)
+ggplot(WTrends)+
+geom_point(aes(F01,HE01,shape='a'))+geom_point(aes(F02,HE02,shape="b"))+
+geom_point(aes(F03,HE03,shape='c'))+geom_point(aes(F04,HE04,shape="d"))+
+geom_point(aes(F05,HE05,shape='e'))+geom_point(aes(F06,HE06,shape="f"))+
+geom_abline(intercept = 0, slope = 1)
+@
 
 
 

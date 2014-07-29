@@ -39,6 +39,8 @@ Modern short term load forecasting has grown in analytically complexity and soph
 \section{Data Sources}
 
   \subsection{PJM Load Forecasts and Actuals}
+  
+  
 \begin{Schunk}
 \begin{Sinput}
 > HourModelForecastCheck<-function(hour){
@@ -50,6 +52,33 @@ Modern short term load forecasting has grown in analytically complexity and soph
 \end{Schunk}
 
 
+\begin{figure}
+\begin{center}
+\caption{Confidence Intervals for Intercept (95\%)}
+\includegraphics{DraftPaper-003}
+\end{center}
+\end{figure}
+
+
+
+\begin{figure}
+\begin{center}
+\caption{Confidence Intervals for Co-Movement (95\%)}
+\includegraphics{DraftPaper-004}
+\end{center}
+\end{figure}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> library(ggplot2)
+> ggplot(WTrends)+
++ geom_point(aes(F01,HE01,shape='a'))+geom_point(aes(F02,HE02,shape="b"))+
++ geom_point(aes(F03,HE03,shape='c'))+geom_point(aes(F04,HE04,shape="d"))+
++ geom_point(aes(F05,HE05,shape='e'))+geom_point(aes(F06,HE06,shape="f"))+
++ geom_abline(intercept = 0, slope = 1)
+\end{Sinput}
+\end{Schunk}
 
 
 
