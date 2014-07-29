@@ -45,7 +45,7 @@ WTrends$Weather<-((925749*WTrends$DETrends)+(4395295*WTrends$KYTrends)+(5928814*
   \subsection{PJM Load Forecasts and Actuals}
   
   
-<<>>=
+<<echo=false,results=hide>>=
 HourModelForecastCheck<-function(hour){
   Hour<-formatC(hour, width=2, flag="0")
   as.formula(paste("HE",Hour,"~ F",Hour,sep='' ))}
@@ -56,9 +56,12 @@ SAResults<-lapply(1:24, FUN = function(x)  lm(HourModelForecastCheck(x), data=WT
 @
 
 
+
+
+
 \begin{figure}
 \begin{center}
-\caption{Confidence Intervals for Intercept (95\%)}
+\caption{Confidence Intervals for Intercept Statistically Adjusted Models (95\%)}
 <<echo=false,fig=TRUE>>=
 library(ggplot2)
 LowInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [1,1]))
@@ -75,7 +78,7 @@ ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=LowInter, ymin=LowInte
 
 \begin{figure}
 \begin{center}
-\caption{Confidence Intervals for Co-Movement (95\%)}
+\caption{Confidence Intervals for Co-Movement Statistically Adjusted Models (95\%)}
 <<echo=false,fig=TRUE>>=
 library(ggplot2)
 LowInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [2,1]))
@@ -89,19 +92,6 @@ ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=LowInter, ymin=LowInte
 \end{figure}
 
 
-<<>>=
-library(ggplot2)
-ggplot(WTrends)+
-geom_point(aes(F01,HE01,shape='a'))+geom_point(aes(F02,HE02,shape="b"))+
-geom_point(aes(F03,HE03,shape='c'))+geom_point(aes(F04,HE04,shape="d"))+
-geom_point(aes(F05,HE05,shape='e'))+geom_point(aes(F06,HE06,shape="f"))+
-geom_abline(intercept = 0, slope = 1)
-@
-
-
-
-
-
 
 
     \begin{enumerate}
@@ -113,6 +103,50 @@ geom_abline(intercept = 0, slope = 1)
     \end{enumerate}
 
   \subsection{Google Trends}
+
+\begin{figure}
+\begin{center}
+\caption{State Weather Trends Indexes Over Time}
+<<echo=false,fig=TRUE>>=
+library(ggplot2)
+library(reshape2)
+
+JustWeather<-data.frame(WTrends$Date, WTrends$DETrends,WTrends$KYTrends, WTrends$MDTrends, WTrends$NJTrends, WTrends$OHTrends, WTrends$PATrends, WTrends$VATrends, WTrends$WVTrends, WTrends$Weather)
+
+names(JustWeather)<-c("Date","DE","KY","MD","NJ","OH","PA","VA","WV","Weather")
+
+MeltedTrends<-melt(JustWeather,variable.name="Index",id.var="Date",na.rm=TRUE)
+
+ggplot(MeltedTrends, aes(Date, value,group= Index))+geom_line() +ylab("Index")+facet_grid(Index~.)
+
+@
+\end{center}
+\end{figure}
+
+
+
+
+
+\begin{figure}
+\begin{center}
+\caption{Trends Indexes Over Time}
+<<echo=false,fig=TRUE>>=
+library(ggplot2)
+library(reshape2)
+
+JustTrends<-data.frame(WTrends$Date, WTrends$GasTrends,WTrends$MovieTrends, WTrends$NewsTrends, WTrends$RestaurantTrends, WTrends$TrafficTrends,WTrends$Weather)
+names(JustTrends)<-c("Date","Gas","Movie","News","Restaurant","Traffic","Weather")
+
+
+MeltedTrends<-melt(JustTrends,variable.name="Index",id.var="Date",na.rm=TRUE)
+
+ggplot(MeltedTrends, aes(Date, value,group= Index))+geom_line() +ylab("Index")+facet_grid(Index~.)
+
+@
+\end{center}
+\end{figure}
+
+
 
     \begin{enumerate}
       \item Where to get the data
@@ -146,7 +180,7 @@ Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma
 (SA-Google)/(SA)
 }
 
-lapply(1:24, FUN = CompareRaw)
+DirectCompare<-lapply(1:24, FUN = CompareRaw)
 mean(unlist(lapply(1:24, FUN = CompareRaw)))
 
 @
@@ -174,10 +208,13 @@ Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma
 (SA-Google)/(SA)
 }
 
-lapply(1:24, FUN = CompareSigma)
+ModelCompare<-lapply(1:24, FUN = CompareSigma)
 mean(unlist(lapply(1:24, FUN = CompareSigma)))
 
 @
+
+
+
 
 
 
@@ -206,6 +243,14 @@ mean(unlist(CVImprove))
 @
 
   
+<<echo=FALSE,results=tex>>=
+ForCompareTable<-data.frame(1:24,unlist(DirectCompare)*100,unlist(ModelCompare)*100,unlist(CVImprove)*100)
+names(ForCompareTable)<-c("Hour","Direct","Statistically Adjusted (Raw)", "Statistically Adjusted (CV)")
+library(stargazer)
+stargazer(ForCompareTable,summary=FALSE, title="Improvement in Forecasts Relative to Gross,  Statistically Adjusted, Drop Forward CV (Percent)",rownames=FALSE)
+@
+  
+  
   
     \begin{enumerate}
       \item Cross validation concepts.
@@ -223,20 +268,45 @@ mean(unlist(CVImprove))
       \item Note that some of them kinda work.
     \end{enumerate}
     
-<<echo=false,results=hide>>=
-summary(lm(HE19~F19+NewsTrends,data=WTrends))
+<<echo=false,results=tex>>=
+News<-lm(HE19~F19+NewsTrends,data=WTrends)
 # Oh, that works too
-summary(lm(HE19~F19+GasTrends,data=WTrends))
+Gas<-lm(HE19~F19+GasTrends,data=WTrends)
 # Gas does not
-summary(lm(HE19~F19+TrafficTrends,data=WTrends))
+Traffic<-lm(HE19~F19+TrafficTrends,data=WTrends)
 # Traffic does not
-summary(lm(HE19~F19+RestaurantTrends,data=WTrends))
+Restaurant<-lm(HE19~F19+RestaurantTrends,data=WTrends)
 # Restaurant does not
-summary(lm(HE19~F19+MovieTrends,data=WTrends))
+Movie<-lm(HE19~F19+MovieTrends,data=WTrends)
 # Snort...Movie does.  Cool place to be.
+library(stargazer)
+stargazer(News,Gas,Traffic,Restaurant,Movie,title="Alternate Google Search Models for Hour 19",column.labels=c("News","Gas","Traffic","Restaurant","Movie"), dep.var.caption="Hour 19 Load",dep.var.labels.include = FALSE)
 @
 
+
+
 \section{Summary and Conclusions}
+
+
+\appendix
+
+\section{Hourly Models with Weather Searches}
+
+<<echo=false,results=tex>>=
+
+for(x in 1:12){
+  stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
+}
+@
+\clearpage
+
+<<echo=false, results=tex>>=
+
+for(x in 13:24){
+  stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
+}
+@
+
 
 % \bibliography{Trends.bib}
 % \bibliographystyle{apalike}

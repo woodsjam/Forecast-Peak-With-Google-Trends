@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.7.3)  29 JUL 2014 11:05
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.7.3)  29 JUL 2014 14:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -227,7 +227,83 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
 (/usr/share/texlive/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-)))) (./DraftPaper.aux)
+)))) (./DraftPaper.aux
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+)
 \openout1 = `DraftPaper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
@@ -244,8 +320,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
 LaTeX Font Info:    ... okay on input line 16.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 16.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 16.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 16.
@@ -348,63 +423,75 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 17.
 
-(./DraftPaper-concordance.tex)
-LaTeX Font Info:    Try loading font information for T1+aett on input line 45.
-
-(/usr/share/texlive/texmf-dist/tex/latex/ae/t1aett.fd
-File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-)
-LaTeX Font Info:    Try loading font information for TS1+aett on input line 48.
-
-
-(/usr/share/R/share/texmf/tex/latex/ts1aett.fd
-File: ts1aett.fd 
-)
-LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 48.
-
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
-File: ts1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `TS1/aett/m/sl' in size <10> not available
-(Font)              Font shape `TS1/cmtt/m/sl' tried instead on input line 48.
-
-<DraftPaper-003.pdf, id=2, 433.62pt x 433.62pt>
+(./DraftPaper-concordance.tex) <DraftPaper-003.pdf, id=2, 433.62pt x 433.62pt>
 File: DraftPaper-003.pdf Graphic file (type pdf)
- <use DraftPaper-003.pdf>
-Package pdftex.def Info: DraftPaper-003.pdf used on input line 58.
-(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
 
-<DraftPaper-004.pdf, id=3, 433.62pt x 433.62pt>
+<use DraftPaper-003.pdf>
+Package pdftex.def Info: DraftPaper-003.pdf used on input line 52.
+(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
+ <DraftPaper-004.pdf, id=3, 433.62pt x 433.62pt>
 File: DraftPaper-004.pdf Graphic file (type pdf)
- <use DraftPaper-004.pdf>
-Package pdftex.def Info: DraftPaper-004.pdf used on input line 67.
-(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
 
-[1
+<use DraftPaper-004.pdf>
+Package pdftex.def Info: DraftPaper-004.pdf used on input line 61.
+(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
+ <DraftPaper-005.pdf, id=4, 433.62pt x 433.62pt>
+File: DraftPaper-005.pdf Graphic file (type pdf)
+
+<use DraftPaper-005.pdf>
+Package pdftex.def Info: DraftPaper-005.pdf used on input line 81.
+(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
+ <DraftPaper-006.pdf, id=5, 433.62pt x 433.62pt>
+File: DraftPaper-006.pdf Graphic file (type pdf)
+
+<use DraftPaper-006.pdf>
+Package pdftex.def Info: DraftPaper-006.pdf used on input line 92.
+(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
+ [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2 <./DraftPaper-003.pdf>]
- [3 <./DraftPaper-004.pdf>] [4] (./DraftPaper.aux) ) 
+ [3 <./DraftPaper-004.pdf>] [4 <./DraftPaper-005.pdf>] [5 <./DraftPaper-006.pdf
+>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 134.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 134.
+
+Overfull \hbox (8.32265pt too wide) in paragraph at lines 189--228
+ [][] 
+ []
+
+[6] [7] [8] [9] [10] [11] [12] [13] [14
+
+] [15] [16] [17] [18] [19]
+(./DraftPaper.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3425 strings out of 495028
- 48970 string characters out of 6181498
- 105002 words of memory out of 5000000
- 6535 multiletter control sequences out of 15000+600000
- 30271 words of font info for 67 fonts, out of 8000000 for 9000
+ 3390 strings out of 495028
+ 48187 string characters out of 6181498
+ 131051 words of memory out of 5000000
+ 6509 multiletter control sequences out of 15000+600000
+ 31287 words of font info for 65 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 37i,6n,32p,678b,283s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/woodsj/.texmf-var/f
-onts/pk/ljfour/jknappen/ec/tcst1000.600pk></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb>
-Output written on DraftPaper.pdf (4 pages, 113196 bytes).
+ 37i,9n,32p,678b,268s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti1
+0.pfb>
+Output written on DraftPaper.pdf (19 pages, 170476 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
- 43 compressed objects within 1 object stream
+ 135 PDF objects out of 1000 (max. 8388607)
+ 93 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 15 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 25 words of extra memory for PDF output out of 10000 (max. 10000000)
 
