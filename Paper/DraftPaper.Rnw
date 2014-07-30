@@ -29,6 +29,9 @@ Modern short term load forecasting has grown in analytically complexity and soph
 <<echo=FALSE,results=hide>>=
 load("~/Research/Forecast-Peak-With-Google-Trends/DataManipulation/WTrends")
 
+#Get rid of the zero forecast in hour two
+WTrends$F02[WTrends$F02==0]<-NA
+
 WTrends$Weather<-((925749*WTrends$DETrends)+(4395295*WTrends$KYTrends)+(5928814*WTrends$MDTrends)+(8899339*WTrends$NJTrends)+(11570808*WTrends$OHTrends)+(12773801*WTrends$PATrends)+(8260405*WTrends$VATrends)+(1854304*WTrends$WVTrends))/(925749+4395295+5928814+8899339+11570808+12773801+8260405+1854304)  
 @
 
@@ -46,12 +49,13 @@ WTrends$Weather<-((925749*WTrends$DETrends)+(4395295*WTrends$KYTrends)+(5928814*
   
   
 <<echo=false,results=hide>>=
+library(nlme)
 HourModelForecastCheck<-function(hour){
   Hour<-formatC(hour, width=2, flag="0")
   as.formula(paste("HE",Hour,"~ F",Hour,sep='' ))}
 
 
-SAResults<-lapply(1:24, FUN = function(x)  lm(HourModelForecastCheck(x), data=WTrends))
+SAResults<-lapply(1:24, FUN = function(x)  gls(HourModelForecastCheck(x), data=WTrends,corAR1(form=~1),na.action=na.omit))
 
 @
 
@@ -69,7 +73,7 @@ HighInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [1,2]))
 InterceptResults<-data.frame(1:24,LowInter,HighInter)
 names(InterceptResults)[1]<-"Hour"
 
-ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=LowInter, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 0)+ylab("Intercept Confidence Interval")
+ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=(LowInter+HighInter)/2, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 0)+ylab("Intercept Confidence Interval")
 @
 \end{center}
 \end{figure}
@@ -86,7 +90,7 @@ HighInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [2,2]))
 InterceptResults<-data.frame(1:24,LowInter,HighInter)
 names(InterceptResults)[1]<-"Hour"
 
-ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=LowInter, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 1,slope=0)+ylab("Intercept Confidence Interval")
+ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=(LowInter+HighInter)/2, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 1,slope=0)+ylab("Intercept Confidence Interval")
 @
 \end{center}
 \end{figure}
@@ -193,7 +197,7 @@ HourModel<-function(hour){
   as.formula(paste("HE",Hour,"~ F",Hour,"+Weather",sep='' ))}
 
 
-GrossTrends<-lapply(1:24, FUN = function(x)  lm(HourModel(x), data=WTrends))
+GrossTrends<-lapply(1:24, FUN = function(x)  gls(HourModel(x), data=WTrends,corAR1(form=~1),na.action=na.omit))
 @
 
 
@@ -209,7 +213,7 @@ HighInter<-unlist(lapply(GrossTrends, FUN= function(x) confint(x) [3,2]))
 InterceptResults<-data.frame(1:24,LowInter,HighInter)
 names(InterceptResults)[1]<-"Hour"
 
-ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=LowInter, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 1,slope=0)+ylab("Confidence Interval")
+ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=(LowInter+HighInter)/2, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 1,slope=0)+ylab("Confidence Interval")
 @
 \end{center}
 \end{figure}
@@ -242,9 +246,12 @@ mean(unlist(lapply(1:24, FUN = CompareSigma)))
 <<echo=false,results=hide>>=
 
 OneForwardError<-function(formula, nData){
-  model<-lm(formula, data=WTrendsLimited[1:nData,], y=TRUE)
-  modelPlus1<-lm(formula, data=WTrendsLimited[1:(nData+1),], y=TRUE)
-  predict(model,WTrendsLimited[1+nData,])-tail(modelPlus1$y,1)
+  model<-gls(formula, data=WTrendsLimited[1:nData,],corAR1(form=~1),na.action=na.omit)
+#   modelPlus1<-lm(formula, data=WTrendsLimited[1:(nData+1),], y=TRUE)
+#   predict(model,WTrendsLimited[1+nData,])-tail(modelPlus1$y,1)
+
+tail(resid(model),1)
+
 }
 
 CVDropForward<-function(model){sd(unlist(lapply(20:(length(WTrendsLimited)-1), FUN= function(x) OneForwardError(model,x))))}
@@ -288,15 +295,15 @@ stargazer(ForCompareTable,summary=FALSE, title="Improvement in Forecasts Relativ
     \end{enumerate}
     
 <<echo=false,results=tex>>=
-News<-lm(HE19~F19+NewsTrends,data=WTrends)
+News<-gls(HE19~F19+NewsTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
 # Oh, that works too
-Gas<-lm(HE19~F19+GasTrends,data=WTrends)
+Gas<-gls(HE19~F19+GasTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
 # Gas does not
-Traffic<-lm(HE19~F19+TrafficTrends,data=WTrends)
+Traffic<-gls(HE19~F19+TrafficTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
 # Traffic does not
-Restaurant<-lm(HE19~F19+RestaurantTrends,data=WTrends)
+Restaurant<-gls(HE19~F19+RestaurantTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
 # Restaurant does not
-Movie<-lm(HE19~F19+MovieTrends,data=WTrends)
+Movie<-gls(HE19~F19+MovieTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
 # Snort...Movie does.  Cool place to be.
 library(stargazer)
 stargazer(News,Gas,Traffic,Restaurant,Movie,title="Alternate Google Search Models for Hour 19",column.labels=c("News","Gas","Traffic","Restaurant","Movie"), dep.var.caption="Hour 19 Load",dep.var.labels.include = FALSE)
@@ -312,17 +319,17 @@ stargazer(News,Gas,Traffic,Restaurant,Movie,title="Alternate Google Search Model
 \section{Hourly Models with Weather Searches}
 
 <<echo=false,results=tex>>=
-
-for(x in 1:12){
-  stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
-}
+# 
+# for(x in 1:12){
+#   stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
+# }
 @
 \clearpage
 
 <<echo=false, results=tex>>=
-for(x in 13:24){
-  stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
-}
+# for(x in 13:24){
+#   stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
+# }
 @
 
 
