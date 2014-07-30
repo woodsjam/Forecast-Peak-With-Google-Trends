@@ -319,14 +319,49 @@ stargazer(News,Gas,Traffic,Restaurant,Movie,title="Alternate Google Search Model
 \section{Hourly Models with Weather Searches}
 
 <<echo=false,results=tex>>=
-# 
-# for(x in 1:12){
-#   stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
-# }
+
+stargazer(gls(HourModel(1), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",1), dep.var.labels=paste("Hour",1), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(2), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",2), dep.var.labels=paste("Hour",2), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(3), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",3), dep.var.labels=paste("Hour",3), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(4), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",4), dep.var.labels=paste("Hour",4), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(5), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",5), dep.var.labels=paste("Hour",5), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(6), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",6), dep.var.labels=paste("Hour",6), covariate.labels=c("Forecast","Weather","Constant") )
+@
+\clearpage
+
+<<echo=false,results=tex>>=
+stargazer(gls(HourModel(7), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",7), dep.var.labels=paste("Hour",7), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(8), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",8), dep.var.labels=paste("Hour",8), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(9), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",9), dep.var.labels=paste("Hour",9), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(10), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",10), dep.var.labels=paste("Hour",10), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(11), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",11), dep.var.labels=paste("Hour",11), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(12), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",12), dep.var.labels=paste("Hour",12), covariate.labels=c("Forecast","Weather","Constant") )
+
 @
 \clearpage
 
 <<echo=false, results=tex>>=
+
+stargazer(gls(HourModel(13), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",13), dep.var.labels=paste("Hour",13), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(14), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",14), dep.var.labels=paste("Hour",14), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(15), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",15), dep.var.labels=paste("Hour",15), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(16), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",16), dep.var.labels=paste("Hour",16), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(17), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",17), dep.var.labels=paste("Hour",17), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(18), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",18), dep.var.labels=paste("Hour",18), covariate.labels=c("Forecast","Weather","Constant") )
+@
+\clearpage
+
+
+<<echo=false, results=tex>>=
+
+stargazer(gls(HourModel(19), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",19), dep.var.labels=paste("Hour",19), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(20), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",20), dep.var.labels=paste("Hour",20), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(21), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",21), dep.var.labels=paste("Hour",21), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(22), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",22), dep.var.labels=paste("Hour",22), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(23), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",23), dep.var.labels=paste("Hour",23), covariate.labels=c("Forecast","Weather","Constant") )
+stargazer(gls(HourModel(24), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",24), dep.var.labels=paste("Hour",24), covariate.labels=c("Forecast","Weather","Constant") )
+
+
 # for(x in 13:24){
 #   stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
 # }
