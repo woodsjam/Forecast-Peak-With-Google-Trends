@@ -72,9 +72,15 @@ ReadTrends&lt;-function(fileName){
 
 #Get the names of the trend files
 TrendsFiles&lt;-list.files(&quot;~/Research/Forecast-Peak-With-Google-Trends/TrendsData&quot;)
-
-#all the trends in one data frame
-AllTrends&lt;-as.data.frame(lapply(TrendsFiles,FUN=ReadTrends))
+#Removing the subdirectory
+TrendsFiles[-12]</code></pre>
+<pre><code>##  [1] &quot;DETrends.csv&quot;         &quot;GasTrends.csv&quot;        &quot;KYTrends.csv&quot;        
+##  [4] &quot;MDTrends.csv&quot;         &quot;MovieTrends.csv&quot;      &quot;NewsTrends.csv&quot;      
+##  [7] &quot;NJTrends.csv&quot;         &quot;OHTrends.csv&quot;         &quot;PATrends.csv&quot;        
+## [10] &quot;RestaurantTrends.csv&quot; &quot;TrafficTrends.csv&quot;    &quot;VATrends.csv&quot;        
+## [13] &quot;WVTrends.csv&quot;</code></pre>
+<pre class="r"><code>#all the trends in one data frame
+AllTrends&lt;-as.data.frame(lapply(TrendsFiles[-12],FUN=ReadTrends))
 
 #Kill the &quot;Date.*&quot; columnns that are duplicates of Date.  Assuming here that the dates all line up
 JustTrends&lt;-AllTrends[,c(1,2,seq(from=4,to=length(names(AllTrends)),by=2))]
@@ -85,9 +91,9 @@ rm(AllTrends,TrendsFiles)
 #Just in case we want this alone
 save(JustTrends,file=&quot;JustTrends&quot;)</code></pre>
 <p>On to the forecast data.</p>
-<pre class="r"><code>Loads&lt;- read.csv(&quot;~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-hourly-loads.csv&quot;)
+<pre class="r"><code>Loads&lt;- read.csv(&quot;~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-hourly-loads.csv&quot;,header = TRUE)
 
-Forecasts &lt;- read.csv(&quot;~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-rto-forecasts.csv&quot;)</code></pre>
+Forecasts &lt;- read.csv(&quot;~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-rto-forecasts.csv&quot;,header = TRUE)</code></pre>
 <p>There are a few columns we don’t need so trim and we need some dates in ISO format</p>
 <pre class="r"><code>Loads&lt;-Loads[,1:26]
 
@@ -107,8 +113,8 @@ Forecasts$Forecasted&lt;-as.POSIXct(Forecasts$Evaluated.at.,format=&quot;%m/%d/%
 table(Forecasts$Forecasted-Forecasts$ForecastDate)</code></pre>
 <pre><code>## 
 ## -86400 -82800      0 
-##    182      1    182</code></pre>
-<pre class="r"><code>Forecasts&lt;-Forecasts[Forecasts$Forecasted-Forecasts$ForecastDate&lt;0,]</code></pre>
+##    213      1    213</code></pre>
+<pre class="r"><code>Forecasts&lt;-Forecasts[Forecasts$Forecasted-Forecasts$ForecastDate&lt;(-82800) ,]</code></pre>
 <p>Time to join the two tables. The key will be to link them by the trends data from the day before the forecast.</p>
 <pre class="r"><code>#Link forecasts to actual.
 
@@ -135,148 +141,148 @@ save(WTrends,file=&quot;WTrends&quot;)</code></pre>
 <pre class="r"><code>summary(WTrends)</code></pre>
 <pre><code>##       F01              F02              F03              F04        
 ##  Min.   : 65072   Min.   :     0   Min.   : 60917   Min.   : 59771  
-##  1st Qu.: 73002   1st Qu.: 69610   1st Qu.: 68034   1st Qu.: 66907  
-##  Median : 80474   Median : 77420   Median : 76292   Median : 75334  
-##  Mean   : 83383   Mean   : 80197   Mean   : 79243   Mean   : 78882  
-##  3rd Qu.: 93374   3rd Qu.: 90991   3rd Qu.: 89786   3rd Qu.: 89834  
+##  1st Qu.: 73521   1st Qu.: 70254   1st Qu.: 68629   1st Qu.: 67667  
+##  Median : 80966   Median : 77420   Median : 75137   Median : 74053  
+##  Mean   : 83390   Mean   : 79927   Mean   : 78634   Mean   : 78046  
+##  3rd Qu.: 92969   3rd Qu.: 89555   3rd Qu.: 87795   3rd Qu.: 87382  
 ##  Max.   :115557   Max.   :114166   Max.   :114101   Max.   :114977  
 ##                                                                     
 ##       F05              F06              F07              F08        
 ##  Min.   : 59314   Min.   : 59762   Min.   : 60296   Min.   : 62736  
-##  1st Qu.: 67874   1st Qu.: 71599   1st Qu.: 78504   1st Qu.: 83593  
-##  Median : 75682   Median : 79220   Median : 85708   Median : 91761  
-##  Mean   : 79988   Mean   : 83744   Mean   : 90123   Mean   : 94820  
-##  3rd Qu.: 91385   3rd Qu.: 95087   3rd Qu.:103896   3rd Qu.:108586  
+##  1st Qu.: 68185   1st Qu.: 71510   1st Qu.: 77945   1st Qu.: 83252  
+##  Median : 75003   Median : 77614   Median : 84191   Median : 89947  
+##  Mean   : 78950   Mean   : 82448   Mean   : 88412   Mean   : 93212  
+##  3rd Qu.: 88986   3rd Qu.: 92775   3rd Qu.: 99600   3rd Qu.:104693  
 ##  Max.   :118228   Max.   :123647   Max.   :131991   Max.   :137043  
 ##                                                                     
 ##       F09              F10              F11              F12        
 ##  Min.   : 67037   Min.   : 70856   Min.   : 72157   Min.   : 72402  
-##  1st Qu.: 85691   1st Qu.: 87176   1st Qu.: 88395   1st Qu.: 88312  
-##  Median : 93652   Median : 95558   Median : 97130   Median : 97084  
-##  Mean   : 96741   Mean   : 97704   Mean   : 98296   Mean   : 98265  
-##  3rd Qu.:108698   3rd Qu.:108392   3rd Qu.:107888   3rd Qu.:107326  
+##  1st Qu.: 85476   1st Qu.: 87643   1st Qu.: 88727   1st Qu.: 88960  
+##  Median : 93167   Median : 95145   Median : 97858   Median : 98976  
+##  Mean   : 95720   Mean   : 97361   Mean   : 98627   Mean   : 99231  
+##  3rd Qu.:106289   3rd Qu.:107562   3rd Qu.:107907   3rd Qu.:108412  
 ##  Max.   :137030   Max.   :135607   Max.   :133091   Max.   :131548  
 ##                                                                     
 ##       F13              F14              F15              F16        
 ##  Min.   : 72313   Min.   : 71658   Min.   : 70981   Min.   : 70733  
-##  1st Qu.: 87780   1st Qu.: 87679   1st Qu.: 87130   1st Qu.: 86380  
-##  Median : 95970   Median : 96106   Median : 96166   Median : 95818  
-##  Mean   : 97978   Mean   : 97749   Mean   : 97316   Mean   : 97184  
-##  3rd Qu.:106009   3rd Qu.:106003   3rd Qu.:105386   3rd Qu.:105679  
+##  1st Qu.: 88869   1st Qu.: 88754   1st Qu.: 88438   1st Qu.: 87248  
+##  Median : 99847   Median : 98127   Median : 98123   Median : 98498  
+##  Mean   : 99490   Mean   : 99722   Mean   : 99646   Mean   : 99748  
+##  3rd Qu.:107289   3rd Qu.:109140   3rd Qu.:109596   3rd Qu.:110389  
 ##  Max.   :137365   Max.   :142254   Max.   :145121   Max.   :146653  
 ##                                                                     
 ##       F17              F18              F19              F20        
 ##  Min.   : 71373   Min.   : 72525   Min.   : 73270   Min.   : 74656  
-##  1st Qu.: 86430   1st Qu.: 87844   1st Qu.: 87703   1st Qu.: 89318  
-##  Median : 96256   Median : 98625   Median :101426   Median :101094  
-##  Mean   : 98135   Mean   :100396   Mean   :101653   Mean   :101671  
-##  3rd Qu.:106552   3rd Qu.:110945   3rd Qu.:112649   3rd Qu.:111953  
+##  1st Qu.: 87448   1st Qu.: 89081   1st Qu.: 89798   1st Qu.: 90892  
+##  Median : 99024   Median :102142   Median :103827   Median :103003  
+##  Mean   :100705   Mean   :102606   Mean   :103346   Mean   :102835  
+##  3rd Qu.:111555   3rd Qu.:113844   3rd Qu.:114361   3rd Qu.:113088  
 ##  Max.   :146930   Max.   :145372   Max.   :141787   Max.   :139252  
 ##                                                                     
 ##       F21              F22              F23              F24        
 ##  Min.   : 77428   Min.   : 77093   Min.   : 73556   Min.   : 68889  
-##  1st Qu.: 90418   1st Qu.: 88914   1st Qu.: 83642   1st Qu.: 77698  
-##  Median :100232   Median : 97119   Median : 91878   Median : 85860  
-##  Mean   :101621   Mean   : 99182   Mean   : 93877   Mean   : 87944  
-##  3rd Qu.:111054   3rd Qu.:108057   3rd Qu.:102946   3rd Qu.: 97278  
+##  1st Qu.: 91846   1st Qu.: 89459   1st Qu.: 84541   1st Qu.: 78759  
+##  Median :101829   Median : 99624   Median : 93998   Median : 86964  
+##  Mean   :102369   Mean   :100016   Mean   : 94580   Mean   : 88327  
+##  3rd Qu.:111183   3rd Qu.:108372   3rd Qu.:102994   3rd Qu.: 96990  
 ##  Max.   :137072   Max.   :132435   Max.   :125904   Max.   :119859  
 ##                                                                     
 ##   ForecastDate                   Forecasted                 
 ##  Min.   :2014-01-01 00:00:00   Min.   :2013-12-31 00:00:00  
-##  1st Qu.:2014-02-15 12:00:00   1st Qu.:2014-02-14 12:00:00  
-##  Median :2014-04-02 00:00:00   Median :2014-04-01 00:00:00  
-##  Mean   :2014-04-02 00:22:17   Mean   :2014-04-01 00:22:37  
-##  3rd Qu.:2014-05-17 12:00:00   3rd Qu.:2014-05-16 12:00:00  
-##  Max.   :2014-07-02 00:00:00   Max.   :2014-07-01 00:00:00  
+##  1st Qu.:2014-02-23 00:00:00   1st Qu.:2014-02-22 00:00:00  
+##  Median :2014-04-18 00:00:00   Median :2014-04-17 00:00:00  
+##  Mean   :2014-04-17 16:39:26   Mean   :2014-04-16 16:39:26  
+##  3rd Qu.:2014-06-10 00:00:00   3rd Qu.:2014-06-09 00:00:00  
+##  Max.   :2014-08-02 00:00:00   Max.   :2014-08-01 00:00:00  
 ##                                                             
-##       Date                            DATE      COMP          HE01       
-##  Min.   :2014-01-01 00:00:00   1/10/2014:  1   RTO:183   Min.   : 63876  
-##  1st Qu.:2014-02-15 12:00:00   1/11/2014:  1             1st Qu.: 71899  
-##  Median :2014-04-02 00:00:00   1/1/2014 :  1             Median : 80291  
-##  Mean   :2014-04-02 00:22:17   1/12/2014:  1             Mean   : 82936  
-##  3rd Qu.:2014-05-17 12:00:00   1/13/2014:  1             3rd Qu.: 92267  
-##  Max.   :2014-07-02 00:00:00   1/14/2014:  1             Max.   :119951  
-##                                (Other)  :177                             
+##       Date                            DATE       COMP          HE01       
+##  Min.   :2014-01-01 00:00:00   1/10/2014:  1   RTO :210   Min.   : 63786  
+##  1st Qu.:2014-02-23 00:00:00   1/11/2014:  1   NA's:  3   1st Qu.: 72393  
+##  Median :2014-04-18 00:00:00   1/1/2014 :  1              Median : 80442  
+##  Mean   :2014-04-17 16:39:26   1/12/2014:  1              Mean   : 82867  
+##  3rd Qu.:2014-06-10 00:00:00   1/13/2014:  1              3rd Qu.: 91321  
+##  Max.   :2014-08-02 00:00:00   (Other)  :205              Max.   :119951  
+##                                NA's     :  3              NA's   :3       
 ##       HE02             HE03             HE04             HE05       
-##  Min.   : 61053   Min.   : 59221   Min.   : 58122   Min.   : 57894  
-##  1st Qu.: 69070   1st Qu.: 67402   1st Qu.: 66392   1st Qu.: 67181  
-##  Median : 77327   Median : 75731   Median : 74562   Median : 75152  
-##  Mean   : 80193   Mean   : 78828   Mean   : 78434   Mean   : 79562  
-##  3rd Qu.: 90278   3rd Qu.: 89522   3rd Qu.: 88738   3rd Qu.: 90772  
+##  Min.   : 61059   Min.   : 59055   Min.   : 58024   Min.   : 57540  
+##  1st Qu.: 69595   1st Qu.: 67726   1st Qu.: 66707   1st Qu.: 67473  
+##  Median : 77371   Median : 75657   Median : 73956   Median : 74193  
+##  Mean   : 79812   Mean   : 78183   Mean   : 77585   Mean   : 78526  
+##  3rd Qu.: 88618   3rd Qu.: 87438   3rd Qu.: 87359   3rd Qu.: 88977  
 ##  Max.   :119190   Max.   :119275   Max.   :120129   Max.   :122348  
-##                   NA's   :1                                         
+##  NA's   :3        NA's   :4        NA's   :3        NA's   :3       
 ##       HE06             HE07             HE08             HE09       
-##  Min.   : 58113   Min.   : 57949   Min.   : 61013   Min.   : 65634  
-##  1st Qu.: 70763   1st Qu.: 77723   1st Qu.: 82852   1st Qu.: 85166  
-##  Median : 77805   Median : 85107   Median : 90341   Median : 92968  
-##  Mean   : 83287   Mean   : 89515   Mean   : 94204   Mean   : 96318  
-##  3rd Qu.: 95300   3rd Qu.:102959   3rd Qu.:107446   3rd Qu.:108986  
+##  Min.   : 57754   Min.   : 57599   Min.   : 60574   Min.   : 65233  
+##  1st Qu.: 70674   1st Qu.: 76473   1st Qu.: 81722   1st Qu.: 84609  
+##  Median : 77341   Median : 83173   Median : 89223   Median : 92736  
+##  Mean   : 82027   Mean   : 87859   Mean   : 92612   Mean   : 95222  
+##  3rd Qu.: 91549   3rd Qu.: 99968   3rd Qu.:105393   3rd Qu.:106278  
 ##  Max.   :126911   Max.   :133606   Max.   :137998   Max.   :137546  
-##                                                                     
+##  NA's   :3        NA's   :3        NA's   :3        NA's   :3       
 ##       HE10             HE11             HE12             HE13       
-##  Min.   : 69277   Min.   : 71216   Min.   : 71278   Min.   : 70504  
-##  1st Qu.: 86398   1st Qu.: 87174   1st Qu.: 87368   1st Qu.: 87576  
-##  Median : 95601   Median : 97181   Median : 97615   Median : 96382  
-##  Mean   : 97454   Mean   : 98169   Mean   : 98266   Mean   : 98051  
-##  3rd Qu.:108129   3rd Qu.:108958   3rd Qu.:108421   3rd Qu.:108044  
+##  Min.   : 69281   Min.   : 70749   Min.   : 70779   Min.   : 69979  
+##  1st Qu.: 86392   1st Qu.: 87345   1st Qu.: 88388   1st Qu.: 88488  
+##  Median : 95385   Median : 97763   Median : 98604   Median : 98430  
+##  Mean   : 96948   Mean   : 98279   Mean   : 98981   Mean   : 99264  
+##  3rd Qu.:107885   3rd Qu.:109051   3rd Qu.:109187   3rd Qu.:108612  
 ##  Max.   :136587   Max.   :135644   Max.   :134382   Max.   :132612  
-##                                                                     
+##  NA's   :3        NA's   :3        NA's   :3        NA's   :3       
 ##       HE14             HE15             HE16             HE17       
-##  Min.   : 69415   Min.   : 68084   Min.   : 67260   Min.   : 67139  
-##  1st Qu.: 87011   1st Qu.: 86786   1st Qu.: 86134   1st Qu.: 86060  
-##  Median : 95340   Median : 95830   Median : 95679   Median : 96223  
-##  Mean   : 97839   Mean   : 97413   Mean   : 97274   Mean   : 98091  
-##  3rd Qu.:107300   3rd Qu.:106285   3rd Qu.:106153   3rd Qu.:107095  
-##  Max.   :134849   Max.   :136996   Max.   :139257   Max.   :140998  
-##                                                                     
+##  Min.   : 68854   Min.   : 67361   Min.   : 66583   Min.   : 66490  
+##  1st Qu.: 88214   1st Qu.: 87955   1st Qu.: 87488   1st Qu.: 87618  
+##  Median : 97994   Median : 97881   Median : 98685   Median : 99717  
+##  Mean   : 99486   Mean   : 99404   Mean   : 99487   Mean   :100337  
+##  3rd Qu.:107979   3rd Qu.:108402   3rd Qu.:108996   3rd Qu.:110035  
+##  Max.   :134849   Max.   :137317   Max.   :139616   Max.   :141361  
+##  NA's   :3        NA's   :3        NA's   :3        NA's   :3       
 ##       HE18             HE19             HE20             HE21       
-##  Min.   : 67754   Min.   : 68410   Min.   : 70438   Min.   : 75507  
-##  1st Qu.: 86020   1st Qu.: 86892   1st Qu.: 88295   1st Qu.: 89918  
-##  Median : 98654   Median : 99645   Median :100105   Median : 99533  
-##  Mean   : 99939   Mean   :101117   Mean   :101102   Mean   :101083  
-##  3rd Qu.:110233   3rd Qu.:114016   3rd Qu.:113266   3rd Qu.:111146  
-##  Max.   :141332   Max.   :140510   Max.   :140129   Max.   :138023  
-##                                                                     
-##       HE22             HE23             HE24           DETrends   
-##  Min.   : 75980   Min.   : 72064   Min.   : 67671   Min.   :18.0  
-##  1st Qu.: 87686   1st Qu.: 82332   1st Qu.: 76882   1st Qu.:27.0  
-##  Median : 96916   Median : 91684   Median : 85072   Median :36.0  
-##  Mean   : 98914   Mean   : 93622   Mean   : 87631   Mean   :35.4  
-##  3rd Qu.:108122   3rd Qu.:102823   3rd Qu.: 97394   3rd Qu.:41.5  
-##  Max.   :133811   Max.   :127359   Max.   :121834   Max.   :75.0  
-##                                                     NA's   :115   
-##    GasTrends        KYTrends        MDTrends     MovieTrends  
-##  Min.   : 85.0   Min.   : 21.0   Min.   :21.0   Min.   :48.0  
-##  1st Qu.: 90.8   1st Qu.: 32.0   1st Qu.:34.5   1st Qu.:54.8  
-##  Median : 92.0   Median : 38.5   Median :41.5   Median :61.0  
-##  Mean   : 92.5   Mean   : 41.9   Mean   :43.1   Mean   :67.3  
-##  3rd Qu.: 95.0   3rd Qu.: 47.2   3rd Qu.:53.0   3rd Qu.:85.2  
-##  Max.   :100.0   Max.   :100.0   Max.   :80.0   Max.   :97.0  
-##  NA's   :115     NA's   :115     NA's   :115    NA's   :115   
-##    NewsTrends      NJTrends       OHTrends        PATrends   
-##  Min.   :60.0   Min.   :26.0   Min.   : 26.0   Min.   :33.0  
-##  1st Qu.:65.5   1st Qu.:36.0   1st Qu.: 35.8   1st Qu.:48.0  
-##  Median :71.0   Median :44.0   Median : 43.5   Median :58.0  
-##  Mean   :69.8   Mean   :43.7   Mean   : 45.5   Mean   :56.5  
-##  3rd Qu.:73.2   3rd Qu.:50.0   3rd Qu.: 52.2   3rd Qu.:65.2  
-##  Max.   :85.0   Max.   :66.0   Max.   :100.0   Max.   :80.0  
-##  NA's   :115    NA's   :115    NA's   :115     NA's   :115   
-##  RestaurantTrends TrafficTrends     VATrends       WVTrends    
-##  Min.   : 51.0    Min.   :41.0   Min.   :26.0   Min.   : 26.0  
-##  1st Qu.: 57.0    1st Qu.:53.0   1st Qu.:34.8   1st Qu.: 41.8  
-##  Median : 62.0    Median :58.0   Median :41.0   Median : 50.0  
-##  Mean   : 66.2    Mean   :58.7   Mean   :43.5   Mean   : 50.7  
-##  3rd Qu.: 74.0    3rd Qu.:64.0   3rd Qu.:51.0   3rd Qu.: 58.0  
-##  Max.   :100.0    Max.   :93.0   Max.   :79.0   Max.   :100.0  
-##  NA's   :115      NA's   :115    NA's   :115    NA's   :115    
+##  Min.   : 67116   Min.   : 67806   Min.   : 70008   Min.   : 75193  
+##  1st Qu.: 87587   1st Qu.: 88217   1st Qu.: 89507   1st Qu.: 90493  
+##  Median :101868   Median :102895   Median :101633   Median :100431  
+##  Mean   :101914   Mean   :102631   Mean   :102086   Mean   :101649  
+##  3rd Qu.:111195   3rd Qu.:114563   3rd Qu.:113583   3rd Qu.:111945  
+##  Max.   :141674   Max.   :140510   Max.   :140129   Max.   :138023  
+##  NA's   :3        NA's   :3        NA's   :3        NA's   :3       
+##       HE22             HE23             HE24           DETrends    
+##  Min.   : 75554   Min.   : 71954   Min.   : 67531   Min.   : 17.0  
+##  1st Qu.: 88197   1st Qu.: 83540   1st Qu.: 77598   1st Qu.: 27.0  
+##  Median : 98442   Median : 92395   Median : 86115   Median : 33.0  
+##  Mean   : 99499   Mean   : 94083   Mean   : 87838   Mean   : 36.3  
+##  3rd Qu.:108533   3rd Qu.:102964   3rd Qu.: 96751   3rd Qu.: 42.0  
+##  Max.   :133811   Max.   :127359   Max.   :121834   Max.   :100.0  
+##  NA's   :3        NA's   :3        NA's   :3        NA's   :114    
+##    GasTrends        KYTrends        MDTrends      MovieTrends   
+##  Min.   : 84.0   Min.   : 20.0   Min.   : 21.0   Min.   : 48.0  
+##  1st Qu.: 89.0   1st Qu.: 28.5   1st Qu.: 31.5   1st Qu.: 57.0  
+##  Median : 92.0   Median : 36.0   Median : 40.0   Median : 63.0  
+##  Mean   : 91.9   Mean   : 39.3   Mean   : 42.7   Mean   : 68.8  
+##  3rd Qu.: 94.0   3rd Qu.: 46.0   3rd Qu.: 52.5   3rd Qu.: 86.2  
+##  Max.   :100.0   Max.   :100.0   Max.   :100.0   Max.   :100.0  
+##  NA's   :125     NA's   :114     NA's   :114     NA's   :125    
+##    NewsTrends       NJTrends        OHTrends        PATrends    
+##  Min.   : 60.0   Min.   : 26.0   Min.   : 23.0   Min.   : 33.0  
+##  1st Qu.: 68.0   1st Qu.: 35.5   1st Qu.: 33.5   1st Qu.: 46.0  
+##  Median : 71.5   Median : 43.0   Median : 42.0   Median : 56.0  
+##  Mean   : 71.1   Mean   : 44.6   Mean   : 44.2   Mean   : 56.2  
+##  3rd Qu.: 74.0   3rd Qu.: 50.5   3rd Qu.: 51.0   3rd Qu.: 67.0  
+##  Max.   :100.0   Max.   :100.0   Max.   :100.0   Max.   :100.0  
+##  NA's   :125     NA's   :114     NA's   :114     NA's   :114    
+##  RestaurantTrends TrafficTrends      VATrends        WVTrends    
+##  Min.   : 51      Min.   : 41.0   Min.   : 19.0   Min.   : 19.0  
+##  1st Qu.: 58      1st Qu.: 54.8   1st Qu.: 28.5   1st Qu.: 36.5  
+##  Median : 64      Median : 59.0   Median : 40.0   Median : 48.0  
+##  Mean   : 67      Mean   : 60.2   Mean   : 40.6   Mean   : 47.8  
+##  3rd Qu.: 74      3rd Qu.: 65.0   3rd Qu.: 48.5   3rd Qu.: 57.0  
+##  Max.   :100      Max.   :100.0   Max.   :100.0   Max.   :100.0  
+##  NA's   :125      NA's   :125     NA's   :114     NA's   :114    
 ##       TrendDate  
 ##  2014-04-24:  1  
 ##  2014-04-25:  1  
 ##  2014-04-26:  1  
 ##  2014-04-27:  1  
 ##  2014-04-28:  1  
-##  (Other)   : 63  
-##  NA's      :115</code></pre>
+##  (Other)   : 94  
+##  NA's      :114</code></pre>
 
 
 </div>

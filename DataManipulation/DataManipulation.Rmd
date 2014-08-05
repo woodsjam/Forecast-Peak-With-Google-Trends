@@ -18,9 +18,11 @@ ReadTrends<-function(fileName){
 
 #Get the names of the trend files
 TrendsFiles<-list.files("~/Research/Forecast-Peak-With-Google-Trends/TrendsData")
+#Removing the subdirectory
+TrendsFiles[-12]
 
 #all the trends in one data frame
-AllTrends<-as.data.frame(lapply(TrendsFiles,FUN=ReadTrends))
+AllTrends<-as.data.frame(lapply(TrendsFiles[-12],FUN=ReadTrends))
 
 #Kill the "Date.*" columnns that are duplicates of Date.  Assuming here that the dates all line up
 JustTrends<-AllTrends[,c(1,2,seq(from=4,to=length(names(AllTrends)),by=2))]
@@ -35,9 +37,9 @@ save(JustTrends,file="JustTrends")
 On to the forecast data.
 ```{r}
 
-Loads<- read.csv("~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-hourly-loads.csv")
+Loads<- read.csv("~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-hourly-loads.csv",header = TRUE)
 
-Forecasts <- read.csv("~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-rto-forecasts.csv")
+Forecasts <- read.csv("~/Research/Forecast-Peak-With-Google-Trends/LoadAndForecastData/2014-rto-forecasts.csv",header = TRUE)
 ```
 
 
@@ -59,7 +61,7 @@ Forecasts$Forecasted<-as.POSIXct(Forecasts$Evaluated.at.,format="%m/%d/%Y")
 
 #Make sure we only have day ahead forecasts
 table(Forecasts$Forecasted-Forecasts$ForecastDate)
-Forecasts<-Forecasts[Forecasts$Forecasted-Forecasts$ForecastDate<0,]
+Forecasts<-Forecasts[Forecasts$Forecasted-Forecasts$ForecastDate<(-82800) ,]
 
 
 ```
