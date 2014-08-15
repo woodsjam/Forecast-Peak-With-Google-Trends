@@ -168,6 +168,7 @@ ggplot(MeltedTrends, aes(Date, value,group= Index))+geom_line() +ylab("Index")+f
   \end{enumerate}
 
 <<echo=false,results=hide>>=
+WTrends$Weekend<-weekdays(as.Date(WTrends$Date)) %in% c('Saturday','Sunday')
 WTrendsLimited<-WTrends[!is.na(WTrends$Weather),]
 
 
@@ -194,7 +195,7 @@ mean(unlist(lapply(1:24, FUN = CompareRaw)))
 <<echo=false,results=hide>>=
 HourModel<-function(hour){
   Hour<-formatC(hour, width=2, flag="0")
-  as.formula(paste("HE",Hour,"~ F",Hour,"+Weather",sep='' ))}
+  as.formula(paste("HE",Hour,"~ F",Hour,"+Weather:Weekend",sep='' ))}
 
 
 GrossTrends<-lapply(1:24, FUN = function(x)  gls(HourModel(x), data=WTrends,corAR1(form=~1),na.action=na.omit))
