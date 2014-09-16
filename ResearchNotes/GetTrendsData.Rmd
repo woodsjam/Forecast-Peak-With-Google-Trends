@@ -1,0 +1,24 @@
+---
+title: "GetTrendsData.Rmd"
+author: "James Woods"
+date: "09/11/2014"
+output: html_document
+---
+Google Trend Links
+========================================================
+These will get google trends for most of the stats in the PJM teritory.
+
+http://www.google.com/trends/explore#q=weather&geo=US-DE&date=today%203-m&cmpt=date
+http://www.google.com/trends/explore#q=weather&geo=US-KY&date=today%203-m&cmpt=date
+http://www.google.com/trends/explore#q=weather&geo=US-MD&date=today%203-m&cmpt=date
+http://www.google.com/trends/explore#q=weather&geo=US-NJ&date=today%203-m&cmpt=date
+http://www.google.com/trends/explore#q=weather&geo=US-OH&date=today%203-m&cmpt=date
+http://www.google.com/trends/explore#q=weather&geo=US-PA&date=today%203-m&cmpt=date
+http://www.google.com/trends/explore#q=weather&geo=US-VA&date=today%203-m&cmpt=date
+http://www.google.com/trends/explore#q=weather&geo=US-WV&date=today%203-m&cmpt=date
+
+http://www.google.com/trends/explore#q=gas&date=today%203-m&cmpt=q
+http://www.google.com/trends/explore#q=Movie&date=today%203-m&cmpt=q
+http://www.google.com/trends/explore#q=News&date=today%203-m&cmpt=q
+http://www.google.com/trends/explore#q=Restaurant&date=today%203-m&cmpt=q
+http://www.google.com/trends/explore#q=Traffic&date=today%203-m&cmpt=q

@@ -4,8 +4,21 @@ author: "James Woods"
 date: "07/24/2014"
 output: html_document
 ---
+Load data is from http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-data.aspx
+
+Forecasts are from 
+
+http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-forecasts.aspx
+
+
 Load in the Trends data.
 ```{r}
+# Data is from
+Load data is from http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-data.aspx
+
+Forecasts are from 
+
+http://www.pjm.com/markets-and-operations/ops-analysis/historical-load-forecasts.aspx
 
 library(stringr)
 ReadTrends<-function(fileName){
@@ -17,12 +30,11 @@ ReadTrends<-function(fileName){
 }
 
 #Get the names of the trend files
-TrendsFiles<-list.files("~/Research/Forecast-Peak-With-Google-Trends/TrendsData")
-#Removing the subdirectory
-TrendsFiles[-12]
+TrendsFiles<-list.files("~/Research/Forecast-Peak-With-Google-Trends/TrendsData", pattern="*.W.csv",all.files= FALSE)
+
 
 #all the trends in one data frame
-AllTrends<-as.data.frame(lapply(TrendsFiles[-12],FUN=ReadTrends))
+AllTrends<-as.data.frame(lapply(TrendsFiles,FUN=ReadTrends))
 
 #Kill the "Date.*" columnns that are duplicates of Date.  Assuming here that the dates all line up
 JustTrends<-AllTrends[,c(1,2,seq(from=4,to=length(names(AllTrends)),by=2))]
