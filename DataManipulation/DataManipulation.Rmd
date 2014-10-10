@@ -104,7 +104,6 @@ WTrends<-join(RTO,JustTrends, by="Date")
 save(WTrends,file="WTrends")
 
 ```
-
 Summary
 ```{r}
 summary(WTrends)
