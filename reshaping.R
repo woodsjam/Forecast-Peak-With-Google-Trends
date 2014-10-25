@@ -65,16 +65,16 @@ reshapeWTrends <- rename(reshapeWTrends, replace=c("HE24" = "HE_24"))
 
 
 #time to melt, we are melting all the F_xx and HE_xx
-meltedreshapeWTrends <- melt(reshapeWTrends, id = c("Date","COMP", "DETrends", "GasTrends", "KYTrends", "MDTrends", "MovieTrends", "NewsTrends", "NJTrends", "OHTrends", "PATrends", "RestaurantTrends", "TrafficTrends","VATrends", "WVTrends", "TrendDate", "Weather", "weatherL7"))
+meltedreshapeWTrends <- melt(reshapeWTrends, id = c("Date","COMP", "DETrendsW", "KYTrendsW", "MDTrendsW", "NJTrendsW", "OHTrendsW", "PATrendsW","VATrendsW", "WVTrendsW", "TrendDate", "Weather", "weatherL7"))
 
 #now we need to spereate out the hour from the F or HE, usling colsplit here
 meltedreshapeWTrends <- cbind(meltedreshapeWTrends, colsplit(meltedreshapeWTrends$variable, "_", c("ForHE", "hour")))
 
 #time to cast, we are going to cast using all the ID plus using hour as a column, F and HE end up as their own columns
-castedreshapeWTrends <- dcast(meltedreshapeWTrends, Date + hour + DETrends + GasTrends + KYTrends + MDTrends + MovieTrends + NewsTrends + NJTrends + OHTrends + PATrends + RestaurantTrends + TrafficTrends + VATrends + WVTrends + TrendDate ~ ForHE + Weather + weatherL7)
+castedreshapeWTrends <- dcast(meltedreshapeWTrends, Date + hour + DETrendsW + KYTrendsW + MDTrendsW + NJTrendsW + OHTrendsW + PATrendsW  + VATrendsW + WVTrendsW + TrendDate + Weather + weatherL7 ~ ForHE)
 
 #make new dataframe of results
 LongWtrends <- castedreshapeWTrends
 
 #save the new data frame
-save(LongWtrends, file="LongWtrends.Rdata")
+save(LongWtrends, file="LongWtrends.RData")
