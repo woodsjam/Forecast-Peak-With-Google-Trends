@@ -41,12 +41,25 @@ library(nlme)
 summary(gls(HE~F+LagHE+Weather+LagWeather, data=LagFormData[LagFormData$hour=='19',],corAR1(form=~1),na.action=na.omit))
 ```
 
-So the action goes away.  Lets assume AR structure is with previous hour and not previous day.  This will take a while to run.  There are a lot of parameters.
+So the action goes away.  Lets assume AR structure is with previous previous day within hour.  This will take a while to run.  There are a lot of parameters.
+
+
 ```{r}
+LagFormData<-sqldf("select * from LagFormData order by hour, DateOnly;")
+
+summary(gls(HE~hour+(F+LagHE+Weather+LagWeather):hour, data=LagFormData,corAR1(form=~1),na.action=na.omit))
+```
+Sweet works except hours 1-5
+
+Now go by hour within day
+
+```{r}
+LagFormData<-sqldf("select * from LagFormData order by DateOnly,hour;")
 summary(gls(HE~hour+(F+LagHE+Weather+LagWeather):hour, data=LagFormData,corAR1(form=~1),na.action=na.omit))
 ```
 
-FULL WIN.  It works.
+and the results are different.  Now we have to figure out which is right, or perhaps both.
+
 
 
 
