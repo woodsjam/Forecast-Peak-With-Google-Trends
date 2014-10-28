@@ -1,6 +1,6 @@
 Working with the Long Data and heading to an AR model
-========================================================
-
+=======================================================
+library("sqldf")
 Load in data
 ```{r}
 load("~/Forecast-Peak-With-Google-Trends/LongWtrends.RData")
