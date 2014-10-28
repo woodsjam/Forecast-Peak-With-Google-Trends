@@ -11,6 +11,18 @@ Data handling
 ```{r}
 LongWtrends$hour<-as.factor(LongWtrends$hour)
 
+#create a date only variable not date time
+LongWtrends$DateOnly<-as.Date(LongWtrends$Date)
+
+library(sqldf)
+
+#used to merge on the lagged values
+CopyLong<-LongWtrends
+
+LagFormData<-sqldf("select  LongWtrends.DateOnly, LongWtrends.hour, LongWtrends.F, LongWtrends.HE, CopyLong.F as LagF, CopyLong.HE as LagHE, LongWtrends.Weather, CopyLong.Weather as LagWeather  from LongWtrends,CopyLong where LongWtrends.DateOnly=(CopyLong.DateOnly-7) and LongWtrends.hour=CopyLong.hour;   ")
+
+
+
 ```
 
 
