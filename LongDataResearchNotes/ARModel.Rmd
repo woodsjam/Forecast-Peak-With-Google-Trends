@@ -19,7 +19,7 @@ library(sqldf)
 #used to merge on the lagged values
 CopyLong<-LongWtrends
 
-LagFormData<-sqldf("select  LongWtrends.DateOnly, LongWtrends.hour, LongWtrends.F, LongWtrends.HE, CopyLong.F as LagF, CopyLong.HE as LagHE, LongWtrends.Weather, CopyLong.Weather as LagWeather  from LongWtrends,CopyLong where LongWtrends.DateOnly=(CopyLong.DateOnly-7) and LongWtrends.hour=CopyLong.hour;   ")
+LagFormData<-sqldf("select  LongWtrends.DateOnly, LongWtrends.hour, LongWtrends.F, LongWtrends.HE, CopyLong.F as LagF, CopyLong.HE as LagHE, LongWtrends.Weather, CopyLong.Weather as LagWeather  from LongWtrends,CopyLong where LongWtrends.DateOnly=(CopyLong.DateOnly+7) and LongWtrends.hour=CopyLong.hour;   ")
 
 summary(LagFormData)
 
@@ -47,7 +47,7 @@ So the action goes away.  Lets assume AR structure is with previous previous day
 ```{r}
 LagFormData<-sqldf("select * from LagFormData order by hour, DateOnly;")
 
-summary(gls(HE~hour+(F+LagHE+Weather+LagWeather):hour, data=LagFormData,corAR1(form=~1),na.action=na.omit))
+summary(gls(HE~hour+(F+LagHE+Weather+LagWeather):hour, data=LagFormData,corAR1(form=~1),na.action=na.omit))$tTable
 ```
 Sweet works except hours 1-5
 
@@ -55,10 +55,52 @@ Now go by hour within day
 
 ```{r}
 LagFormData<-sqldf("select * from LagFormData order by DateOnly,hour;")
-summary(gls(HE~hour+(F+LagHE+Weather+LagWeather):hour, data=LagFormData,corAR1(form=~1),na.action=na.omit))
+ARbyHour<-gls(HE~hour+(F+LagHE+Weather+LagWeather):hour, data=LagFormData,corAR1(form=~1),na.action=na.omit)
+summary(ARbyHour)$tTable
 ```
 
-and the results are different.  Now we have to figure out which is right, or perhaps both.
+and the results are different.  Now we have to figure out which is right, or perhaps both.  The likelyhood suggests hour within day, i.e., the worse one.
+
+Lets get into the day of week effects and see if it is still there.  There was a Monday and Tuesday problem
+
+```{r}
+LagFormData$DOW<-as.factor(weekdays(LagFormData$DateOnly))
+LagFormData$DayType<-"MidWeek"
+LagFormData$DayType[LagFormData$DOW=="Monday"| LagFormData$DOW=="Tuesday"]<-"EarlyWeek"
+LagFormData$DayType[LagFormData$DOW=="Saturday"| LagFormData$DOW=="Sunday"]<-"Weekend"
+LagFormData$DayType<-as.factor(LagFormData$DayType)
+summary(LagFormData)
+
+LagFormData<-sqldf("select * from LagFormData order by DateOnly,hour;")
+ARbyHourDay<-gls(HE~-1+(hour+(F+LagHE+Weather+LagWeather):hour):DayType, data=LagFormData,corAR1(form=~1),na.action=na.omit)
+summary(ARbyHourDay)$tTable
+# 
+# ARbyHourDay<-gls(HE~(hour+(F+LagHE+Weather+LagWeather):hour):weekdays(DateOnly), data=LagFormData,corAR1(form=~1),na.action=na.omit)
+# summary(ARbyHourDay)$tTable
+```
+
+Try without lag of forecast
+
+```{r}
+
+LagFormData<-sqldf("select * from LagFormData order by DateOnly,hour;")
+ARbyHourDayNoLagLoad<-gls(HE~-1+(hour+(F+Weather+LagWeather):hour):DayType, data=LagFormData,corAR1(form=~1),na.action=na.omit)
+summary(ARbyHourDayNoLagLoad)$tTable
+
+```
+
+We think that lag of actual is in the forecast.
+
+No lag of actual but with lag forecast
+
+```{r}
+
+LagFormData<-sqldf("select * from LagFormData order by DateOnly,hour;")
+ARbyHourDayLagF<-gls(HE~-1+(hour+(F+Weather+LagWeather+LagF):hour):DayType, data=LagFormData,corAR1(form=~1),na.action=na.omit)
+summary(ARbyHourDayLagF)$tTable
+
+```
+
 
 
 
