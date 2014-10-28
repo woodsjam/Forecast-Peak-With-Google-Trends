@@ -1,0 +1,52 @@
+Working with the Long Data and heading to an AR model
+========================================================
+
+Load in data
+```{r}
+load("~/Forecast-Peak-With-Google-Trends/LongWtrends.RData")
+summary(LongWtrends)
+```
+
+Data handling
+```{r}
+LongWtrends$hour<-as.factor(LongWtrends$hour)
+
+#create a date only variable not date time
+LongWtrends$DateOnly<-as.Date(LongWtrends$Date)
+
+library(sqldf)
+
+#used to merge on the lagged values
+CopyLong<-LongWtrends
+
+LagFormData<-sqldf("select  LongWtrends.DateOnly, LongWtrends.hour, LongWtrends.F, LongWtrends.HE, CopyLong.F as LagF, CopyLong.HE as LagHE, LongWtrends.Weather, CopyLong.Weather as LagWeather  from LongWtrends,CopyLong where LongWtrends.DateOnly=(CopyLong.DateOnly-7) and LongWtrends.hour=CopyLong.hour;   ")
+
+summary(LagFormData)
+
+```
+
+First test regression for hour 19
+
+```{r}
+summary(lm(HE~F+LagHE+Weather+LagWeather,data=LagFormData[LagFormData$hour=='19',]   ))
+library(lmtest)
+
+dwtest(HE~F+LagHE+Weather+LagWeather,data=LagFormData[LagFormData$hour=='19',])
+
+```
+
+Looks nice.  Lets do AR
+```{r}
+library(nlme)
+summary(gls(HE~F+LagHE+Weather+LagWeather, data=LagFormData[LagFormData$hour=='19',],corAR1(form=~1),na.action=na.omit))
+```
+
+So the action goes away.  Lets assume AR structure is with previous hour and not previous day.  This will take a while to run.  There are a lot of parameters.
+```{r}
+summary(gls(HE~hour+(F+LagHE+Weather+LagWeather):hour, data=LagFormData,corAR1(form=~1),na.action=na.omit))
+```
+
+FULL WIN.  It works.
+
+
+

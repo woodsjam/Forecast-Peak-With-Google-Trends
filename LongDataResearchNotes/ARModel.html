@@ -1,0 +1,2326 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Working with the Long Data and heading to an AR model</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+</head>
+
+<body>
+<h1>Working with the Long Data and heading to an AR model</h1>
+
+<p>Load in data</p>
+
+<pre><code class="r">load(&quot;~/Forecast-Peak-With-Google-Trends/LongWtrends.RData&quot;)
+summary(LongWtrends)
+</code></pre>
+
+<pre><code>##       Date                          hour         DETrendsW    
+##  Min.   :2014-01-01 08:00:00   Min.   : 1.00   Min.   : 14.0  
+##  1st Qu.:2014-03-03 02:00:00   1st Qu.: 6.75   1st Qu.: 24.0  
+##  Median :2014-05-03 19:00:00   Median :12.50   Median : 31.5  
+##  Mean   :2014-05-03 12:35:24   Mean   :12.50   Mean   : 34.3  
+##  3rd Qu.:2014-07-03 13:00:00   3rd Qu.:18.25   3rd Qu.: 40.0  
+##  Max.   :2014-09-02 07:00:00   Max.   :24.00   Max.   :100.0  
+##                                                NA&#39;s   :2736   
+##    KYTrendsW       MDTrendsW       NJTrendsW       OHTrendsW    
+##  Min.   : 17.0   Min.   : 21.0   Min.   : 26.0   Min.   : 23.0  
+##  1st Qu.: 27.0   1st Qu.: 30.0   1st Qu.: 34.0   1st Qu.: 33.0  
+##  Median : 34.5   Median : 39.0   Median : 42.0   Median : 41.0  
+##  Mean   : 37.1   Mean   : 41.2   Mean   : 43.4   Mean   : 43.4  
+##  3rd Qu.: 43.0   3rd Qu.: 50.0   3rd Qu.: 50.0   3rd Qu.: 51.0  
+##  Max.   :100.0   Max.   :100.0   Max.   :100.0   Max.   :100.0  
+##  NA&#39;s   :2736    NA&#39;s   :2736    NA&#39;s   :2736    NA&#39;s   :2736   
+##    PATrendsW       VATrendsW       WVTrendsW          TrendDate   
+##  Min.   : 33.0   Min.   : 17.0   Min.   : 15.0   2014-04-24:  24  
+##  1st Qu.: 42.0   1st Qu.: 26.0   1st Qu.: 29.0   2014-04-25:  24  
+##  Median : 53.5   Median : 33.0   Median : 41.5   2014-04-26:  24  
+##  Mean   : 54.3   Mean   : 36.7   Mean   : 42.4   2014-04-27:  24  
+##  3rd Qu.: 65.0   3rd Qu.: 43.0   3rd Qu.: 53.0   2014-04-28:  24  
+##  Max.   :100.0   Max.   :100.0   Max.   :100.0   (Other)   :3000  
+##  NA&#39;s   :2736    NA&#39;s   :2736    NA&#39;s   :2736    NA&#39;s      :2736  
+##     Weather        weatherL7          F                HE        
+##  Min.   :27.4   27.58884:  24   Min.   : 59314   Min.   : 57540  
+##  1st Qu.:34.5   27.66288:  24   1st Qu.: 81505   1st Qu.: 80636  
+##  Median :43.5   28.38560:  24   Median : 92993   Median : 92354  
+##  Mean   :44.0   28.76009:  24   Mean   : 93999   Mean   : 93483  
+##  3rd Qu.:50.5   28.85798:  24   3rd Qu.:106020   3rd Qu.:105946  
+##  Max.   :81.9   (Other) :2832   Max.   :146930   Max.   :141674  
+##  NA&#39;s   :2736   NA&#39;s    :2904   NA&#39;s   :1        NA&#39;s   :4
+</code></pre>
+
+<p>Data handling</p>
+
+<pre><code class="r">LongWtrends$hour&lt;-as.factor(LongWtrends$hour)
+
+#create a date only variable not date time
+LongWtrends$DateOnly&lt;-as.Date(LongWtrends$Date)
+
+library(sqldf)
+</code></pre>
+
+<pre><code>## Loading required package: gsubfn
+## Loading required package: proto
+## Loading required namespace: tcltk
+</code></pre>
+
+<pre><code>## Warning: couldn&#39;t connect to display &quot;:0&quot;
+</code></pre>
+
+<pre><code>## Loading required package: RSQLite
+## Loading required package: DBI
+## Loading required package: RSQLite.extfuns
+</code></pre>
+
+<pre><code class="r">#used to merge on the lagged values
+CopyLong&lt;-LongWtrends
+
+LagFormData&lt;-sqldf(&quot;select  LongWtrends.DateOnly, LongWtrends.hour, LongWtrends.F, LongWtrends.HE, CopyLong.F as LagF, CopyLong.HE as LagHE, LongWtrends.Weather, CopyLong.Weather as LagWeather  from LongWtrends,CopyLong where LongWtrends.DateOnly=(CopyLong.DateOnly-7) and LongWtrends.hour=CopyLong.hour;   &quot;)
+</code></pre>
+
+<pre><code>## Loading required package: tcltk
+</code></pre>
+
+<pre><code class="r">summary(LagFormData)
+</code></pre>
+
+<pre><code>##     DateOnly               hour            F                HE        
+##  Min.   :2014-01-01   1      : 236   Min.   : 59314   Min.   : 57540  
+##  1st Qu.:2014-02-28   2      : 236   1st Qu.: 81384   1st Qu.: 80575  
+##  Median :2014-04-30   3      : 236   Median : 92712   Median : 92060  
+##  Mean   :2014-04-29   4      : 236   Mean   : 93761   Mean   : 93231  
+##  3rd Qu.:2014-06-28   5      : 236   3rd Qu.:105584   3rd Qu.:105596  
+##  Max.   :2014-08-26   6      : 236   Max.   :146930   Max.   :141674  
+##                       (Other):4248   NA&#39;s   :1        NA&#39;s   :4       
+##       LagF            LagHE           Weather       LagWeather  
+##  Min.   : 59314   Min.   : 57540   Min.   :27.6   Min.   :27.4  
+##  1st Qu.: 80947   1st Qu.: 80126   1st Qu.:35.0   1st Qu.:34.5  
+##  Median : 92445   Median : 91822   Median :43.9   Median :43.5  
+##  Mean   : 93630   Mean   : 93022   Mean   :44.5   Mean   :44.0  
+##  3rd Qu.:105746   3rd Qu.:105452   3rd Qu.:51.0   3rd Qu.:50.5  
+##  Max.   :146930   Max.   :141674   Max.   :81.9   Max.   :81.9  
+##  NA&#39;s   :1        NA&#39;s   :4        NA&#39;s   :2712   NA&#39;s   :2544
+</code></pre>
+
+<p>First test regression for hour 19</p>
+
+<pre><code class="r">summary(lm(HE~F+LagHE+Weather+LagWeather,data=LagFormData[LagFormData$hour==&#39;19&#39;,]   ))
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = HE ~ F + LagHE + Weather + LagWeather, data = LagFormData[LagFormData$hour == 
+##     &quot;19&quot;, ])
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -12235  -1701    207   1793   7668 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 8741.0270  3693.9857    2.37    0.020 *  
+## F              0.9708     0.0277   35.08   &lt;2e-16 ***
+## LagHE         -0.0242     0.0287   -0.84    0.401    
+## Weather      -75.5629    29.5273   -2.56    0.012 *  
+## LagWeather    -7.1528    29.4601   -0.24    0.809    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3200 on 118 degrees of freedom
+##   (113 observations deleted due to missingness)
+## Multiple R-squared:  0.96,   Adjusted R-squared:  0.959 
+## F-statistic:  708 on 4 and 118 DF,  p-value: &lt;2e-16
+</code></pre>
+
+<pre><code class="r">library(lmtest)
+</code></pre>
+
+<pre><code>## Loading required package: zoo
+## 
+## Attaching package: &#39;zoo&#39;
+## 
+## The following object is masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric
+</code></pre>
+
+<pre><code class="r">dwtest(HE~F+LagHE+Weather+LagWeather,data=LagFormData[LagFormData$hour==&#39;19&#39;,])
+</code></pre>
+
+<pre><code>## 
+##  Durbin-Watson test
+## 
+## data:  HE ~ F + LagHE + Weather + LagWeather
+## DW = 0.9815, p-value = 1.837e-09
+## alternative hypothesis: true autocorrelation is greater than 0
+</code></pre>
+
+<p>Looks nice.  Lets do AR</p>
+
+<pre><code class="r">library(nlme)
+summary(gls(HE~F+LagHE+Weather+LagWeather, data=LagFormData[LagFormData$hour==&#39;19&#39;,],corAR1(form=~1),na.action=na.omit))
+</code></pre>
+
+<pre><code>## Generalized least squares fit by REML
+##   Model: HE ~ F + LagHE + Weather + LagWeather 
+##   Data: LagFormData[LagFormData$hour == &quot;19&quot;, ] 
+##    AIC  BIC logLik
+##   2284 2303  -1135
+## 
+## Correlation Structure: AR(1)
+##  Formula: ~1 
+##  Parameter estimate(s):
+##    Phi 
+## 0.5587 
+## 
+## Coefficients:
+##             Value Std.Error t-value p-value
+## (Intercept)  4003      4147   0.965  0.3364
+## F               1         0  30.893  0.0000
+## LagHE           0         0  -0.578  0.5642
+## Weather       -39        29  -1.335  0.1844
+## LagWeather    -22        29  -0.770  0.4428
+## 
+##  Correlation: 
+##            (Intr) F      LagHE  Weathr
+## F          -0.436                     
+## LagHE      -0.413 -0.559              
+## Weather    -0.481  0.340 -0.124       
+## LagWeather -0.458 -0.133  0.333 -0.028
+## 
+## Standardized residuals:
+##      Min       Q1      Med       Q3      Max 
+## -3.91197 -0.52524 -0.03173  0.54421  2.30210 
+## 
+## Residual standard error: 3287 
+## Degrees of freedom: 123 total; 118 residual
+</code></pre>
+
+<p>So the action goes away.  Lets assume AR structure is with previous hour and not previous day.  This will take a while to run.  There are a lot of parameters.</p>
+
+<pre><code class="r">summary(gls(HE~hour+(F+LagHE+Weather+LagWeather):hour, data=LagFormData,corAR1(form=~1),na.action=na.omit))
+</code></pre>
+
+<pre><code>## Generalized least squares fit by REML
+##   Model: HE ~ hour + (F + LagHE + Weather + LagWeather):hour 
+##   Data: LagFormData 
+##     AIC   BIC logLik
+##   52936 53662 -26346
+## 
+## Correlation Structure: AR(1)
+##  Formula: ~1 
+##  Parameter estimate(s):
+##    Phi 
+## 0.4758 
+## 
+## Coefficients:
+##                   Value Std.Error t-value p-value
+## (Intercept)        1612      3885    0.41  0.6782
+## hour2               979      5637    0.17  0.8622
+## hour3               896      5690    0.16  0.8748
+## hour4               467      5729    0.08  0.9350
+## hour5               432      5586    0.08  0.9383
+## hour6                51      5116    0.01  0.9920
+## hour7               902      4657    0.19  0.8464
+## hour8               316      4542    0.07  0.9446
+## hour9              -532      4607   -0.12  0.9081
+## hour10             -932      4692   -0.20  0.8426
+## hour11             -603      4720   -0.13  0.8983
+## hour12             -133      4729   -0.03  0.9776
+## hour13              482      4730    0.10  0.9188
+## hour14             1429      4712    0.30  0.7617
+## hour15             2141      4708    0.45  0.6493
+## hour16             2407      4722    0.51  0.6103
+## hour17             2421      4750    0.51  0.6103
+## hour18             2352      4794    0.49  0.6238
+## hour19             2686      4860    0.55  0.5805
+## hour20             1502      4951    0.30  0.7616
+## hour21             2146      5096    0.42  0.6737
+## hour22             4266      5229    0.82  0.4146
+## hour23             4076      5382    0.76  0.4489
+## hour24             3335      5563    0.60  0.5489
+## hour1:F               1         0   22.62  0.0000
+## hour2:F               1         0   20.14  0.0000
+## hour3:F               1         0   18.47  0.0000
+## hour4:F               1         0   17.29  0.0000
+## hour5:F               1         0   16.98  0.0000
+## hour6:F               1         0   18.49  0.0000
+## hour7:F               1         0   22.76  0.0000
+## hour8:F               1         0   26.76  0.0000
+## hour9:F               1         0   28.25  0.0000
+## hour10:F              1         0   30.00  0.0000
+## hour11:F              1         0   32.61  0.0000
+## hour12:F              1         0   35.65  0.0000
+## hour13:F              1         0   38.51  0.0000
+## hour14:F              1         0   40.80  0.0000
+## hour15:F              1         0   42.77  0.0000
+## hour16:F              1         0   44.20  0.0000
+## hour17:F              1         0   45.05  0.0000
+## hour18:F              1         0   44.88  0.0000
+## hour19:F              1         0   43.43  0.0000
+## hour20:F              1         0   40.58  0.0000
+## hour21:F              1         0   37.03  0.0000
+## hour22:F              1         0   34.34  0.0000
+## hour23:F              1         0   30.57  0.0000
+## hour24:F              1         0   26.63  0.0000
+## hour1:LagHE           0         0   -0.11  0.9123
+## hour2:LagHE           0         0   -0.05  0.9567
+## hour3:LagHE           0         0   -0.10  0.9227
+## hour4:LagHE           0         0    0.05  0.9593
+## hour5:LagHE           0         0    0.07  0.9456
+## hour6:LagHE           0         0    0.20  0.8394
+## hour7:LagHE           0         0    0.42  0.6713
+## hour8:LagHE           0         0    0.19  0.8511
+## hour9:LagHE           0         0    0.09  0.9290
+## hour10:LagHE          0         0   -0.04  0.9647
+## hour11:LagHE          0         0    0.21  0.8351
+## hour12:LagHE          0         0    0.41  0.6791
+## hour13:LagHE          0         0    0.55  0.5850
+## hour14:LagHE          0         0    0.86  0.3882
+## hour15:LagHE          0         0    0.84  0.4030
+## hour16:LagHE          0         0    0.73  0.4648
+## hour17:LagHE          0         0    0.49  0.6275
+## hour18:LagHE          0         0   -0.12  0.9049
+## hour19:LagHE          0         0   -0.74  0.4609
+## hour20:LagHE          0         0   -0.96  0.3357
+## hour21:LagHE          0         0   -1.28  0.1990
+## hour22:LagHE          0         0   -1.56  0.1181
+## hour23:LagHE          0         0   -1.21  0.2246
+## hour24:LagHE          0         0   -0.92  0.3584
+## hour1:Weather       -31        22   -1.46  0.1453
+## hour2:Weather       -34        22   -1.57  0.1161
+## hour3:Weather       -33        21   -1.54  0.1242
+## hour4:Weather       -31        21   -1.46  0.1455
+## hour5:Weather       -31        21   -1.49  0.1356
+## hour6:Weather       -35        21   -1.67  0.0953
+## hour7:Weather       -46        20   -2.29  0.0222
+## hour8:Weather       -47        20   -2.31  0.0208
+## hour9:Weather       -51        20   -2.49  0.0127
+## hour10:Weather      -52        21   -2.50  0.0125
+## hour11:Weather      -57        21   -2.73  0.0063
+## hour12:Weather      -62        21   -2.93  0.0034
+## hour13:Weather      -67        21   -3.12  0.0018
+## hour14:Weather      -73        21   -3.40  0.0007
+## hour15:Weather      -74        21   -3.47  0.0005
+## hour16:Weather      -72        21   -3.38  0.0007
+## hour17:Weather      -64        21   -3.00  0.0027
+## hour18:Weather      -50        21   -2.36  0.0182
+## hour19:Weather      -43        21   -2.04  0.0412
+## hour20:Weather      -37        21   -1.74  0.0824
+## hour21:Weather      -41        21   -1.94  0.0527
+## hour22:Weather      -39        21   -1.83  0.0677
+## hour23:Weather      -37        21   -1.72  0.0861
+## hour24:Weather      -35        21   -1.64  0.1019
+## hour1:LagWeather      0        22    0.01  0.9925
+## hour2:LagWeather     -7        22   -0.31  0.7543
+## hour3:LagWeather    -10        22   -0.48  0.6342
+## hour4:LagWeather    -14        22   -0.65  0.5133
+## hour5:LagWeather    -13        22   -0.61  0.5409
+## hour6:LagWeather    -14        22   -0.66  0.5120
+## hour7:LagWeather    -16        22   -0.74  0.4620
+## hour8:LagWeather     -9        21   -0.43  0.6657
+## hour9:LagWeather      2        21    0.09  0.9257
+## hour10:LagWeather     8        22    0.37  0.7092
+## hour11:LagWeather    15        22    0.67  0.5008
+## hour12:LagWeather    19        22    0.88  0.3777
+## hour13:LagWeather    19        22    0.88  0.3802
+## hour14:LagWeather    22        22    1.00  0.3158
+## hour15:LagWeather    16        22    0.74  0.4574
+## hour16:LagWeather    11        22    0.49  0.6260
+## hour17:LagWeather     4        22    0.18  0.8585
+## hour18:LagWeather    -8        21   -0.35  0.7252
+## hour19:LagWeather   -18        21   -0.85  0.3977
+## hour20:LagWeather   -31        21   -1.44  0.1510
+## hour21:LagWeather   -43        21   -2.00  0.0460
+## hour22:LagWeather   -47        21   -2.19  0.0286
+## hour23:LagWeather   -37        21   -1.74  0.0824
+## hour24:LagWeather   -33        22   -1.53  0.1261
+## 
+##  Correlation: 
+##                   (Intr) hour2  hour3  hour4  hour5  hour6  hour7  hour8 
+## hour2             -0.700                                                 
+## hour3             -0.683  0.470                                          
+## hour4             -0.678  0.475  0.455                                   
+## hour5             -0.696  0.487  0.475  0.465                            
+## hour6             -0.759  0.532  0.519  0.515  0.523                     
+## hour7             -0.834  0.584  0.570  0.566  0.580  0.631              
+## hour8             -0.855  0.599  0.584  0.580  0.595  0.649  0.711       
+## hour9             -0.843  0.590  0.576  0.572  0.586  0.640  0.703  0.719
+## hour10            -0.828  0.580  0.565  0.561  0.576  0.629  0.691  0.708
+## hour11            -0.823  0.576  0.562  0.558  0.572  0.625  0.687  0.704
+## hour12            -0.822  0.575  0.561  0.557  0.571  0.624  0.685  0.703
+## hour13            -0.821  0.575  0.561  0.557  0.571  0.624  0.685  0.702
+## hour14            -0.824  0.577  0.563  0.559  0.573  0.626  0.688  0.705
+## hour15            -0.825  0.578  0.563  0.560  0.574  0.627  0.688  0.706
+## hour16            -0.823  0.576  0.562  0.558  0.572  0.625  0.686  0.704
+## hour17            -0.818  0.573  0.558  0.555  0.569  0.621  0.682  0.700
+## hour18            -0.810  0.567  0.553  0.550  0.564  0.615  0.676  0.693
+## hour19            -0.799  0.560  0.546  0.542  0.556  0.607  0.667  0.684
+## hour20            -0.785  0.549  0.536  0.532  0.546  0.596  0.655  0.671
+## hour21            -0.762  0.534  0.521  0.517  0.530  0.579  0.636  0.652
+## hour22            -0.743  0.520  0.507  0.504  0.517  0.564  0.620  0.635
+## hour23            -0.722  0.505  0.493  0.489  0.502  0.548  0.602  0.617
+## hour24            -0.698  0.489  0.477  0.474  0.486  0.530  0.583  0.597
+## hour1:F           -0.480  0.329  0.328  0.325  0.334  0.364  0.400  0.410
+## hour2:F            0.010 -0.352 -0.010 -0.007 -0.007 -0.008 -0.009 -0.009
+## hour3:F            0.000  0.007 -0.356 -0.003  0.000  0.000  0.000  0.000
+## hour4:F            0.000  0.000  0.007 -0.355 -0.003  0.000  0.000  0.000
+## hour5:F            0.000  0.000  0.000  0.007 -0.324 -0.004  0.000  0.000
+## hour6:F            0.000  0.000  0.000  0.000  0.005 -0.240 -0.004  0.000
+## hour7:F            0.000  0.000  0.000  0.000  0.000  0.003 -0.141 -0.005
+## hour8:F            0.000  0.000  0.000  0.000  0.000  0.000  0.003 -0.123
+## hour9:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.002
+## hour10:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagHE       -0.439  0.317  0.300  0.298  0.305  0.333  0.366  0.376
+## hour2:LagHE        0.005 -0.318  0.011 -0.003 -0.004 -0.004 -0.004 -0.004
+## hour3:LagHE        0.000  0.003 -0.317  0.014  0.000  0.000  0.000  0.000
+## hour4:LagHE        0.000  0.000  0.003 -0.310  0.014  0.000  0.000  0.000
+## hour5:LagHE        0.000  0.000  0.000  0.002 -0.283  0.011  0.000  0.000
+## hour6:LagHE        0.000  0.000  0.000  0.000  0.001 -0.218  0.008  0.000
+## hour7:LagHE        0.000  0.000  0.000  0.000  0.000  0.001 -0.171  0.008
+## hour8:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.151
+## hour9:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:Weather     -0.409  0.274  0.279  0.277  0.284  0.310  0.341  0.350
+## hour2:Weather      0.006 -0.292 -0.011 -0.004 -0.004 -0.004 -0.005 -0.005
+## hour3:Weather      0.000  0.004 -0.290 -0.007  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000  0.004 -0.286 -0.007  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000  0.004 -0.272 -0.006  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000  0.003 -0.243 -0.004  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.002 -0.219 -0.004
+## hour8:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.001 -0.215
+## hour9:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.001
+## hour10:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagWeather  -0.362  0.264  0.248  0.246  0.252  0.275  0.302  0.310
+## hour2:LagWeather  -0.004 -0.250  0.017  0.003  0.003  0.003  0.003  0.003
+## hour3:LagWeather   0.000 -0.003 -0.246  0.014  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000 -0.004 -0.233  0.012  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000 -0.004 -0.218  0.010  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000 -0.004 -0.199  0.007  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000 -0.004 -0.195  0.006
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000 -0.003 -0.195
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.002
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   hour9  hour10 hour11 hour12 hour13 hour14 hour15 hour16
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10             0.696                                                 
+## hour11             0.694  0.678                                          
+## hour12             0.693  0.680  0.672                                   
+## hour13             0.693  0.680  0.676  0.669                            
+## hour14             0.695  0.683  0.679  0.677  0.671                     
+## hour15             0.696  0.683  0.679  0.678  0.678  0.674              
+## hour16             0.694  0.681  0.677  0.676  0.676  0.678  0.672       
+## hour17             0.690  0.677  0.673  0.672  0.672  0.674  0.675  0.665
+## hour18             0.683  0.671  0.667  0.666  0.666  0.668  0.669  0.667
+## hour19             0.674  0.662  0.658  0.657  0.657  0.659  0.660  0.658
+## hour20             0.662  0.650  0.646  0.645  0.644  0.647  0.647  0.646
+## hour21             0.643  0.631  0.628  0.626  0.626  0.629  0.629  0.627
+## hour22             0.627  0.615  0.612  0.610  0.610  0.613  0.613  0.611
+## hour23             0.609  0.598  0.594  0.593  0.593  0.595  0.596  0.594
+## hour24             0.589  0.578  0.575  0.574  0.574  0.576  0.576  0.575
+## hour1:F            0.405  0.397  0.395  0.394  0.394  0.396  0.396  0.395
+## hour2:F           -0.009 -0.009 -0.009 -0.009 -0.009 -0.009 -0.009 -0.009
+## hour3:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:F           -0.006  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:F           -0.148 -0.007  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:F           0.003 -0.175 -0.007  0.000  0.000  0.000  0.000  0.000
+## hour11:F           0.000  0.004 -0.185 -0.008  0.000  0.000  0.000  0.000
+## hour12:F           0.000  0.000  0.005 -0.194 -0.007  0.000  0.000  0.000
+## hour13:F           0.000  0.000  0.000  0.005 -0.200 -0.006  0.000  0.000
+## hour14:F           0.000  0.000  0.000  0.000  0.006 -0.194 -0.005  0.000
+## hour15:F           0.000  0.000  0.000  0.000  0.000  0.007 -0.192 -0.004
+## hour16:F           0.000  0.000  0.000  0.000  0.000  0.000  0.007 -0.198
+## hour17:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.007
+## hour18:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagHE        0.370  0.364  0.361  0.361  0.361  0.362  0.362  0.361
+## hour2:LagHE       -0.004 -0.004 -0.004 -0.004 -0.004 -0.004 -0.004 -0.004
+## hour3:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagHE        0.009  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagHE       -0.155  0.011  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagHE       0.001 -0.170  0.013  0.000  0.000  0.000  0.000  0.000
+## hour11:LagHE       0.000  0.002 -0.182  0.015  0.000  0.000  0.000  0.000
+## hour12:LagHE       0.000  0.000  0.002 -0.193  0.016  0.000  0.000  0.000
+## hour13:LagHE       0.000  0.000  0.000  0.003 -0.202  0.017  0.000  0.000
+## hour14:LagHE       0.000  0.000  0.000  0.000  0.004 -0.208  0.017  0.000
+## hour15:LagHE       0.000  0.000  0.000  0.000  0.000  0.004 -0.215  0.017
+## hour16:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.005 -0.222
+## hour17:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.006
+## hour18:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:Weather      0.345  0.339  0.337  0.336  0.336  0.337  0.337  0.336
+## hour2:Weather     -0.005 -0.005 -0.005 -0.005 -0.005 -0.005 -0.005 -0.005
+## hour3:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:Weather     -0.005  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:Weather     -0.224 -0.006  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:Weather     0.001 -0.237 -0.007  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.002 -0.247 -0.008  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.003 -0.256 -0.008  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.003 -0.264 -0.008  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.004 -0.267 -0.008  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.004 -0.270 -0.008
+## hour16:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.004 -0.277
+## hour17:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.005
+## hour18:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagWeather   0.306  0.300  0.298  0.298  0.298  0.299  0.299  0.298
+## hour2:LagWeather   0.003  0.003  0.003  0.003  0.003  0.003  0.003  0.003
+## hour3:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagWeather   0.007  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagWeather  -0.198  0.009  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagWeather -0.002 -0.208  0.011  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000 -0.002 -0.222  0.013  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000 -0.002 -0.236  0.014  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000 -0.002 -0.248  0.015  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000 -0.002 -0.257  0.015  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000 -0.001 -0.265  0.016
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000 -0.001 -0.272
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.001
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   hour17 hour18 hour19 hour20 hour21 hour22 hour23 hour24
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18             0.655                                                 
+## hour19             0.654  0.639                                          
+## hour20             0.642  0.636  0.618                                   
+## hour21             0.624  0.618  0.610  0.588                            
+## hour22             0.608  0.602  0.594  0.583  0.554                     
+## hour23             0.590  0.585  0.577  0.566  0.550  0.524              
+## hour24             0.571  0.566  0.558  0.548  0.532  0.519  0.491       
+## hour1:F            0.392  0.389  0.384  0.376  0.366  0.356  0.346  0.335
+## hour2:F           -0.009 -0.008 -0.008 -0.008 -0.008 -0.008 -0.008 -0.007
+## hour3:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:F          -0.003  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:F          -0.209 -0.001  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:F           0.007 -0.227  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:F           0.000  0.008 -0.248  0.001  0.000  0.000  0.000  0.000
+## hour20:F           0.000  0.000  0.008 -0.275  0.000  0.000  0.000  0.000
+## hour21:F           0.000  0.000  0.000  0.009 -0.302  0.001  0.000  0.000
+## hour22:F           0.000  0.000  0.000  0.000  0.011 -0.317  0.002  0.000
+## hour23:F           0.000  0.000  0.000  0.000  0.000  0.011 -0.339  0.003
+## hour24:F           0.000  0.000  0.000  0.000  0.000  0.000  0.010 -0.366
+## hour1:LagHE        0.359  0.356  0.351  0.345  0.335  0.326  0.317  0.307
+## hour2:LagHE       -0.004 -0.004 -0.004 -0.004 -0.004 -0.004 -0.004 -0.004
+## hour3:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagHE       0.016  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagHE      -0.229  0.016  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagHE       0.006 -0.233  0.016  0.000  0.000  0.000  0.000  0.000
+## hour19:LagHE       0.000  0.007 -0.242  0.016  0.000  0.000  0.000  0.000
+## hour20:LagHE       0.000  0.000  0.007 -0.246  0.018  0.000  0.000  0.000
+## hour21:LagHE       0.000  0.000  0.000  0.007 -0.259  0.020  0.000  0.000
+## hour22:LagHE       0.000  0.000  0.000  0.000  0.008 -0.282  0.019  0.000
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000  0.009 -0.309  0.018
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.009 -0.332
+## hour1:Weather      0.334  0.331  0.327  0.321  0.312  0.304  0.295  0.286
+## hour2:Weather     -0.005 -0.005 -0.005 -0.004 -0.004 -0.004 -0.004 -0.004
+## hour3:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:Weather    -0.007  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:Weather    -0.284 -0.007  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:Weather     0.005 -0.292 -0.007  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.005 -0.301 -0.006  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.005 -0.311 -0.006  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.006 -0.324 -0.006  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.007 -0.327 -0.006  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.007 -0.332 -0.007
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.007 -0.338
+## hour1:LagWeather   0.296  0.294  0.290  0.284  0.276  0.269  0.262  0.253
+## hour2:LagWeather   0.003  0.003  0.003  0.003  0.003  0.003  0.003  0.003
+## hour3:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather  0.016  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather -0.278  0.017  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000 -0.282  0.017  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000 -0.287  0.018  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000 -0.289  0.018  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000 -0.294  0.020  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000 -0.305  0.020  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000 -0.315  0.020
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.326
+##                   hor1:F hor2:F hor3:F hor4:F hor5:F hor6:F hor7:F hor8:F
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F            0.002                                                 
+## hour3:F            0.000  0.002                                          
+## hour4:F            0.000  0.000  0.003                                   
+## hour5:F            0.000  0.000  0.000  0.003                            
+## hour6:F            0.000  0.000  0.000  0.000  0.004                     
+## hour7:F            0.000  0.000  0.000  0.000  0.000  0.005              
+## hour8:F            0.000  0.000  0.000  0.000  0.000  0.000  0.006       
+## hour9:F            0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.007
+## hour10:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagHE       -0.528 -0.013  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagHE        0.001 -0.527 -0.014  0.000  0.000  0.000  0.000  0.000
+## hour3:LagHE        0.000  0.001 -0.532 -0.013  0.000  0.000  0.000  0.000
+## hour4:LagHE        0.000  0.000  0.001 -0.549 -0.013  0.000  0.000  0.000
+## hour5:LagHE        0.000  0.000  0.000  0.001 -0.604 -0.011  0.000  0.000
+## hour6:LagHE        0.000  0.000  0.000  0.000  0.001 -0.710 -0.009  0.000
+## hour7:LagHE        0.000  0.000  0.000  0.000  0.000  0.001 -0.789 -0.010
+## hour8:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.001 -0.803
+## hour9:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.001
+## hour10:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:Weather      0.406  0.007  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:Weather      0.001  0.396  0.007  0.000  0.000  0.000  0.000  0.000
+## hour3:Weather      0.000  0.001  0.385  0.007  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000  0.001  0.370  0.006  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000  0.002  0.349  0.006  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000  0.002  0.298  0.005  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.002  0.217  0.005
+## hour8:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.003  0.214
+## hour9:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.003
+## hour10:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagWeather  -0.242 -0.013  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather  -0.001 -0.250 -0.013  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000 -0.001 -0.259 -0.013  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000 -0.001 -0.270 -0.012  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000 -0.002 -0.296 -0.010  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000 -0.003 -0.333 -0.008  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000 -0.005 -0.347 -0.008
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000 -0.007 -0.332
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.006
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   hor9:F hr10:F hr11:F hr12:F hr13:F hr14:F hr15:F hr16:F
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F           0.007                                                 
+## hour11:F           0.000  0.007                                          
+## hour12:F           0.000  0.000  0.008                                   
+## hour13:F           0.000  0.000  0.000  0.007                            
+## hour14:F           0.000  0.000  0.000  0.000  0.006                     
+## hour15:F           0.000  0.000  0.000  0.000  0.000  0.005              
+## hour16:F           0.000  0.000  0.000  0.000  0.000  0.000  0.004       
+## hour17:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.002
+## hour18:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:F           0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagHE       -0.011  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagHE       -0.784 -0.012  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagHE       0.002 -0.755 -0.013  0.000  0.000  0.000  0.000  0.000
+## hour11:LagHE       0.000  0.003 -0.730 -0.015  0.000  0.000  0.000  0.000
+## hour12:LagHE       0.000  0.000  0.004 -0.704 -0.016  0.000  0.000  0.000
+## hour13:LagHE       0.000  0.000  0.000  0.004 -0.682 -0.016  0.000  0.000
+## hour14:LagHE       0.000  0.000  0.000  0.000  0.004 -0.675 -0.016  0.000
+## hour15:LagHE       0.000  0.000  0.000  0.000  0.000  0.004 -0.665 -0.016
+## hour16:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.003 -0.650
+## hour17:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.002
+## hour18:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:Weather      0.006  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:Weather      0.255  0.007  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:Weather     0.004  0.301  0.007  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.004  0.339  0.008  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.004  0.364  0.008  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.004  0.377  0.008  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.004  0.378  0.008  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.003  0.373  0.007
+## hour16:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.002  0.365
+## hour17:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.002
+## hour18:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagWeather  -0.009  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagWeather  -0.331 -0.010  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagWeather -0.005 -0.325 -0.011  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000 -0.004 -0.314 -0.013  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000 -0.003 -0.294 -0.014  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000 -0.002 -0.274 -0.015  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000 -0.002 -0.260 -0.015  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000 -0.001 -0.242 -0.015
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000 -0.001 -0.218
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   hr17:F hr18:F hr19:F hr20:F hr21:F hr22:F hr23:F hr24:F
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F           0.001                                                 
+## hour19:F           0.000  0.000                                          
+## hour20:F           0.000  0.000 -0.001                                   
+## hour21:F           0.000  0.000  0.000  0.000                            
+## hour22:F           0.000  0.000  0.000  0.000 -0.001                     
+## hour23:F           0.000  0.000  0.000  0.000  0.000 -0.002              
+## hour24:F           0.000  0.000  0.000  0.000  0.000  0.000 -0.002       
+## hour1:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagHE      -0.015  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagHE      -0.632 -0.014  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagHE       0.001 -0.615 -0.014  0.000  0.000  0.000  0.000  0.000
+## hour19:LagHE       0.000  0.000 -0.592 -0.014  0.000  0.000  0.000  0.000
+## hour20:LagHE       0.000  0.000 -0.001 -0.574 -0.015  0.000  0.000  0.000
+## hour21:LagHE       0.000  0.000  0.000  0.000 -0.560 -0.017  0.000  0.000
+## hour22:LagHE       0.000  0.000  0.000  0.000 -0.001 -0.539 -0.016  0.000
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000 -0.001 -0.505 -0.015
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000 -0.002 -0.470
+## hour1:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:Weather     0.007  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:Weather     0.359  0.006  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:Weather     0.001  0.358  0.006  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.356  0.006  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.353  0.005  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.352  0.005  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.354  0.005  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000 -0.001  0.361  0.005
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000 -0.001  0.368
+## hour1:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather -0.015  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather -0.189 -0.015  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000 -0.159 -0.015  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000 -0.134 -0.015  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000 -0.121 -0.015  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000 -0.123 -0.017  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000 -0.102 -0.017  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000 -0.090 -0.016
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.079
+##                   h1:LHE h2:LHE h3:LHE h4:LHE h5:LHE h6:LHE h7:LHE h8:LHE
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F                                                                 
+## hour19:F                                                                 
+## hour20:F                                                                 
+## hour21:F                                                                 
+## hour22:F                                                                 
+## hour23:F                                                                 
+## hour24:F                                                                 
+## hour1:LagHE                                                              
+## hour2:LagHE       -0.007                                                 
+## hour3:LagHE        0.000 -0.006                                          
+## hour4:LagHE        0.000  0.000 -0.006                                   
+## hour5:LagHE        0.000  0.000  0.000 -0.005                            
+## hour6:LagHE        0.000  0.000  0.000  0.000 -0.003                     
+## hour7:LagHE        0.000  0.000  0.000  0.000  0.000 -0.002              
+## hour8:LagHE        0.000  0.000  0.000  0.000  0.000  0.000 -0.001       
+## hour9:LagHE        0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.002
+## hour10:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:Weather     -0.200  0.003  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:Weather     -0.007 -0.190  0.003  0.000  0.000  0.000  0.000  0.000
+## hour3:Weather      0.000 -0.007 -0.185  0.003  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000 -0.007 -0.181  0.002  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000 -0.007 -0.190  0.002  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000 -0.006 -0.196  0.001  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000 -0.005 -0.159  0.001
+## hour8:Weather      0.000  0.000  0.000  0.000  0.000  0.000 -0.005 -0.165
+## hour9:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.005
+## hour10:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagWeather   0.421 -0.007  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather   0.005  0.426 -0.006  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000  0.006  0.425 -0.005  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.007  0.418 -0.004  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.008  0.413 -0.003  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.009  0.398 -0.002  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.010  0.375 -0.001
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.011  0.354
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.010
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   h9:LHE h10:LH h11:LH h12:LH h13:LH h14:LH h15:LH h16:LH
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F                                                                 
+## hour19:F                                                                 
+## hour20:F                                                                 
+## hour21:F                                                                 
+## hour22:F                                                                 
+## hour23:F                                                                 
+## hour24:F                                                                 
+## hour1:LagHE                                                              
+## hour2:LagHE                                                              
+## hour3:LagHE                                                              
+## hour4:LagHE                                                              
+## hour5:LagHE                                                              
+## hour6:LagHE                                                              
+## hour7:LagHE                                                              
+## hour8:LagHE                                                              
+## hour9:LagHE                                                              
+## hour10:LagHE      -0.003                                                 
+## hour11:LagHE       0.000 -0.006                                          
+## hour12:LagHE       0.000  0.000 -0.008                                   
+## hour13:LagHE       0.000  0.000  0.000 -0.010                            
+## hour14:LagHE       0.000  0.000  0.000  0.000 -0.011                     
+## hour15:LagHE       0.000  0.000  0.000  0.000  0.000 -0.011              
+## hour16:LagHE       0.000  0.000  0.000  0.000  0.000  0.000 -0.012       
+## hour17:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.012
+## hour18:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:Weather      0.001  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:Weather     -0.190  0.002  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:Weather    -0.006 -0.211  0.003  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000 -0.007 -0.226  0.004  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000 -0.009 -0.230  0.005  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000 -0.010 -0.224  0.005  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000 -0.010 -0.213  0.005  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000 -0.010 -0.197  0.006
+## hour16:Weather     0.000  0.000  0.000  0.000  0.000  0.000 -0.010 -0.177
+## hour17:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.010
+## hour18:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagWeather  -0.001  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagWeather   0.369 -0.003  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagWeather  0.009  0.386 -0.005  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.008  0.399 -0.007  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.007  0.405 -0.008  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.005  0.407 -0.010  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.004  0.406 -0.010  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.003  0.400 -0.012
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.002  0.389
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.001
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   h17:LH h18:LH h19:LH h20:LH h21:LH h22:LH h23:LH h24:LH
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F                                                                 
+## hour19:F                                                                 
+## hour20:F                                                                 
+## hour21:F                                                                 
+## hour22:F                                                                 
+## hour23:F                                                                 
+## hour24:F                                                                 
+## hour1:LagHE                                                              
+## hour2:LagHE                                                              
+## hour3:LagHE                                                              
+## hour4:LagHE                                                              
+## hour5:LagHE                                                              
+## hour6:LagHE                                                              
+## hour7:LagHE                                                              
+## hour8:LagHE                                                              
+## hour9:LagHE                                                              
+## hour10:LagHE                                                             
+## hour11:LagHE                                                             
+## hour12:LagHE                                                             
+## hour13:LagHE                                                             
+## hour14:LagHE                                                             
+## hour15:LagHE                                                             
+## hour16:LagHE                                                             
+## hour17:LagHE                                                             
+## hour18:LagHE      -0.012                                                 
+## hour19:LagHE       0.000 -0.012                                          
+## hour20:LagHE       0.000  0.000 -0.012                                   
+## hour21:LagHE       0.000  0.000  0.000 -0.012                            
+## hour22:LagHE       0.000  0.000  0.000  0.000 -0.013                     
+## hour23:LagHE       0.000  0.000  0.000  0.000  0.000 -0.013              
+## hour24:LagHE       0.000  0.000  0.000  0.000  0.000  0.000 -0.013       
+## hour1:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:Weather     0.005  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:Weather    -0.157  0.005  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:Weather    -0.009 -0.145  0.005  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000 -0.009 -0.128  0.005  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000 -0.009 -0.113  0.004  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000 -0.010 -0.098  0.004  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000 -0.011 -0.091  0.004  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000 -0.010 -0.085  0.005
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000 -0.009 -0.079
+## hour1:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather -0.012  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather  0.373 -0.013  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.001  0.355 -0.013  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.343 -0.013  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.001  0.338 -0.013  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.001  0.352 -0.013  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.347 -0.014  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.354 -0.014
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000 -0.001  0.370
+##                   hr1:Wt hr2:Wt hr3:Wt hr4:Wt hr5:Wt hr6:Wt hr7:Wt hr8:Wt
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F                                                                 
+## hour19:F                                                                 
+## hour20:F                                                                 
+## hour21:F                                                                 
+## hour22:F                                                                 
+## hour23:F                                                                 
+## hour24:F                                                                 
+## hour1:LagHE                                                              
+## hour2:LagHE                                                              
+## hour3:LagHE                                                              
+## hour4:LagHE                                                              
+## hour5:LagHE                                                              
+## hour6:LagHE                                                              
+## hour7:LagHE                                                              
+## hour8:LagHE                                                              
+## hour9:LagHE                                                              
+## hour10:LagHE                                                             
+## hour11:LagHE                                                             
+## hour12:LagHE                                                             
+## hour13:LagHE                                                             
+## hour14:LagHE                                                             
+## hour15:LagHE                                                             
+## hour16:LagHE                                                             
+## hour17:LagHE                                                             
+## hour18:LagHE                                                             
+## hour19:LagHE                                                             
+## hour20:LagHE                                                             
+## hour21:LagHE                                                             
+## hour22:LagHE                                                             
+## hour23:LagHE                                                             
+## hour24:LagHE                                                             
+## hour1:Weather                                                            
+## hour2:Weather      0.004                                                 
+## hour3:Weather      0.000  0.004                                          
+## hour4:Weather      0.000  0.000  0.004                                   
+## hour5:Weather      0.000  0.000  0.000  0.003                            
+## hour6:Weather      0.000  0.000  0.000  0.000  0.003                     
+## hour7:Weather      0.000  0.000  0.000  0.000  0.000  0.002              
+## hour8:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.002       
+## hour9:Weather      0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.003
+## hour10:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagWeather  -0.113 -0.007  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather  -0.003 -0.112 -0.007  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000 -0.003 -0.112 -0.007  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000 -0.003 -0.112 -0.006  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000 -0.004 -0.116 -0.005  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000 -0.005 -0.115 -0.004  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000 -0.005 -0.094 -0.004
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000 -0.006 -0.091
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.006
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   hr9:Wt hr10:W hr11:W hr12:W hr13:W hr14:W hr15:W hr16:W
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F                                                                 
+## hour19:F                                                                 
+## hour20:F                                                                 
+## hour21:F                                                                 
+## hour22:F                                                                 
+## hour23:F                                                                 
+## hour24:F                                                                 
+## hour1:LagHE                                                              
+## hour2:LagHE                                                              
+## hour3:LagHE                                                              
+## hour4:LagHE                                                              
+## hour5:LagHE                                                              
+## hour6:LagHE                                                              
+## hour7:LagHE                                                              
+## hour8:LagHE                                                              
+## hour9:LagHE                                                              
+## hour10:LagHE                                                             
+## hour11:LagHE                                                             
+## hour12:LagHE                                                             
+## hour13:LagHE                                                             
+## hour14:LagHE                                                             
+## hour15:LagHE                                                             
+## hour16:LagHE                                                             
+## hour17:LagHE                                                             
+## hour18:LagHE                                                             
+## hour19:LagHE                                                             
+## hour20:LagHE                                                             
+## hour21:LagHE                                                             
+## hour22:LagHE                                                             
+## hour23:LagHE                                                             
+## hour24:LagHE                                                             
+## hour1:Weather                                                            
+## hour2:Weather                                                            
+## hour3:Weather                                                            
+## hour4:Weather                                                            
+## hour5:Weather                                                            
+## hour6:Weather                                                            
+## hour7:Weather                                                            
+## hour8:Weather                                                            
+## hour9:Weather                                                            
+## hour10:Weather     0.004                                                 
+## hour11:Weather     0.000  0.004                                          
+## hour12:Weather     0.000  0.000  0.005                                   
+## hour13:Weather     0.000  0.000  0.000  0.005                            
+## hour14:Weather     0.000  0.000  0.000  0.000  0.005                     
+## hour15:Weather     0.000  0.000  0.000  0.000  0.000  0.005              
+## hour16:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.005       
+## hour17:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.004
+## hour18:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour1:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagWeather  -0.004  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagWeather  -0.104 -0.005  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagWeather -0.005 -0.114 -0.006  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000 -0.004 -0.120 -0.007  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000 -0.004 -0.118 -0.008  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000 -0.003 -0.110 -0.009  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000 -0.002 -0.101 -0.009  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000 -0.002 -0.090 -0.009
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000 -0.001 -0.075
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.001
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   hr17:W hr18:W hr19:W hr20:W hr21:W hr22:W hr23:W hr24:W
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F                                                                 
+## hour19:F                                                                 
+## hour20:F                                                                 
+## hour21:F                                                                 
+## hour22:F                                                                 
+## hour23:F                                                                 
+## hour24:F                                                                 
+## hour1:LagHE                                                              
+## hour2:LagHE                                                              
+## hour3:LagHE                                                              
+## hour4:LagHE                                                              
+## hour5:LagHE                                                              
+## hour6:LagHE                                                              
+## hour7:LagHE                                                              
+## hour8:LagHE                                                              
+## hour9:LagHE                                                              
+## hour10:LagHE                                                             
+## hour11:LagHE                                                             
+## hour12:LagHE                                                             
+## hour13:LagHE                                                             
+## hour14:LagHE                                                             
+## hour15:LagHE                                                             
+## hour16:LagHE                                                             
+## hour17:LagHE                                                             
+## hour18:LagHE                                                             
+## hour19:LagHE                                                             
+## hour20:LagHE                                                             
+## hour21:LagHE                                                             
+## hour22:LagHE                                                             
+## hour23:LagHE                                                             
+## hour24:LagHE                                                             
+## hour1:Weather                                                            
+## hour2:Weather                                                            
+## hour3:Weather                                                            
+## hour4:Weather                                                            
+## hour5:Weather                                                            
+## hour6:Weather                                                            
+## hour7:Weather                                                            
+## hour8:Weather                                                            
+## hour9:Weather                                                            
+## hour10:Weather                                                           
+## hour11:Weather                                                           
+## hour12:Weather                                                           
+## hour13:Weather                                                           
+## hour14:Weather                                                           
+## hour15:Weather                                                           
+## hour16:Weather                                                           
+## hour17:Weather                                                           
+## hour18:Weather     0.004                                                 
+## hour19:Weather     0.000  0.004                                          
+## hour20:Weather     0.000  0.000  0.004                                   
+## hour21:Weather     0.000  0.000  0.000  0.004                            
+## hour22:Weather     0.000  0.000  0.000  0.000  0.003                     
+## hour23:Weather     0.000  0.000  0.000  0.000  0.000  0.003              
+## hour24:Weather     0.000  0.000  0.000  0.000  0.000  0.000  0.003       
+## hour1:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour2:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour3:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour4:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour5:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather -0.010  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather -0.060 -0.010  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000 -0.047 -0.010  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000 -0.036 -0.010  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000 -0.029 -0.010  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000 -0.024 -0.011  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000 -0.017 -0.011  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000 -0.013 -0.011
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000 -0.013
+##                   hr1:LW hr2:LW hr3:LW hr4:LW hr5:LW hr6:LW hr7:LW hr8:LW
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F                                                                 
+## hour19:F                                                                 
+## hour20:F                                                                 
+## hour21:F                                                                 
+## hour22:F                                                                 
+## hour23:F                                                                 
+## hour24:F                                                                 
+## hour1:LagHE                                                              
+## hour2:LagHE                                                              
+## hour3:LagHE                                                              
+## hour4:LagHE                                                              
+## hour5:LagHE                                                              
+## hour6:LagHE                                                              
+## hour7:LagHE                                                              
+## hour8:LagHE                                                              
+## hour9:LagHE                                                              
+## hour10:LagHE                                                             
+## hour11:LagHE                                                             
+## hour12:LagHE                                                             
+## hour13:LagHE                                                             
+## hour14:LagHE                                                             
+## hour15:LagHE                                                             
+## hour16:LagHE                                                             
+## hour17:LagHE                                                             
+## hour18:LagHE                                                             
+## hour19:LagHE                                                             
+## hour20:LagHE                                                             
+## hour21:LagHE                                                             
+## hour22:LagHE                                                             
+## hour23:LagHE                                                             
+## hour24:LagHE                                                             
+## hour1:Weather                                                            
+## hour2:Weather                                                            
+## hour3:Weather                                                            
+## hour4:Weather                                                            
+## hour5:Weather                                                            
+## hour6:Weather                                                            
+## hour7:Weather                                                            
+## hour8:Weather                                                            
+## hour9:Weather                                                            
+## hour10:Weather                                                           
+## hour11:Weather                                                           
+## hour12:Weather                                                           
+## hour13:Weather                                                           
+## hour14:Weather                                                           
+## hour15:Weather                                                           
+## hour16:Weather                                                           
+## hour17:Weather                                                           
+## hour18:Weather                                                           
+## hour19:Weather                                                           
+## hour20:Weather                                                           
+## hour21:Weather                                                           
+## hour22:Weather                                                           
+## hour23:Weather                                                           
+## hour24:Weather                                                           
+## hour1:LagWeather                                                         
+## hour2:LagWeather   0.005                                                 
+## hour3:LagWeather   0.000  0.006                                          
+## hour4:LagWeather   0.000  0.000  0.006                                   
+## hour5:LagWeather   0.000  0.000  0.000  0.007                            
+## hour6:LagWeather   0.000  0.000  0.000  0.000  0.008                     
+## hour7:LagWeather   0.000  0.000  0.000  0.000  0.000  0.009              
+## hour8:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.009       
+## hour9:LagWeather   0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.008
+## hour10:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour11:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour12:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour13:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   hr9:LW h10:LW h11:LW h12:LW h13:LW h14:LW h15:LW h16:LW
+## hour2                                                                    
+## hour3                                                                    
+## hour4                                                                    
+## hour5                                                                    
+## hour6                                                                    
+## hour7                                                                    
+## hour8                                                                    
+## hour9                                                                    
+## hour10                                                                   
+## hour11                                                                   
+## hour12                                                                   
+## hour13                                                                   
+## hour14                                                                   
+## hour15                                                                   
+## hour16                                                                   
+## hour17                                                                   
+## hour18                                                                   
+## hour19                                                                   
+## hour20                                                                   
+## hour21                                                                   
+## hour22                                                                   
+## hour23                                                                   
+## hour24                                                                   
+## hour1:F                                                                  
+## hour2:F                                                                  
+## hour3:F                                                                  
+## hour4:F                                                                  
+## hour5:F                                                                  
+## hour6:F                                                                  
+## hour7:F                                                                  
+## hour8:F                                                                  
+## hour9:F                                                                  
+## hour10:F                                                                 
+## hour11:F                                                                 
+## hour12:F                                                                 
+## hour13:F                                                                 
+## hour14:F                                                                 
+## hour15:F                                                                 
+## hour16:F                                                                 
+## hour17:F                                                                 
+## hour18:F                                                                 
+## hour19:F                                                                 
+## hour20:F                                                                 
+## hour21:F                                                                 
+## hour22:F                                                                 
+## hour23:F                                                                 
+## hour24:F                                                                 
+## hour1:LagHE                                                              
+## hour2:LagHE                                                              
+## hour3:LagHE                                                              
+## hour4:LagHE                                                              
+## hour5:LagHE                                                              
+## hour6:LagHE                                                              
+## hour7:LagHE                                                              
+## hour8:LagHE                                                              
+## hour9:LagHE                                                              
+## hour10:LagHE                                                             
+## hour11:LagHE                                                             
+## hour12:LagHE                                                             
+## hour13:LagHE                                                             
+## hour14:LagHE                                                             
+## hour15:LagHE                                                             
+## hour16:LagHE                                                             
+## hour17:LagHE                                                             
+## hour18:LagHE                                                             
+## hour19:LagHE                                                             
+## hour20:LagHE                                                             
+## hour21:LagHE                                                             
+## hour22:LagHE                                                             
+## hour23:LagHE                                                             
+## hour24:LagHE                                                             
+## hour1:Weather                                                            
+## hour2:Weather                                                            
+## hour3:Weather                                                            
+## hour4:Weather                                                            
+## hour5:Weather                                                            
+## hour6:Weather                                                            
+## hour7:Weather                                                            
+## hour8:Weather                                                            
+## hour9:Weather                                                            
+## hour10:Weather                                                           
+## hour11:Weather                                                           
+## hour12:Weather                                                           
+## hour13:Weather                                                           
+## hour14:Weather                                                           
+## hour15:Weather                                                           
+## hour16:Weather                                                           
+## hour17:Weather                                                           
+## hour18:Weather                                                           
+## hour19:Weather                                                           
+## hour20:Weather                                                           
+## hour21:Weather                                                           
+## hour22:Weather                                                           
+## hour23:Weather                                                           
+## hour24:Weather                                                           
+## hour1:LagWeather                                                         
+## hour2:LagWeather                                                         
+## hour3:LagWeather                                                         
+## hour4:LagWeather                                                         
+## hour5:LagWeather                                                         
+## hour6:LagWeather                                                         
+## hour7:LagWeather                                                         
+## hour8:LagWeather                                                         
+## hour9:LagWeather                                                         
+## hour10:LagWeather  0.008                                                 
+## hour11:LagWeather  0.000  0.007                                          
+## hour12:LagWeather  0.000  0.000  0.006                                   
+## hour13:LagWeather  0.000  0.000  0.000  0.005                            
+## hour14:LagWeather  0.000  0.000  0.000  0.000  0.004                     
+## hour15:LagWeather  0.000  0.000  0.000  0.000  0.000  0.003              
+## hour16:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.002       
+## hour17:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.001
+## hour18:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour19:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour20:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour21:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.000
+##                   h17:LW h18:LW h19:LW h20:LW h21:LW h22:LW h23:LW
+## hour2                                                             
+## hour3                                                             
+## hour4                                                             
+## hour5                                                             
+## hour6                                                             
+## hour7                                                             
+## hour8                                                             
+## hour9                                                             
+## hour10                                                            
+## hour11                                                            
+## hour12                                                            
+## hour13                                                            
+## hour14                                                            
+## hour15                                                            
+## hour16                                                            
+## hour17                                                            
+## hour18                                                            
+## hour19                                                            
+## hour20                                                            
+## hour21                                                            
+## hour22                                                            
+## hour23                                                            
+## hour24                                                            
+## hour1:F                                                           
+## hour2:F                                                           
+## hour3:F                                                           
+## hour4:F                                                           
+## hour5:F                                                           
+## hour6:F                                                           
+## hour7:F                                                           
+## hour8:F                                                           
+## hour9:F                                                           
+## hour10:F                                                          
+## hour11:F                                                          
+## hour12:F                                                          
+## hour13:F                                                          
+## hour14:F                                                          
+## hour15:F                                                          
+## hour16:F                                                          
+## hour17:F                                                          
+## hour18:F                                                          
+## hour19:F                                                          
+## hour20:F                                                          
+## hour21:F                                                          
+## hour22:F                                                          
+## hour23:F                                                          
+## hour24:F                                                          
+## hour1:LagHE                                                       
+## hour2:LagHE                                                       
+## hour3:LagHE                                                       
+## hour4:LagHE                                                       
+## hour5:LagHE                                                       
+## hour6:LagHE                                                       
+## hour7:LagHE                                                       
+## hour8:LagHE                                                       
+## hour9:LagHE                                                       
+## hour10:LagHE                                                      
+## hour11:LagHE                                                      
+## hour12:LagHE                                                      
+## hour13:LagHE                                                      
+## hour14:LagHE                                                      
+## hour15:LagHE                                                      
+## hour16:LagHE                                                      
+## hour17:LagHE                                                      
+## hour18:LagHE                                                      
+## hour19:LagHE                                                      
+## hour20:LagHE                                                      
+## hour21:LagHE                                                      
+## hour22:LagHE                                                      
+## hour23:LagHE                                                      
+## hour24:LagHE                                                      
+## hour1:Weather                                                     
+## hour2:Weather                                                     
+## hour3:Weather                                                     
+## hour4:Weather                                                     
+## hour5:Weather                                                     
+## hour6:Weather                                                     
+## hour7:Weather                                                     
+## hour8:Weather                                                     
+## hour9:Weather                                                     
+## hour10:Weather                                                    
+## hour11:Weather                                                    
+## hour12:Weather                                                    
+## hour13:Weather                                                    
+## hour14:Weather                                                    
+## hour15:Weather                                                    
+## hour16:Weather                                                    
+## hour17:Weather                                                    
+## hour18:Weather                                                    
+## hour19:Weather                                                    
+## hour20:Weather                                                    
+## hour21:Weather                                                    
+## hour22:Weather                                                    
+## hour23:Weather                                                    
+## hour24:Weather                                                    
+## hour1:LagWeather                                                  
+## hour2:LagWeather                                                  
+## hour3:LagWeather                                                  
+## hour4:LagWeather                                                  
+## hour5:LagWeather                                                  
+## hour6:LagWeather                                                  
+## hour7:LagWeather                                                  
+## hour8:LagWeather                                                  
+## hour9:LagWeather                                                  
+## hour10:LagWeather                                                 
+## hour11:LagWeather                                                 
+## hour12:LagWeather                                                 
+## hour13:LagWeather                                                 
+## hour14:LagWeather                                                 
+## hour15:LagWeather                                                 
+## hour16:LagWeather                                                 
+## hour17:LagWeather                                                 
+## hour18:LagWeather  0.001                                          
+## hour19:LagWeather  0.000  0.001                                   
+## hour20:LagWeather  0.000  0.000  0.001                            
+## hour21:LagWeather  0.000  0.000  0.000  0.001                     
+## hour22:LagWeather  0.000  0.000  0.000  0.000  0.000              
+## hour23:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000       
+## hour24:LagWeather  0.000  0.000  0.000  0.000  0.000  0.000 -0.001
+## 
+## Standardized residuals:
+##      Min       Q1      Med       Q3      Max 
+## -5.75528 -0.51705  0.04165  0.52106  4.31689 
+## 
+## Residual standard error: 2275 
+## Degrees of freedom: 2952 total; 2832 residual
+</code></pre>
+
+<p>FULL WIN.  It works.</p>
+
+</body>
+
+</html>
+
