@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.7.3)  16 SEP 2014 10:53
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.22)  4 NOV 2014 20:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **DraftPaper.tex
 (./DraftPaper.tex
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 2 languages loaded.
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
@@ -125,7 +125,11 @@ Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix
 \c@FancyVerbLine=\count97
 \FV@StepNumber=\count98
 \FV@OutFile=\write3
-) (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+) (/usr/share/R/share/texmf/tex/latex/upquote.sty
+Package: upquote 2003/08/11 v1.1 Covington's upright-quote modification to verb
+atim and verb
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -205,7 +209,7 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 337.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
-)
+))
 (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
@@ -227,83 +231,7 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
 (/usr/share/texlive/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-)))) (./DraftPaper.aux
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-)
+)))) (./DraftPaper.aux)
 \openout1 = `DraftPaper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
@@ -320,7 +248,8 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
 LaTeX Font Info:    ... okay on input line 16.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 16.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 16.
- (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 16.
@@ -423,78 +352,28 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 17.
 
-(./DraftPaper-concordance.tex) <DraftPaper-003.pdf, id=2, 433.62pt x 433.62pt>
-File: DraftPaper-003.pdf Graphic file (type pdf)
+(./DraftPaper-concordance.tex) [1
 
-<use DraftPaper-003.pdf>
-Package pdftex.def Info: DraftPaper-003.pdf used on input line 52.
-(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
- <DraftPaper-004.pdf, id=3, 433.62pt x 433.62pt>
-File: DraftPaper-004.pdf Graphic file (type pdf)
-
-<use DraftPaper-004.pdf>
-Package pdftex.def Info: DraftPaper-004.pdf used on input line 61.
-(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
- <DraftPaper-005.pdf, id=4, 433.62pt x 433.62pt>
-File: DraftPaper-005.pdf Graphic file (type pdf)
-
-<use DraftPaper-005.pdf>
-Package pdftex.def Info: DraftPaper-005.pdf used on input line 81.
-(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
- <DraftPaper-006.pdf, id=5, 433.62pt x 433.62pt>
-File: DraftPaper-006.pdf Graphic file (type pdf)
-
-<use DraftPaper-006.pdf>
-Package pdftex.def Info: DraftPaper-006.pdf used on input line 92.
-(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2 <./DraftPaper-003.pdf>]
- [3 <./DraftPaper-004.pdf>] [4 <./DraftPaper-005.pdf>] [5 <./DraftPaper-006.pdf
->] <DraftPaper-009.pdf, id=49, 433.62pt x 433.62pt>
-File: DraftPaper-009.pdf Graphic file (type pdf)
-
-<use DraftPaper-009.pdf>
-Package pdftex.def Info: DraftPaper-009.pdf used on input line 122.
-(pdftex.def)             Requested size: 328.82707pt x 328.84004pt.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 144.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 144.
- [6] [7 <./DraftPaper-009.pdf>] [8] [9] [10] [11]
-[12
-
-] [13] [14] [15
-
-] [16] [17] [18
-
-] [19] [20] (./DraftPaper.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./DraftPaper.aux) ) 
 Here is how much of TeX's memory you used:
- 3395 strings out of 495028
- 48520 string characters out of 6181498
- 116051 words of memory out of 5000000
- 6513 multiletter control sequences out of 15000+600000
- 31287 words of font info for 65 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 37i,9n,32p,678b,268s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmti10.pfb>
-Output written on DraftPaper.pdf (20 pages, 172115 bytes).
+ 3366 strings out of 493307
+ 47641 string characters out of 6139905
+ 108135 words of memory out of 5000000
+ 6736 multiletter control sequences out of 15000+600000
+ 28803 words of font info for 62 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 37i,6n,32p,633b,201s stack positions out of 5000i,500n,10000p,200000b,80000s
+</
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr9.pfb>
+Output written on DraftPaper.pdf (2 pages, 83052 bytes).
 PDF statistics:
- 140 PDF objects out of 1000 (max. 8388607)
- 96 compressed objects within 1 object stream
+ 36 PDF objects out of 1000 (max. 8388607)
+ 24 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 30 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 5 words of extra memory for PDF output out of 10000 (max. 10000000)
 
