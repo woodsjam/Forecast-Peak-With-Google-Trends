@@ -100,7 +100,7 @@ ARbyHourDayLagF<-gls(HE~-1+(hour+(F+Weather+LagWeather+LagF):hour):DayType, data
 summary(ARbyHourDayLagF)$tTable
 
 ```
-
+Lets stick with this model and call it an imperfect but informative way of adding intent to forecast models.
 
 
 
