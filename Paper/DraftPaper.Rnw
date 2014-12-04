@@ -18,7 +18,7 @@
 
 
 \begin{abstract}
-Modern short term load forecasting has grown in analytically complexity and sophistication.  Day ahead forecasts now commonly use neural nets, Monte Carlo simulations and a wealth of historical data.  What they have not done is fully captured the sentiment and intentions of the people using the electricity.  This paper introduces Google Trend data, a summary of Google searches, as a way of capturing this sentiment and refining forecasts.  We show with drop all forward cross validation that this amendment decreases forecast uncertainty by approximately 5\% when compared to a statistically adjusted forecast and by over 50\% when compared to raw forecasts.
+Modern short term load forecasting has grown in analytically complexity and sophistication.  Day ahead forecasts now commonly use neural nets, Monte Carlo simulations and a wealth of historical data.  What they have not done is fully captured the sentiment and intentions of the people using the electricity.  This paper introduces Google Trend data, a summary of Google searches, as a way of capturing this sentiment and refining forecasts.  We show with drop all forward cross validation that this amendment decreases forecast uncertainty when compared to a statistically adjusted forecast in the PJM control area.
 \end{abstract}
 
 \SweaveOpts{concordance=TRUE}
@@ -26,18 +26,11 @@ Modern short term load forecasting has grown in analytically complexity and soph
 \section{Introduction}
 
 
-<<echo=FALSE,results=hide>>=
-load("~/Research/Forecast-Peak-With-Google-Trends/DataManipulation/WTrends")
-
-#Get rid of the zero forecast in hour two
-WTrends$F02[WTrends$F02==0]<-NA
-
-WTrends$Weather<-((925749*WTrends$DETrends)+(4395295*WTrends$KYTrends)+(5928814*WTrends$MDTrends)+(8899339*WTrends$NJTrends)+(11570808*WTrends$OHTrends)+(12773801*WTrends$PATrends)+(8260405*WTrends$VATrends)+(1854304*WTrends$WVTrends))/(925749+4395295+5928814+8899339+11570808+12773801+8260405+1854304)  
-@
-
 \begin{enumerate}
+  \item Why and the research question why it is important, i.e., ancilary services cost.
   \item Intro to short term load forecasting.
   \item Why crowd sourced, non technical,  information could be useful.
+  \item Other places where trends data has been useful.
   \item Google trends is the summation of Google searches.
   \item Outline of paper
 \end{enumerate}
@@ -46,58 +39,8 @@ WTrends$Weather<-((925749*WTrends$DETrends)+(4395295*WTrends$KYTrends)+(5928814*
 \section{Data Sources}
 
   \subsection{PJM Load Forecasts and Actuals}
+
   
-  
-<<echo=false,results=hide>>=
-library(nlme)
-HourModelForecastCheck<-function(hour){
-  Hour<-formatC(hour, width=2, flag="0")
-  as.formula(paste("HE",Hour,"~ F",Hour,sep='' ))}
-
-
-SAResults<-lapply(1:24, FUN = function(x)  gls(HourModelForecastCheck(x), data=WTrends,corAR1(form=~1),na.action=na.omit))
-
-@
-
-
-
-
-
-\begin{figure}
-\begin{center}
-\caption{Confidence Intervals for Intercept Statistically Adjusted Models (95\%)}
-<<echo=false,fig=TRUE>>=
-library(ggplot2)
-LowInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [1,1]))
-HighInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [1,2]))
-InterceptResults<-data.frame(1:24,LowInter,HighInter)
-names(InterceptResults)[1]<-"Hour"
-
-ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=(LowInter+HighInter)/2, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 0)+ylab("Intercept Confidence Interval")
-@
-\end{center}
-\end{figure}
-
-
-
-\begin{figure}
-\begin{center}
-\caption{Confidence Intervals for Co-Movement Statistically Adjusted Models (95\%)}
-<<echo=false,fig=TRUE>>=
-library(ggplot2)
-LowInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [2,1]))
-HighInter<-unlist(lapply(SAResults, FUN= function(x) confint(x) [2,2]))
-InterceptResults<-data.frame(1:24,LowInter,HighInter)
-names(InterceptResults)[1]<-"Hour"
-
-ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=(LowInter+HighInter)/2, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 1,slope=0)+ylab("Intercept Confidence Interval")
-@
-\end{center}
-\end{figure}
-
-
-
-
     \begin{enumerate}
       \item Data sources.
       \item Documentation of forecasting.
@@ -107,49 +50,6 @@ ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=(LowInter+HighInter)/2
     \end{enumerate}
 
   \subsection{Google Trends}
-
-\begin{figure}
-\begin{center}
-\caption{State Weather Trends Indexes Over Time}
-<<echo=false,fig=TRUE>>=
-library(ggplot2)
-library(reshape2)
-
-JustWeather<-data.frame(WTrends$Date, WTrends$DETrends,WTrends$KYTrends, WTrends$MDTrends, WTrends$NJTrends, WTrends$OHTrends, WTrends$PATrends, WTrends$VATrends, WTrends$WVTrends, WTrends$Weather)
-
-names(JustWeather)<-c("Date","DE","KY","MD","NJ","OH","PA","VA","WV","Weather")
-
-MeltedTrends<-melt(JustWeather,variable.name="Index",id.var="Date",na.rm=TRUE)
-
-ggplot(MeltedTrends, aes(Date, value,group= Index))+geom_line() +ylab("Index")+facet_grid(Index~.)
-
-@
-\end{center}
-\end{figure}
-
-
-
-
-
-\begin{figure}
-\begin{center}
-\caption{Trends Indexes Over Time}
-<<echo=false,fig=TRUE>>=
-library(ggplot2)
-library(reshape2)
-
-JustTrends<-data.frame(WTrends$Date, WTrends$GasTrends,WTrends$MovieTrends, WTrends$NewsTrends, WTrends$RestaurantTrends, WTrends$TrafficTrends,WTrends$Weather)
-names(JustTrends)<-c("Date","Gas","Movie","News","Restaurant","Traffic","Weather")
-
-
-MeltedTrends<-melt(JustTrends,variable.name="Index",id.var="Date",na.rm=TRUE)
-
-ggplot(MeltedTrends, aes(Date, value,group= Index))+geom_line() +ylab("Index")+facet_grid(Index~.)
-
-@
-\end{center}
-\end{figure}
-
 
 
     \begin{enumerate}
@@ -167,117 +67,9 @@ ggplot(MeltedTrends, aes(Date, value,group= Index))+geom_line() +ylab("Index")+f
     \item Why this is insufficient.
   \end{enumerate}
 
-<<echo=false,results=hide>>=
-WTrends$Weekend<-weekdays(as.Date(WTrends$Date)) %in% c('Saturday','Sunday')
-WTrendsLimited<-WTrends[!is.na(WTrends$Weather),]
-
-
-HourModel<-function(hour){
-  Hour<-formatC(hour, width=2, flag="0")
-  as.formula(paste("HE",Hour,"~ F",Hour,"+Weather",sep='' ))}
-
-
-# Gives percent reduction in sigma
-CompareRaw<-function(x){
-SA<-sd(WTrendsLimited[,x]-WTrendsLimited[,30])  
-Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
-
-(SA-Google)/(SA)
-}
-
-DirectCompare<-lapply(1:24, FUN = CompareRaw)
-mean(unlist(lapply(1:24, FUN = CompareRaw)))
-
-@
-
-
-
-<<echo=false,results=hide>>=
-HourModel<-function(hour){
-  Hour<-formatC(hour, width=2, flag="0")
-  as.formula(paste("HE",Hour,"~ F",Hour,"+Weather:Weekend",sep='' ))}
-
-
-GrossTrends<-lapply(1:24, FUN = function(x)  gls(HourModel(x), data=WTrends,corAR1(form=~1),na.action=na.omit))
-@
-
-
-
-\begin{figure}
-\begin{center}
-\caption{Confidence Intervals for ``Weather'' in Trends Models (95\%)}
-<<echo=false,fig=TRUE>>=
-library(ggplot2)
-
-LowInter<-unlist(lapply(GrossTrends, FUN= function(x) confint(x) [3,1]))
-HighInter<-unlist(lapply(GrossTrends, FUN= function(x) confint(x) [3,2]))
-InterceptResults<-data.frame(1:24,LowInter,HighInter)
-names(InterceptResults)[1]<-"Hour"
-
-ggplot(InterceptResults, aes(Hour))+geom_pointrange(aes(y=(LowInter+HighInter)/2, ymin=LowInter,ymax=HighInter))+geom_abline(intercept = 1,slope=0)+ylab("Confidence Interval")
-@
-\end{center}
-\end{figure}
-
-
-
-  
-<<echo=false,results=hide>>=
-
-# Gives percent reduction in sigma
-CompareSigma<-function(x){
-SA<-summary(lm(HourModelForecastCheck(x), data=WTrendsLimited))$sigma  
-Google<-summary(lm(HourModel(x), data=WTrendsLimited))$sigma  
-
-(SA-Google)/(SA)
-}
-
-ModelCompare<-lapply(1:24, FUN = CompareSigma)
-mean(unlist(lapply(1:24, FUN = CompareSigma)))
-
-@
-
-
-
-
-
 
   \subsection{Drop Forward Cross-validation}
 
-<<echo=false,results=hide>>=
-
-OneForwardError<-function(formula, nData){
-  model<-gls(formula, data=WTrendsLimited[1:nData,],corAR1(form=~1),na.action=na.omit)
-#   modelPlus1<-lm(formula, data=WTrendsLimited[1:(nData+1),], y=TRUE)
-#   predict(model,WTrendsLimited[1+nData,])-tail(modelPlus1$y,1)
-
-tail(resid(model),1)
-
-}
-
-CVDropForward<-function(model){sd(unlist(lapply(20:(length(WTrendsLimited)-1), FUN= function(x) OneForwardError(model,x))))}
-
-CompareSigmaCV<-function(x){
-SA<-CVDropForward(HourModelForecastCheck(x))  
-Google<-CVDropForward(HourModel(x))  
-
-(SA-Google)/(SA)
-}
-
-CVImprove<-lapply(1:24, FUN = CompareSigmaCV)
-CVImprove
-mean(unlist(CVImprove))
-@
-
-  
-<<echo=FALSE,results=tex>>=
-ForCompareTable<-data.frame(1:24,unlist(DirectCompare)*100,unlist(ModelCompare)*100,unlist(CVImprove)*100)
-names(ForCompareTable)<-c("Hour","Direct","Statistically Adjusted (Raw)", "Statistically Adjusted (CV)")
-library(stargazer)
-stargazer(ForCompareTable,summary=FALSE, title="Improvement in Forecasts Relative to Gross,  Statistically Adjusted, Drop Forward CV (Percent)",rownames=FALSE)
-@
-  
-  
   
     \begin{enumerate}
       \item Cross validation concepts.
@@ -294,22 +86,6 @@ stargazer(ForCompareTable,summary=FALSE, title="Improvement in Forecasts Relativ
       \item Comparison with: news, recipe, traffic, gas.
       \item Note that some of them kinda work.
     \end{enumerate}
-    
-<<echo=false,results=tex>>=
-News<-gls(HE19~F19+NewsTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
-# Oh, that works too
-Gas<-gls(HE19~F19+GasTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
-# Gas does not
-Traffic<-gls(HE19~F19+TrafficTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
-# Traffic does not
-Restaurant<-gls(HE19~F19+RestaurantTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
-# Restaurant does not
-Movie<-gls(HE19~F19+MovieTrends,data=WTrends,corAR1(form=~1),na.action=na.omit)
-# Snort...Movie does.  Cool place to be.
-library(stargazer)
-stargazer(News,Gas,Traffic,Restaurant,Movie,title="Alternate Google Search Models for Hour 19",column.labels=c("News","Gas","Traffic","Restaurant","Movie"), dep.var.caption="Hour 19 Load",dep.var.labels.include = FALSE)
-@
-
 
 
 \section{Summary and Conclusions}
@@ -318,55 +94,6 @@ stargazer(News,Gas,Traffic,Restaurant,Movie,title="Alternate Google Search Model
 \appendix
 
 \section{Hourly Models with Weather Searches}
-
-<<echo=false,results=tex>>=
-
-stargazer(gls(HourModel(1), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",1), dep.var.labels=paste("Hour",1), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(2), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",2), dep.var.labels=paste("Hour",2), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(3), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",3), dep.var.labels=paste("Hour",3), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(4), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",4), dep.var.labels=paste("Hour",4), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(5), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",5), dep.var.labels=paste("Hour",5), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(6), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",6), dep.var.labels=paste("Hour",6), covariate.labels=c("Forecast","Weather","Constant") )
-@
-\clearpage
-
-<<echo=false,results=tex>>=
-stargazer(gls(HourModel(7), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",7), dep.var.labels=paste("Hour",7), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(8), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",8), dep.var.labels=paste("Hour",8), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(9), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",9), dep.var.labels=paste("Hour",9), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(10), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",10), dep.var.labels=paste("Hour",10), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(11), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",11), dep.var.labels=paste("Hour",11), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(12), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",12), dep.var.labels=paste("Hour",12), covariate.labels=c("Forecast","Weather","Constant") )
-
-@
-\clearpage
-
-<<echo=false, results=tex>>=
-
-stargazer(gls(HourModel(13), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",13), dep.var.labels=paste("Hour",13), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(14), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",14), dep.var.labels=paste("Hour",14), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(15), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",15), dep.var.labels=paste("Hour",15), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(16), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",16), dep.var.labels=paste("Hour",16), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(17), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",17), dep.var.labels=paste("Hour",17), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(18), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",18), dep.var.labels=paste("Hour",18), covariate.labels=c("Forecast","Weather","Constant") )
-@
-\clearpage
-
-
-<<echo=false, results=tex>>=
-
-stargazer(gls(HourModel(19), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",19), dep.var.labels=paste("Hour",19), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(20), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",20), dep.var.labels=paste("Hour",20), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(21), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",21), dep.var.labels=paste("Hour",21), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(22), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",22), dep.var.labels=paste("Hour",22), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(23), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",23), dep.var.labels=paste("Hour",23), covariate.labels=c("Forecast","Weather","Constant") )
-stargazer(gls(HourModel(24), data=WTrends,corAR1(form=~1),na.action=na.omit), title=paste("Hour",24), dep.var.labels=paste("Hour",24), covariate.labels=c("Forecast","Weather","Constant") )
-
-
-# for(x in 13:24){
-#   stargazer(GrossTrends[[x]], title=paste("Hour",x), dep.var.labels=paste("Hour",x), covariate.labels=c("Forecast","Weather","Constant") )
-# }
-@
 
 
 % \bibliography{Trends.bib}
