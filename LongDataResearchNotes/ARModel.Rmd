@@ -3,7 +3,7 @@ Working with the Long Data and heading to an AR model
 
 Load in data
 ```{r}
-load("~/Forecast-Peak-With-Google-Trends/LongWtrends.RData")
+load("~/Research/Forecast-Peak-With-Google-Trends/LongWtrends.RData")
 summary(LongWtrends)
 ```
 

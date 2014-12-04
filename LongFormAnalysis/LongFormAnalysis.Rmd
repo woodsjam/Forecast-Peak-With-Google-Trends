@@ -1,0 +1,11 @@
+---
+title: "AnalysisLongForm"
+author: "James Woods"
+date: "10/25/2014"
+output: html_document
+---
+
+```{r}
+load("~/Research/Forecast-Peak-With-Google-Trends/LongWtrends.RData")
+summary(LongWtrends)
+```
