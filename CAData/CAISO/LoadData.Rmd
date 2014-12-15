@@ -1,0 +1,33 @@
+---
+title: "PrepCAISOData"
+author: "James Woods"
+date: "12/15/2014"
+output: html_document
+---
+
+Read in the data from the CAISO
+
+```{r}
+setwd("/home/woodsj/Research/Forecast-Peak-With-Google-Trends/CAData/CAISO")
+# Get the files names
+files <- list.files(pattern="*.csv")
+
+# First apply read.csv, then rbind
+CAISORaw<- do.call("rbind", lapply(files, function(x) read.csv(x, stringsAsFactors = FALSE)))
+
+```
+Editing of data types.  Remember that most everything gets imported as a string.
+
+```{r}
+
+CAISORaw$MARKET_RUN_ID<-as.factor(CAISORaw$MARKET_RUN_ID)
+CAISORaw$TAC_AREA_NAME<-as.factor(CAISORaw$TAC_AREA_NAME)
+CAISORaw$StartTimeGMT<-as.POSIXct(CAISORaw$INTERVALSTARTTIME_GMT)
+```
+Now trim off all but the full ISO area
+
+```{r}
+CAISOWorking<-CAISORaw[CAISORaw$TAC_AREA_NAME=='CA ISO-TAC',]
+save(CAISOWorking,file="CAISOWorking.Rdata")
+```
+
