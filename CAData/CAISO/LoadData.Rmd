@@ -8,6 +8,7 @@ output: html_document
 Read in the data from the CAISO
 
 ```{r}
+OldWD<-getwd()
 setwd("/home/woodsj/Research/Forecast-Peak-With-Google-Trends/CAData/CAISO")
 # Get the files names
 files <- list.files(pattern="*.csv")
@@ -30,4 +31,26 @@ Now trim off all but the full ISO area
 CAISOWorking<-CAISORaw[CAISORaw$TAC_AREA_NAME=='CA ISO-TAC',]
 save(CAISOWorking,file="CAISOWorking.Rdata")
 ```
+
+Now lets sort out how the 7day ahead market is related to the actual
+
+```{r}
+
+CAISOWorking$Hour<-as.factor(CAISOWorking$OPR_HR)
+#line up actual and 7day with the time in the line
+
+Forecast<-CAISOWorking[CAISOWorking$MARKET_RUN_ID=="7DA",]
+Actual<-CAISOWorking[CAISOWorking$MARKET_RUN_ID=="ACTUAL",]
+
+library(sqldf)
+sqldf("select * from Actual;")
+
+sqldf("select Actual.Hour, Actual.OPR_DT, Actual.MW as Actual, Forecast.MW as Forecast from Forecast, Actual where Actual.Hour=Forecast.Hour and Actual.OPR_DT=Forecast.OPR_DT;")
+
+table(CAISOWorking$INTERVALSTARTTIME_GMT)
+
+#line up acutal with 7day from seven days before.
+
+```
+
 
