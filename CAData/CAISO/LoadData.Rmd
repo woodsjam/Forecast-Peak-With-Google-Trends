@@ -48,8 +48,8 @@ library(sqldf)
 Current<-sqldf("select Actual.Hour, Actual.Date, Actual.MW as Actual, Forecast.MW as Forecast from Forecast, Actual where Actual.Hour=Forecast.Hour and Actual.Date=Forecast.Date;")
 Lag<-sqldf("select Actual.Hour, Actual.Date, Actual.MW as Actual, Forecast.MW as Forecast from Forecast, Actual where Actual.Hour=Forecast.Hour and Actual.Date=(Forecast.Date+7);")
 
-summary(lm(Actual~Forecast*Hour,data=Current))
-summary(lm(Actual~Forecast*Hour,data=Lag))
+summary(lm(Actual~Forecast,data=Current))
+summary(lm(Actual~Forecast,data=Lag))
 
 
 ```
@@ -84,11 +84,18 @@ table(table(unique(CAISORaw)$OPR_DT))
 Decide to only use the days with 48 obs.
 
 ```{r}
+GoodDays<-names(table(CAISOWorking$OPR_DT)  )[table(CAISOWorking$OPR_DT)==48]
+RevisedWorking<-CAISOWorking[is.element(CAISOWorking$OPR_DT,GoodDays),]
+table(table(RevisedWorking$OPR_DT))
+
+Forecast<-RevisedWorking[RevisedWorking$MARKET_RUN_ID=="7DA",]
+Actual<-RevisedWorking[RevisedWorking$MARKET_RUN_ID=="ACTUAL",]
 
 
+Current<-sqldf("select Actual.Hour, Actual.Date, Actual.MW as Actual, Forecast.MW as Forecast from Forecast, Actual where Actual.Hour=Forecast.Hour and Actual.Date=Forecast.Date;")
+save(Current,file="Current.Rdata")
 ```
 
-
-
+Now get the google trends data in and attached.
 
 
