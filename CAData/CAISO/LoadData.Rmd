@@ -158,4 +158,52 @@ anova(Base,lm(Actual~Forecast+movies,data=WTrends))
 ```
 Now that is an interesting puzzel. 
 
+```{r}
+library(lmtest)
+dwtest(Base)
 
+```
+There is autocorrelation
+
+```{r}
+dwtest(lm(Actual~Forecast+traffic,data=WTrends))
+
+dwtest(lm(Actual~Forecast+restaurants,data=WTrends))
+
+dwtest(lm(Actual~Forecast+gas,data=WTrends))
+
+dwtest(lm(Actual~Forecast+movies,data=WTrends))
+
+```
+
+Autocorreleation in everything.
+
+Moving to a lag formulation like in the day ahead model.
+Add the lags to dataset
+```{r}
+
+CopyWTrends<-WTrends
+library(sqldf)
+
+WLags<-sqldf("select WTrends.*, CopyWTrends.Actual as LActual, CopyWTrends.Forecast LForecast, CopyWTrends.weather as LWeather, CopyWTrends.traffic as LTraffic,CopyWTrends.gas as LGas, CopyWTrends.movies as LMovies from WTrends, CopyWTrends  where WTrends.Hour=CopyWTrends.Hour and WTrends.Date=(CopyWTrends.Date-7) ")
+
+summary(WLags)
+```
+
+
+```{r}
+
+Base<-lm(Actual~-1 +(LActual+weather+LWeather)*Hour, data=WLags)
+
+summary(Base)
+dwtest(Base)
+```
+
+Buahhahah  It works better for the peak hours.  There is still AR
+
+```{r}
+library(nlme)
+#ARbyHourDay<-gls(Actual~-1 +(LActual+weather+LWeather), data=WLags,corAR1(form=~1),na.action=na.omit)
+
+```
+Gona need a bigger boat.  3.9Gb.
