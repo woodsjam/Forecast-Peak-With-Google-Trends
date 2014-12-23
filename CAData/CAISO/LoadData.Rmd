@@ -98,4 +98,64 @@ save(Current,file="Current.Rdata")
 
 Now get the google trends data in and attached.
 
+```{r}
+Trends<- read.csv("~/Forecast-Peak-With-Google-Trends/CAData/TrendsCAWeeklyEdited.csv")
+
+#Extract the end of week.
+library(stringr)
+Trends$EndDate<-as.Date(str_sub(Trends$Week,14))
+summary(Trends)
+
+```
+
+Now lets hook this to the load and forecast data.
+
+```{r}
+library(sqldf)
+Trends$LastDate<-Trends$EndDate+7
+
+WTrends<-sqldf("select Current.*, Trends.* from Current, Trends where Current.Date>Trends.EndDate and Current.Date<=Trends.LastDate;   ")
+
+summary(WTrends)
+```
+
+On to the modeling
+
+```{r}
+Base<-lm(Actual~Forecast,data=WTrends)
+summary(Base)
+
+WWeather<-lm(Actual~Forecast+weather,data=WTrends)
+summary(WWeather)
+
+anova(Base,WWeather)
+```
+
+Concept proved.
+
+Try counterfactuals
+
+```{r}
+summary(lm(Actual~Forecast+traffic,data=WTrends))
+
+summary(lm(Actual~Forecast+restaurants,data=WTrends))
+
+summary(lm(Actual~Forecast+gas,data=WTrends))
+
+summary(lm(Actual~Forecast+movies,data=WTrends))
+```
+Well that sucks.  All the counterfactuals work too.  Check F test
+
+```{r}
+
+anova(Base,lm(Actual~Forecast+traffic,data=WTrends))
+
+anova(Base,lm(Actual~Forecast+restaurants,data=WTrends))
+
+anova(Base,lm(Actual~Forecast+gas,data=WTrends))
+
+anova(Base,lm(Actual~Forecast+movies,data=WTrends))
+```
+Now that is an interesting puzzel. 
+
 
